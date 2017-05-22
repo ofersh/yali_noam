@@ -10,11 +10,6 @@
 
 using namespace std;
 
-const int DAYS_IN_MONTH=30;
-const int HOURS_IN_DAY=24;
-const int MINUTES_IN_HOURS=60;
-
-
 
 Date::Date():sum(),formatedDate("") {}
 
@@ -26,6 +21,7 @@ Date& Date::operator=(const Date& rhs){
 	return *this;
 }
 
+/* calculate the minutes in the date */
 void Date::setDate(int minute,int hour,int day,int month){
 	sum = month*DAYS_IN_MONTH + day;
 	sum = sum*HOURS_IN_DAY + hour;
@@ -73,16 +69,19 @@ bool Date::setDate(std::string& date){
 /* get the date in a readable format */
 std::string Date::getDate(){
 	return formatedDate;
-
 }
 
 /* compare between the dates */
 bool Date::operator<(const Date& rhs){
-
+	return sum < rhs.sum;
 }
 
 bool Date::operator>(const Date& rhs){
-	return sum(*this) > sum(rhs);
+	return sum > rhs.sum;
+}
+
+int Date::operator-(const Date& rhs){
+	return sum - rhs.sum;
 }
 
 

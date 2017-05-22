@@ -12,11 +12,15 @@
 
 
 class Date {
+private:
 	int sum;
 	std::string formatedDate;
 
-	void setDate(int,int,int,int);
+	const int DAYS_IN_MONTH=30;
+	const int HOURS_IN_DAY=24;
+	const int MINUTES_IN_HOURS=60;
 
+	void setDate(int,int,int,int);
 
 public:
 	Date();
@@ -28,6 +32,7 @@ public:
 
 	bool operator<(const Date&);
 	bool operator>(const Date&);
+	int operator-(const Date&);
 
 	virtual ~Date();
 };

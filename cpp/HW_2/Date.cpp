@@ -81,9 +81,9 @@ bool Date::operator<(const Date& rhs){
 
 }
 
-bool Date::operator>(const Date& rhs){
-	return sum(*this) > sum(rhs);
-}
+//bool Date::operator>(const Date& rhs){
+//	return sum(*this) > sum(rhs);
+//}
 
 
 Date::~Date() {}

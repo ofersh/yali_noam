@@ -12,16 +12,18 @@
 using namespace std;
 
 
-Date::Date():sum(),formatedDate("") {}
+/*Date::Date():sum(),formatedDate("") {}
 
 Date::Date(const Date& rhs):sum(rhs.sum),formatedDate(rhs.formatedDate){}
+
+Date(const Date&&);
 
 Date& Date::operator=(const Date& rhs){
 	sum = rhs.sum;
 	formatedDate = rhs.formatedDate;
 	return *this;
 }
-
+*/
 /* calculate the minutes in the date */
 void Date::setDate(int minute,int hour,int day,int month){
 	sum = month*DAYS_IN_MONTH + day;

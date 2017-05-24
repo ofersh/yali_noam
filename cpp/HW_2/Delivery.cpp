@@ -7,12 +7,31 @@
 
 #include "Delivery.h"
 
-Delivery::Delivery() {
-	int s;
+Delivery::Delivery():time(),cargo() {}
 
+Delivery::Delivery(Date& t,int c){
+	setDeliveryDetails(t,c);
 }
 
-Delivery::~Delivery() {
-	// TODO Auto-generated destructor stub
+void Delivery::setDeliveryDetails(Date& t,int c){
+	time = t;
+	cargo = c;
 }
+
+void Delivery::setNewDelivery(Date& t,int c){
+	setDeliveryDetails(t,c);
+}
+
+bool Delivery::operator>(const Delivery& rhs){
+	return time>rhs.time;
+}
+bool Delivery::operator<(const Delivery& rhs){
+	return time<rhs.time;
+}
+
+int Delivery::getCargo() const{
+	return cargo;
+}
+
+Delivery::~Delivery() {}
 

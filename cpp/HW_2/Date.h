@@ -14,12 +14,13 @@
 class Date {
 
 public:
+	/* default constructor and copy constructor  needed
 	Date();
 	Date(const Date&);
 	Date(const Date&&);
 	Date& operator=(const Date&);
 	Date& operator=(const Date&&);
-
+*/
 	bool setDate(std::string&);
 	std::string getDate();
 

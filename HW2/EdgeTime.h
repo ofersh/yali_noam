@@ -12,6 +12,7 @@
 
 class EdgeTime: public Edge {
 public:
+
 	EdgeTime();
 	virtual ~EdgeTime();
 

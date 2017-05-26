@@ -10,18 +10,13 @@
 
 #include "Edge.h"
 
-#include <unordered_map>
 
-using std::unordered_map;
-using std:: string;
 class EdgeCargo: public Edge {
 public:
 	EdgeCargo();
 	virtual ~EdgeCargo();
 
 
-private:
-	unordered_map<string,shared_ptr<Port>>;
 
 };
 

@@ -24,7 +24,7 @@ public:
 	Port()=default;
 	Port(string);
 	Port(const Port&)=default;
-	Port
+
 
 
 	void setName(string&);

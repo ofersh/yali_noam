@@ -43,6 +43,8 @@ Thumbs.db
 **/build/
 **/testing/
 **/bin/
+**/Debug/
+
 
 #Idea misc
 ##################

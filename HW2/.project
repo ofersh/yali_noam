@@ -24,26 +24,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>Date.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/git/yali_noam/cpp/HW_2/Date.cpp</locationURI>
-		</link>
-		<link>
-			<name>Date.h</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/git/yali_noam/cpp/HW_2/Date.h</locationURI>
-		</link>
-		<link>
-			<name>Delivery.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/git/yali_noam/cpp/HW_2/Delivery.cpp</locationURI>
-		</link>
-		<link>
-			<name>Delivery.h</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/git/yali_noam/cpp/HW_2/Delivery.h</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

@@ -28,7 +28,7 @@ CPP_DEPS += \
 # Each subdirectory must supply rules for building sources it contributes
 %.o: ../%.cpp
 	@echo 'Building file: $<'
-	@echo 'Invoking: Cygwin C++ Compiler'
+	@echo 'Invoking: GCC C++ Compiler'
 	g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '

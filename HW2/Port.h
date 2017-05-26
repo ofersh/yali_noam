@@ -9,37 +9,43 @@
 #define PORT_H_
 
 #include "Edge.h"
-#include "C:\Users\yali\git\yali_noam\cpp\HW_2\Delivery.h"
 #include <vector>
+#include "Delivery.h"
 
+using std::shared_ptr;
+using std::vector;
 
+// vertex class.
 class Port {
+
+
 public:
+
 	Port();
-	Port(std::string,std::shared_ptr<std::vector<Delivery>>&);
+	Port(string,shared_ptr<vector<Delivery>>&);
 
 	void addEdge(Edge&);
 	void removeEdge(Port&);
 	void addDelivery(Delivery&);
 	void removeDelivery(Date&);
 
-	void setDeliveryTable(std::shared_ptr<std::vector<Delivery>>&);
-	void setName(std::string&);
-	std::shared_ptr<std::vector<Delivery>>& getDeliveryTable();
-	std::string& getName()const;
+	void setDeliveryTable(shared_ptr<vector<Delivery>>&);
+	void setName(string&);
+	shared_ptr<vector<Delivery>>& getDeliveryTable();
+	string& getName()const;
 
 	int calculateAmountOfContainers(Date&);
-	std::vector<Edge>& getAllOutboundPorts()const;
+	vector<Edge>& getAllOutboundPorts()const;
 	void print();
 
 	virtual ~Port();
 
 private:
-	std::string name;
-	std::vector<Edge> edges;			/* need to find a way to make it hold derived objects */
-	std::shared_ptr<std::vector<Delivery>> deliverys;
+	string name;
+	vector<shared_ptr<Edge>> edges;			/* need to find a way to make it hold derived objects */
+	shared_ptr<vector<Delivery>> deliverys;
 
-	Edge& getEdge(std::string);
+	Edge& getEdge(string);
 };
 
 #endif /* PORT_H_ */

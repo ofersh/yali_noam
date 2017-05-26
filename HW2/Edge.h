@@ -21,13 +21,13 @@ public:
 
 	Edge();
 	Edge(int,std::weak_ptr<Port>);
-	/* default copy constructors might be sufficient
 
-	Edge(const Edge&);
-	Edge(const Edge&&);
-	Edge& operator=(const Edge&);
-	Edge& operator=(const Edge&&);
-*/
+	/* default CTORS */
+	Edge(const Edge&)=default;
+	Edge( Edge&&)=default;
+	Edge& operator=(const Edge&)=default;
+	Edge& operator=( Edge&&)=default;
+
 
 	virtual void updateEdge(const Edge&)=0;
 	virtual bool operator==(const Edge&);

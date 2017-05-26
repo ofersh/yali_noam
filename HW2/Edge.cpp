@@ -21,7 +21,8 @@ bool Edge::operator==(const Edge& e){
 	b = e.dest.lock();
 	return a->getName()==b->getName();
 	*/
-	return dest.lock()->getName()==e.dest.lock()->getName();
+	//return dest.lock()->getName()==e.dest.lock()->getName();
+	return true;
 }
 
 Edge::~Edge() {}

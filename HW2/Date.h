@@ -11,18 +11,19 @@
 #include <string>
 
 
+using std::string;
+
 class Date {
 
 public:
-	/* default constructor and copy constructor  needed
-	Date();
-	Date(const Date&);
-	Date(const Date&&);
-	Date& operator=(const Date&);
-	Date& operator=(const Date&&);
-*/
-	bool setDate(std::string&);
-	std::string getDate();
+	Date()=default;
+	Date(const Date&)=default;
+	Date(Date&&)=default;
+	Date& operator=(const Date&)=default;
+	Date& operator=(Date&&)=default;
+
+	bool setDate(string&);
+	string getDate();
 
 	bool operator<(const Date&);
 	bool operator>(const Date&);
@@ -32,7 +33,7 @@ public:
 
 private:
 	int sum;
-	std::string formatedDate;
+	string formatedDate;
 
 	static const int DAYS_IN_MONTH=30;
 	static const int HOURS_IN_DAY=24;

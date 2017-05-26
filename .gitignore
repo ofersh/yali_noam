@@ -43,8 +43,11 @@ Thumbs.db
 **/build/
 **/testing/
 **/bin/
-**/Debug/
 
+#Eclipse
+##############
+**/Debug/
+**/.cproject
 
 #Idea misc
 ##################

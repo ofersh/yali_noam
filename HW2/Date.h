@@ -32,7 +32,7 @@ public:
 	virtual ~Date();
 
 private:
-	int sum;
+	int sum=0;
 	string formatedDate;
 
 	static const int DAYS_IN_MONTH=30;

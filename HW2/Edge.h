@@ -11,16 +11,18 @@
 #include <memory>
 class Port;
 
+using std::weak_ptr;
+
 
 class Edge {
 private:
 	int weight;
-	std::weak_ptr<Port> dest;
+	weak_ptr<Port> dest;
 
 public:
 
 	Edge();
-	Edge(int,std::weak_ptr<Port>);
+	Edge(int,weak_ptr<Port>);
 
 	/* default CTORS */
 	Edge(const Edge&)=default;

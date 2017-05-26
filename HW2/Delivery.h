@@ -13,7 +13,7 @@
 class Delivery {
 private:
 	Date time;
-	int cargo;
+	unsigned int cargo;
 
 	void setDeliveryDetails(Date&,int);
 public:

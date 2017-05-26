@@ -21,18 +21,18 @@ class Port {
 
 public:
 
-	Port();
-	Port(string,shared_ptr<vector<Delivery>>&);
+	Port()=default;
+	Port(string);
+	Port(const Port&)=default;
+	Port
 
-	void addEdge(Edge&);
-	void removeEdge(Port&);
-	void addDelivery(Delivery&);
-	void removeDelivery(Date&);
 
-	void setDeliveryTable(shared_ptr<vector<Delivery>>&);
 	void setName(string&);
-	shared_ptr<vector<Delivery>>& getDeliveryTable();
 	string& getName()const;
+
+	void addInDelivery(Delivery&);
+	void addOutDelivery(Delivery&);
+
 
 	int calculateAmountOfContainers(Date&);
 	vector<Edge>& getAllOutboundPorts()const;
@@ -41,9 +41,12 @@ public:
 	virtual ~Port();
 
 private:
+	const static int MAXNAMELEN=10;
+
 	string name;
-	vector<shared_ptr<Edge>> edges;			/* need to find a way to make it hold derived objects */
-	shared_ptr<vector<Delivery>> deliverys;
+	vector<Delivery> outBound;
+	vector<Delivery> inBound;
+
 
 	Edge& getEdge(string);
 };

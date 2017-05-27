@@ -22,6 +22,10 @@ void Delivery::setNewDelivery(Date& t,int c){
 	setDeliveryDetails(t,c);
 }
 
+void Delivery::addCargo(int cargo){
+	this->cargo += cargo;
+}
+
 bool Delivery::operator>(const Delivery& rhs){
 	return time>rhs.time;
 }

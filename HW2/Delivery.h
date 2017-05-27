@@ -28,6 +28,8 @@ public:
 
 	void setNewDelivery(Date&,int);
 
+	void addCargo(int);
+
 	bool operator>(const Delivery&);
 	bool operator<(const Delivery&);
 

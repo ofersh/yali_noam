@@ -12,10 +12,18 @@
 
 class EdgeTime: public Edge {
 public:
-
 	EdgeTime();
-	virtual ~EdgeTime();
+	EdgeTime(int,weak_ptr<Port>);
 
+	/* default CTORS */
+	EdgeTime(const EdgeTime&)=default;
+	EdgeTime( EdgeTime&&)=default;
+	EdgeTime& operator=(const EdgeTime&)=default;
+	EdgeTime& operator=( EdgeTime&&)=default;
+
+	void updateEdge(const Edge&);
+
+	~EdgeTime();
 
 private:
 	int travels_counter;

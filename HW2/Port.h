@@ -8,7 +8,6 @@
 #ifndef PORT_H_
 #define PORT_H_
 
-#include "Edge.h"
 #include <vector>
 #include "Delivery.h"
 
@@ -22,9 +21,8 @@ class Port {
 public:
 
 	Port()=default;
-	Port(string);
+	Port(string&);
 	Port(const Port&)=default;
-
 
 
 	void setName(string&);
@@ -35,8 +33,6 @@ public:
 
 
 	int calculateAmountOfContainers(Date&);
-	vector<Edge>& getAllOutboundPorts()const;
-	void print();
 
 	virtual ~Port();
 
@@ -47,8 +43,6 @@ private:
 	vector<Delivery> outBound;
 	vector<Delivery> inBound;
 
-
-	Edge& getEdge(string);
 };
 
 #endif /* PORT_H_ */

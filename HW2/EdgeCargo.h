@@ -13,7 +13,17 @@
 
 class EdgeCargo: public Edge {
 public:
-	EdgeCargo();
+	EdgeCargo(int,weak_ptr<Port>);
+
+	/* default CTORS */
+	EdgeCargo()=default;
+	EdgeCargo(const EdgeCargo&)=default;
+	EdgeCargo( Edge&&)=default;
+	EdgeCargo& operator=(const EdgeCargo&)=default;
+	EdgeCargo& operator=( EdgeCargo&&)=default;
+
+	void updateEdge(const Edge&);
+
 	virtual ~EdgeCargo();
 
 

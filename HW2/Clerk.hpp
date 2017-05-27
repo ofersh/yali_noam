@@ -27,17 +27,8 @@ class Clerk{
 public:
     Clerk()=default;
     
-
-    
-    
-    void init_graphs(int len, char *files[]);    //build graph using given files.
     
     void load(string fileName); //load a update file.
-    
-    
-    
-    
-    
     
 private:
 

@@ -30,8 +30,8 @@ void Port::addOutDelivery(Delivery& outD){
 
 
 int Port::calculateAmountOfContainers(Date& d){
-    sort(inBound.begin(),inBound.end());
-	sort(outBound.begin(),outBound.end());
+    sort(inBound.begin(),inBound.end(),deliveryCmp);
+	sort(outBound.begin(),outBound.end(),deliveryCmp);
 	int currentNumberOfContainers=0;
 	for (std::vector<Delivery>::iterator it = inBound.begin() ; it != inBound.end() && d<it->getDate(); ++it)
 	    currentNumberOfContainers += it->getCargo();

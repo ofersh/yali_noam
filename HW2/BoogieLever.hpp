@@ -14,7 +14,7 @@
 class BoogieLever {
 public:
 
-	BoogieLever(int len, char *files[]);
+	BoogieLever(int len, const char *files[]);
 
 	void run();
 
@@ -29,9 +29,9 @@ private:
 
 	/* only one boogieLever allowed */
 	BoogieLever(const BoogieLever&)=default;
-	BoogieLever(const BoogieLever&&)=default;
+	BoogieLever(BoogieLever&&)=default;
 	BoogieLever& operator=(const BoogieLever&)=default;
-	BoogieLever& operator=(const BoogieLever&&)=default;
+	BoogieLever& operator=(BoogieLever&&)=default;
 
 	struct Command{
 
@@ -43,7 +43,7 @@ private:
 	};
 
 
-	void init_graphs(int len, char *files[]);    //build graph using given files.
+	void init_graphs(int len, const char *files[]);    //build graph using given files.
 
 	string outputFileName;
 	Clerk clerk;

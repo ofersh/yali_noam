@@ -13,7 +13,6 @@
 
 class Port;
 
-using std::shared_ptr;
 using std::string;
 
 class Edge {

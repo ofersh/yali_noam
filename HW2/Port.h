@@ -10,8 +10,8 @@
 
 #include <vector>
 #include "Delivery.h"
+#include <functional>
 
-using std::shared_ptr;
 using std::vector;
 
 // vertex class.
@@ -43,6 +43,11 @@ private:
 	vector<Delivery> outBound;
 	vector<Delivery> inBound;
 
+    
+    std::function<bool(const Delivery &,const Delivery &)> deliveryCmp=\
+    [] (const Delivery &d1,const Delivery &d2) ->bool{
+        return d1<d2;
+    };
 };
 
 #endif /* PORT_H_ */

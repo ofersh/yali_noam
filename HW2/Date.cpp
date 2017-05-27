@@ -37,19 +37,19 @@ std::string Date::getDate(){
 }
 
 /* compare between the dates */
-bool Date::operator<(const Date& rhs){
+bool Date::operator<(const Date& rhs)const{
 	return sum < rhs.sum;
 }
 
-bool Date::operator>(const Date& rhs){
+bool Date::operator>(const Date& rhs)const{
 	return sum > rhs.sum;
 }
 
-bool Date::operator==(const Date & rhs){
+bool Date::operator==(const Date & rhs)const{
     return sum==rhs.sum;
 }
 
-int Date::operator-(const Date& rhs){
+int Date::operator-(const Date& rhs)const{
 	return sum - rhs.sum;
 }
 

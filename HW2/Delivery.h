@@ -30,9 +30,9 @@ public:
 	const Date& getDate()const;
 	void addCargo(int);
 
-	bool operator>(const Delivery&);
-    bool operator==(const Delivery&);
-	bool operator<(const Delivery&);
+	bool operator>(const Delivery&)const;
+    bool operator==(const Delivery&)const;
+	bool operator<(const Delivery&)const;
 
 	virtual ~Delivery();
 

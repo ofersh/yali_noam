@@ -21,6 +21,8 @@ using std::unordered_map;
 using std::runtime_error;
 using std::ostringstream;
 using std::ifstream;
+using std::shared_ptr;
+
 class InvalidInputException;
 
 typedef vector<shared_ptr<Edge>> Edges;
@@ -59,8 +61,8 @@ private:
     void addEdges(string rootPort, string lastPort);
     void updateRecvPort();
     void updateRootPort(string rootPortName, Date rootOutBound);
-    void printPort(Edges e);
-    
+    void printPort(Edges& E);
+    void printGraph(string type,unordered_map<string,Edges>& map);
     
     /* coping is not permitted */
     Clerk(const Clerk &);

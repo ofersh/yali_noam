@@ -57,7 +57,7 @@ void BoogieLever::Command::setNewCmd(string buffer){
 }
 
 
-BoogieLever::BoogieLever(int len, char *files[]):clerk{},outputFileName{}{
+BoogieLever::BoogieLever(int len,const char *files[]){
 	init_graphs(len,files);
 }
 
@@ -74,7 +74,7 @@ void BoogieLever::run(){
 		case LOAD:
 			try{
 				clerk.load(cmd.fileName);
-			}catch(Clerk::invalidInputException &e)
+			}catch(runtime_error &e)
 			{
 				cerr<<e.what()<<endl;
 			}
@@ -106,7 +106,7 @@ void BoogieLever::run(){
 
 
 
-void BoogieLever::init_graphs(int len, char *files[]){
+void BoogieLever::init_graphs(int len, const char *files[]){
 	string currentArg=files[1];
 	int i=0;
 
@@ -125,7 +125,7 @@ void BoogieLever::init_graphs(int len, char *files[]){
 			break;
 		try {
 			clerk.load(currentArg);
-		}catch(Clerk::invalidInputException &e)
+		}catch(runtime_error &e)
 		{
 			cerr<<e.what()<<endl;
 			exit(1);

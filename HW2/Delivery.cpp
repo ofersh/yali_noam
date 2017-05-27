@@ -30,15 +30,15 @@ void Delivery::addCargo(int cargo){
 	this->cargo += cargo;
 }
 
-bool Delivery::operator>(const Delivery& rhs){
+bool Delivery::operator>(const Delivery& rhs)const{
 	return time>rhs.time;
 }
 
-bool Delivery::operator==(const Delivery &rhs){
+bool Delivery::operator==(const Delivery &rhs)const{
     return time==rhs.time;
 }
 
-bool Delivery::operator<(const Delivery& rhs){
+bool Delivery::operator<(const Delivery& rhs)const{
 	return time<rhs.time;
 }
 

@@ -15,8 +15,6 @@ Edge::Edge():weight(),dest() {}
 Edge::Edge(int w,string d):weight(w),dest(d){}
 
 bool Edge::sameDestination(const Edge& e){
-	if(this->dest.expired() || e.dest.expired())
-		return false;
 	return getDestination() == e.getDestination();
 }
 
@@ -28,12 +26,12 @@ int  Edge::getWeight()const{
 	return weight;
 }
 
-void  Edge::setDestination(weak_ptr<Port> d){
+void  Edge::setDestination(string d){
 	dest=d;
 }
 
 string  Edge::getDestination()const{
-	return dest.lock()->getName();
+    return dest;
 }
 
 Edge::~Edge() {}

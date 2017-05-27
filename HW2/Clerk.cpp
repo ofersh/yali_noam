@@ -22,7 +22,7 @@ using std::string;
 using std::istringstream;
 using std::stoi;
 using std::for_each;
-
+using std::shared_ptr;
 
 
 static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
@@ -89,7 +89,7 @@ Date Clerk::handleFirstLine(ifstream & inputFile, string fileName,string &portNa
     Delivery outBoundDelivery{dateOfDelivery,0};
     outBoundPort.addOutDelivery(outBoundDelivery);
     // need to check if exist. if exist just need to add the outbound
-    portsMap.emplace(dateOfDelivery,new Port{outBoundPort});
+    portsMap.emplace(outBoundportName,Port{outBoundPort});
     portName=outBoundportName;
     return dateOfDelivery;
 }
@@ -121,10 +121,38 @@ void Clerk::Transaction_Info::setInfo(string line, string fileName, int lineNum)
 void Clerk::addEdges(string rootPort, string lastPort){
 
     //adding date edge from last port to current.
-    timeEdgesMap.emplace(lastPort, \
-    new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate),trans_info.inBoundPortName});
+    unordered_map<string,Edges>::iterator it;
+    
+    it=timeEdgesMap.find(lastPort);
+    
+    shared_ptr<Edge> timeEdge{new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate),trans_info.inBoundPortName}};
+    
+    if(it!=timeEdgesMap.end()){
+        (it->second).push_back(timeEdge);
+    }else{
+        Edges v;
+        v.push_back(timeEdge);
+        timeEdgesMap.emplace(lastPort,v);
+    }
+    
+    shared_ptr<Edge> cargoEdge{new EdgeCargo{trans_info.cargoAmount,trans_info.inBoundPortName}};
+    
+    it=cargoEdgesMap.find(rootPort);
+    if(it!=timeEdgesMap.end()){
+        (it->second).push_back(cargoEdge);
+    }else{
+        Edges v;
+        v.push_back(cargoEdge);
+        timeEdgesMap.emplace(lastPort,v);
+    }
+
+    
+    
+    
+    
+    
+    
     //adding cargoEdge from root to current.
-    cargoEdgesMap.emplace(rootPort,new EdgeCargo{trans_info.cargoAmount,trans_info.inBoundPortName});
 }
 
 
@@ -219,7 +247,7 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 
 	}
 
-	void printPort(Edges& E){
+void Clerk::printPort(Edges& E){
 		for_each(E.begin(),E.end(),\
 				[](shared_ptr<Edge> e){\
 			cout << e->getDestination() << ", " << e->getWeight() << endl;\
@@ -227,7 +255,7 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 
 	}
 
-	void printGraph(string type,unordered_map<string,Edges>& map){
+void Clerk::printGraph(string type,unordered_map<string,Edges>& map){
 		unordered_map<string,Edges>::iterator mapIter = map.begin();
 		unordered_map<string,Edges>::iterator mapIterEnd = map.end();
 		for (; mapIter!= mapIterEnd; ++mapIter) {

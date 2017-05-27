@@ -25,10 +25,10 @@ public:
 	bool setDate(string&);
 	string getDate();
 
-	bool operator<(const Date&);
-	bool operator>(const Date&);
-    bool operator==(const Date&);
-	int operator-(const Date&);
+	bool operator<(const Date&)const;
+	bool operator>(const Date&)const;
+    bool operator==(const Date&)const;
+	int operator-(const Date&)const;
 
 	virtual ~Date();
 

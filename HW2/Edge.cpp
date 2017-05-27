@@ -14,15 +14,26 @@ Edge::Edge():weight(),dest() {}
 
 Edge::Edge(int w,weak_ptr<Port> d):weight(w),dest(d){}
 
-bool Edge::operator==(const Edge& e){
-	/*
-	shared_ptr<Port> a,b;
-	a = dest.lock();
-	b = e.dest.lock();
-	return a->getName()==b->getName();
-	*/
-	//return dest.lock()->getName()==e.dest.lock()->getName();
-	return true;
+bool Edge::sameDestination(const Edge& e){
+	if(this->dest.expired() || e.dest.expired())
+		return false;
+	return getDestination() == e.getDestination();
+}
+
+void  Edge::setWeight(int w){
+	weight = w;
+}
+
+int  Edge::getWeight()const{
+	return weight;
+}
+
+void  Edge::setDestination(weak_ptr<Port> d){
+	dest=d;
+}
+
+string  Edge::getDestination()const{
+	return dest.lock()->getName();
 }
 
 Edge::~Edge() {}

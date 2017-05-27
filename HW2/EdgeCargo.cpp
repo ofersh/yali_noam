@@ -7,12 +7,13 @@
 
 #include "EdgeCargo.h"
 
-EdgeCargo::EdgeCargo() {
-	// TODO Auto-generated constructor stub
+EdgeCargo::EdgeCargo(int w,weak_ptr<Port> d):Edge(w,d){}
 
+
+void EdgeCargo::updateEdge(const Edge& e){
+	int weight = getWeight() + e.getWeight();
+	setWeight(weight);
 }
 
-EdgeCargo::~EdgeCargo() {
-	// TODO Auto-generated destructor stub
-}
+EdgeCargo::~EdgeCargo() {}
 

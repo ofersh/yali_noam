@@ -12,13 +12,10 @@
 class Port;
 
 using std::weak_ptr;
-
+using std::shared_ptr;
+using std::string;
 
 class Edge {
-private:
-	int weight;
-	weak_ptr<Port> dest;
-
 public:
 
 	Edge();
@@ -32,9 +29,19 @@ public:
 
 
 	virtual void updateEdge(const Edge&)=0;
-	virtual bool operator==(const Edge&);
+	virtual bool sameDestination(const Edge&);
+
+	void setWeight(int w);
+	int getWeight()const;
+	void setDestination(weak_ptr<Port> d);
+	string getDestination()const;
 
 	virtual ~Edge();
+
+private:
+	int weight;
+	weak_ptr<Port> dest;
+
 };
 
 #endif /* EDGE_H_ */

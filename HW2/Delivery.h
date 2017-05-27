@@ -19,12 +19,12 @@ private:
 public:
 	Delivery();
 	Delivery(Date&,int);
-	/* default sufficient
-	Delivery(const Delivery&);
-	Delivery(const Delivery&&);
-	Delivery& operator=(const Delivery&);
-	Delivery& operator=(const Delivery&&);
-*/
+	/* default CTOR */
+	Delivery(const Delivery&)=default;
+	Delivery(const Delivery&&)=default;
+	Delivery& operator=(const Delivery&)=default;
+	Delivery& operator=(const Delivery&&)=default;
+
 
 	void setNewDelivery(Date&,int);
 

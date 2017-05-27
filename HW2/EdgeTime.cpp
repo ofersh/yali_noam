@@ -7,12 +7,16 @@
 
 #include "EdgeTime.h"
 
-EdgeTime::EdgeTime() {
-	// TODO Auto-generated constructor stub
+EdgeTime::EdgeTime():Edge(),travels_counter(1){}
 
+EdgeTime::EdgeTime(int w,weak_ptr<Port> d):Edge(w,d),travels_counter(1){}
+
+void EdgeTime::updateEdge(const Edge& e){
+	int oldWeight = getWeight() * travels_counter;
+	travels_counter++;
+	int newWeight = (oldWeight + e.getWeight())/travels_counter;
+	setWeight(newWeight);
 }
 
-EdgeTime::~EdgeTime() {
-	// TODO Auto-generated destructor stub
-}
+EdgeTime::~EdgeTime(){}
 

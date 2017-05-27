@@ -65,7 +65,10 @@ void Clerk::load(string fileName){
         //update Time graph.
         timeEdgesMap.emplace(srcPort, new EdgeTime{inBoundDate-OutBoundDate,inBoundPortName});
         cargoEdgesMap.emplace(rootPort,new EdgeCargo{cargoAmount,inBoundPortName});
+        
+        
         OutBoundDate.setDate(outBoundDateStr);
+        
         
         
     }while(getline(inputFile, line));

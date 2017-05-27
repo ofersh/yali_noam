@@ -12,7 +12,7 @@ using namespace std;
 
 
 
-int main(){
+int main(int argc, char* argv[]){
 	Date d1,d2;
 	string s1 = "12/09 11:05";
 	string s2 = "12/09 11:07";

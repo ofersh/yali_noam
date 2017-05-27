@@ -115,8 +115,6 @@ void BoogieLever::init_graphs(int len, char *files[]){
 		exit(1);
 	}
 
-
-
 	/*
      read all input files
 	 */

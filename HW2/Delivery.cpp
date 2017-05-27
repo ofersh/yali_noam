@@ -22,6 +22,10 @@ void Delivery::setNewDelivery(Date& t,int c){
 	setDeliveryDetails(t,c);
 }
 
+Date& Delivery::getDate()const{
+	return time;
+}
+
 void Delivery::addCargo(int cargo){
 	this->cargo += cargo;
 }

@@ -15,9 +15,13 @@
 #include "Port.h"
 #include "Edge.h"
 #include <stdexcept>
+#include <sstream>
 
 using std::unordered_map;
 using std::runtime_error;
+using std::ostringstream;
+using std::ifstream;
+class InvalidInputException;
 
 typedef vector<shared_ptr<Edge>> Edges;
 
@@ -29,18 +33,22 @@ public:
     
     
     void load(string fileName); //load a update file.
+    void setOutputFile(string fileName){outputFile=fileName;};
     
 private:
 
     string outputFile;
     //map used as graphes.
     unordered_map<string,shared_ptr<Port>> portsMap;	//ports map.
-    unordered_map<shared_ptr<Port>,Edges> edgesMap;
+    unordered_map<string,Edges> timeEdgesMap;
+    unordered_map<string,Edges> cargoEdgesMap;
     
     
     
     /* HELPER METHODS */
     void readFIle(string fileName);
+    Date handleFirstLine(ifstream &, string fileName, string &outBoundPortName);
+    
     
     
     
@@ -56,15 +64,25 @@ private:
     
     
     /* exceptions class */
-    class openFileException: public runtime_error
+    class OpenFileException: public runtime_error
     {
     public:
-        openFileException(string what):runtime_error{what}{};
+        OpenFileException(string what):runtime_error{what}{};
+        static OpenFileException getExcept(string name, int lineNum){
+            ostringstream os;
+            os<<"Invalid input in file "<<name<<" at line "<<0<<".\n";
+            return OpenFileException{os.str()};
+        };
     };
-    class invalidInputException: public runtime_error
+    class InvalidInputException: public runtime_error
     {
     public:
-        invalidInputException(string what):runtime_error{what}{};
+        InvalidInputException(string what):runtime_error{what}{};
+        static InvalidInputException getExcept(string name, int lineNum){
+            ostringstream os;
+            os<<"Invalid input in file "<<name<<" at line "<<lineNum<<".\n";
+            return InvalidInputException{os.str()};
+        };
     };
     /*******************/
 

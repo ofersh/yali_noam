@@ -26,7 +26,7 @@ public:
 
 
 	void setName(string&);
-	string& getName()const;
+	const string& getName()const;
 
 	void addInDelivery(Delivery&);
 	void addOutDelivery(Delivery&);

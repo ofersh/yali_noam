@@ -11,6 +11,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "EdgeTime.h"
+#include "EdgeCargo.h"
 
 using std::cerr;
 using std::endl;
@@ -37,9 +39,11 @@ void Clerk::load(string fileName){
     string rootPort;
     Date rootOutBoundDate=handleFirstLine(inputFile, fileName, rootPort);
     
-    //read rest of the lines.
-    string inBoundPortName, inBoundDateStr, outBoundDateStr, cargo,line;
-    Date inBoundDate,OutBoundDate;
+    //read line by line each port in the journey.
+    string inBoundPortName, inBoundDateStr, outBoundDateStr, cargo, line,\
+            srcPort=rootPort;
+
+    Date inBoundDate,OutBoundDate{rootOutBoundDate};
     int lineNum=2, cargoAmount;
     getline(inputFile, line);
     istringstream iss{line};
@@ -58,6 +62,10 @@ void Clerk::load(string fileName){
             throw InvalidInputException::getExcept(fileName, lineNum);
         cargoAmount=stoi(cargo);
         inBoundDate.setDate(inBoundDateStr);
+        //update Time graph.
+        timeEdgesMap.emplace(srcPort, new EdgeTime{inBoundDate-OutBoundDate,inBoundPortName});
+        cargoEdgesMap.emplace(rootPort,new EdgeCargo{cargoAmount,inBoundPortName});
+        OutBoundDate.setDate(outBoundDateStr);
         
         
     }while(getline(inputFile, line));

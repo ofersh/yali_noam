@@ -13,7 +13,7 @@
 class EdgeTime: public Edge {
 public:
 	EdgeTime();
-	EdgeTime(int,weak_ptr<Port>);
+	EdgeTime(int , string );
 
 	/* default CTORS */
 	EdgeTime(const EdgeTime&)=default;

@@ -7,9 +7,10 @@
 
 #include "EdgeTime.h"
 
+
 EdgeTime::EdgeTime():Edge(),travels_counter(1){}
 
-EdgeTime::EdgeTime(int w,weak_ptr<Port> d):Edge(w,d),travels_counter(1){}
+EdgeTime::EdgeTime(int w, string d):Edge(w,d),travels_counter(1){}
 
 void EdgeTime::updateEdge(const Edge& e){
 	int oldWeight = getWeight() * travels_counter;

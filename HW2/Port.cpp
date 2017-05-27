@@ -17,7 +17,7 @@ Port::Port(string& n):name{n}
 void Port::setName(string& n){
 	name = n;
 }
-string& Port::getName()const{
+const string& Port::getName()const{
 	return name;
 }
 

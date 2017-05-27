@@ -13,7 +13,7 @@
 
 class EdgeCargo: public Edge {
 public:
-	EdgeCargo(int,weak_ptr<Port>);
+	EdgeCargo(int,string);
 
 	/* default CTORS */
 	EdgeCargo()=default;

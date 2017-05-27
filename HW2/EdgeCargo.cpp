@@ -7,7 +7,8 @@
 
 #include "EdgeCargo.h"
 
-EdgeCargo::EdgeCargo(int w,weak_ptr<Port> d):Edge(w,d){}
+
+EdgeCargo::EdgeCargo(int w,string d):Edge(w,d){}
 
 
 void EdgeCargo::updateEdge(const Edge& e){

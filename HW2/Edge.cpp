@@ -12,7 +12,7 @@ using namespace std;
 
 Edge::Edge():weight(),dest() {}
 
-Edge::Edge(int w,weak_ptr<Port> d):weight(w),dest(d){}
+Edge::Edge(int w,string d):weight(w),dest(d){}
 
 bool Edge::sameDestination(const Edge& e){
 	if(this->dest.expired() || e.dest.expired())

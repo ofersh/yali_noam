@@ -27,7 +27,7 @@ public:
 
 
 	void setNewDelivery(Date&,int);
-	Date& getDate()const;
+	const Date& getDate()const;
 	void addCargo(int);
 
 	bool operator>(const Delivery&);

@@ -28,49 +28,37 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
     NUMBERS{"0123456789"};
 
 
-
-
 void Clerk::load(string fileName){
     
     ifstream inputFile{fileName};
     if (inputFile.fail())
         throw OpenFileException::getExcept(fileName, 0);
     
-    string rootPort;
-    Date rootOutBoundDate=handleFirstLine(inputFile, fileName, rootPort);
-    
+    string rootPortName;
+    Date RootOutBoundDate=handleFirstLine(inputFile, fileName, rootPortName);
+    Date OutBoundDate=RootOutBoundDate;
     //read line by line each port in the journey.
-    string inBoundPortName, inBoundDateStr, outBoundDateStr, cargo, line,\
-            srcPort=rootPort;
+    string line, lastPortName=rootPortName;
 
-    Date inBoundDate,OutBoundDate{rootOutBoundDate};
-    int lineNum=2, cargoAmount;
+    int lineNum=2;
     getline(inputFile, line);
-    istringstream iss{line};
     do{
-        getline(iss,inBoundPortName,',');
-        if (inBoundPortName.find_first_not_of(ALPHA)!=inBoundDateStr.npos)
-            throw InvalidInputException::getExcept(fileName, lineNum);
-        getline(iss, inBoundDateStr, ',');
-        if (inBoundDateStr.find_first_not_of(DATE)!=inBoundDateStr.npos)
-            throw InvalidInputException::getExcept(fileName, lineNum);
-        getline(iss, cargo, ',');
-        if (inBoundDateStr.find_first_not_of(NUMBERS)!=inBoundDateStr.npos)
-            throw InvalidInputException::getExcept(fileName, lineNum);
-        getline(iss, outBoundDateStr , ',');
-        if (inBoundDateStr.find_first_not_of(DATE)!=inBoundDateStr.npos)
-            throw InvalidInputException::getExcept(fileName, lineNum);
-        cargoAmount=stoi(cargo);
-        inBoundDate.setDate(inBoundDateStr);
-        //update Time graph.
-        timeEdgesMap.emplace(srcPort, new EdgeTime{inBoundDate-OutBoundDate,inBoundPortName});
-        cargoEdgesMap.emplace(rootPort,new EdgeCargo{cargoAmount,inBoundPortName});
+        //read transaction data.
+        trans_info.setInfo(line,fileName,lineNum);
         
+        //update Time and cargo graph.
+        addEdges(rootPortName, lastPortName);
         
-        OutBoundDate.setDate(outBoundDateStr);
+        //set chrrent port leaving date
+        OutBoundDate.setDate(trans_info.outBoundDateStr);
         
+        //update\add port.
+        updateRecvPort();
+    
+        //update root outbound deliveries.
+        updateRootPort(rootPortName, RootOutBoundDate);
         
-        
+        lineNum++;
     }while(getline(inputFile, line));
     
 }
@@ -89,7 +77,6 @@ Date Clerk::handleFirstLine(ifstream & inputFile, string fileName,string &portNa
         throw InvalidInputException::getExcept(fileName, lineNum);
     Port outBoundPort{outBoundportName}; //create outbound port.
     //read outbound date.
-    lineNum++;
     getline(inputFile,outBoundDate , ',');
     if (outBoundDate.find_first_of(DATE)!=outBoundDate.npos)
         throw InvalidInputException::getExcept(fileName, lineNum);
@@ -98,11 +85,72 @@ Date Clerk::handleFirstLine(ifstream & inputFile, string fileName,string &portNa
     dateOfDelivery.setDate(outBoundDate);
     Delivery outBoundDelivery{dateOfDelivery,0};
     outBoundPort.addOutDelivery(outBoundDelivery);
-    
+    // need to check if exist. if exist just need to add the outbound
     portsMap.emplace(dateOfDelivery,new Port{outBoundPort});
     portName=outBoundportName;
     return dateOfDelivery;
 }
+
+void Clerk::Transaction_Info::setInfo(string line, string fileName, int lineNum){
+    
+    istringstream iss{line};
+    string inBoundDateStr="" ,cargoStr="";
+    
+    getline(iss,inBoundPortName,',');
+    if (inBoundPortName.find_first_not_of(ALPHA)!=line.npos)
+        throw InvalidInputException::getExcept(fileName, lineNum);
+    getline(iss, inBoundDateStr, ',');
+    if (inBoundDateStr.find_first_not_of(DATE)!=line.npos)
+        throw InvalidInputException::getExcept(fileName, lineNum);
+    getline(iss, cargoStr, ',');
+    if (cargoStr.find_first_not_of(NUMBERS)!=line.npos)
+        throw InvalidInputException::getExcept(fileName, lineNum);
+    getline(iss, outBoundDateStr, ',');
+    if (outBoundDateStr.find_first_not_of(DATE)!=line.npos)
+        throw InvalidInputException::getExcept(fileName, lineNum);
+    
+    inBoundDate.setDate(inBoundDateStr);
+    cargoAmount=stoi(cargoStr);
+
+    
+}
+
+void Clerk::addEdges(string rootPort, string lastPort){
+
+    //adding date edge from last port to current.
+    timeEdgesMap.emplace(lastPort, \
+    new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate),trans_info.inBoundPortName});
+    //adding cargoEdge from root to current.
+    cargoEdgesMap.emplace(rootPort,new EdgeCargo{trans_info.cargoAmount,trans_info.inBoundPortName});
+}
+
+
+void Clerk::updateRecvPort(){
+    
+    Delivery inboundDelivery{trans_info.inBoundDate,trans_info.cargoAmount};
+
+    unordered_map<string, Port>::iterator it;
+    it=portsMap.find(trans_info.inBoundPortName);
+    if (it!=portsMap.end())
+        it->second.addInDelivery(inboundDelivery);
+    
+    Port current{trans_info.inBoundPortName};
+    current.addInDelivery(inboundDelivery);
+    portsMap.emplace(trans_info.inBoundPortName,current);
+}
+
+
+void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
+    
+    Delivery rootOutDelivery{rootOutBound,trans_info.cargoAmount};
+    unordered_map<string, Port>::iterator it=portsMap.find(rootPortName);
+    (it->second).addOutDelivery(rootOutDelivery);
+    
+}
+
+
+
+
 
 
 

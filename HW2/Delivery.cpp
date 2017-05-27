@@ -22,7 +22,7 @@ void Delivery::setNewDelivery(Date& t,int c){
 	setDeliveryDetails(t,c);
 }
 
-Date& Delivery::getDate()const{
+const Date& Delivery::getDate()const{
 	return time;
 }
 

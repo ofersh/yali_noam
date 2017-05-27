@@ -39,7 +39,7 @@ private:
 
     string outputFile;
     //map used as graphes.
-    unordered_map<string,shared_ptr<Port>> portsMap;	//ports map.
+    unordered_map<string,Port> portsMap;	//ports map.
     unordered_map<string,Edges> timeEdgesMap;
     unordered_map<string,Edges> cargoEdgesMap;
     
@@ -48,8 +48,9 @@ private:
     /* HELPER METHODS */
     void readFIle(string fileName);
     Date handleFirstLine(ifstream &, string fileName, string &outBoundPortName);
-    
-    
+    void addEdges(string rootPort, string lastPort);
+    void updateRecvPort();
+    void updateRootPort(string rootPortName, Date rootOutBound);
     
     
     
@@ -61,6 +62,15 @@ private:
     Clerk& operator=(Clerk &&);
     /***************************/
     
+    
+    
+    struct Transaction_Info{
+        string inBoundDateStr,outBoundDateStr, inBoundPortName,cargoStr;
+        Date inBoundDate, outBoundDate;
+        int cargoAmount;
+        void setInfo(string line,string fileName, int lineNum);
+    
+    }trans_info;
     
     
     /* exceptions class */

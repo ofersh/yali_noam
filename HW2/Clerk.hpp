@@ -57,7 +57,7 @@ private:
     
     /* HELPER METHODS */
     void readFIle(string fileName);
-    Date handleFirstLine(ifstream &, string fileName, string &outBoundPortName);
+    Date handleFirstLine(string &, string fileName, string &outBoundPortName);
     void addEdges(string rootPort, string lastPort);
     void updateRecvPort();
     void updateRootPort(string rootPortName, Date rootOutBound);

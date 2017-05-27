@@ -36,12 +36,13 @@ void Clerk::load(string fileName){
     ifstream inputFile{fileName};
     if (inputFile.fail())
         throw OpenFileException::getExcept(fileName, 0);
-    
-    string rootPortName;
-    Date RootOutBoundDate=handleFirstLine(inputFile, fileName, rootPortName);
+
+    string rootPortName,line, lastPortName;
+    getline(inputFile, line);
+    Date RootOutBoundDate=handleFirstLine(line, fileName, rootPortName);
     Date OutBoundDate=RootOutBoundDate;
     //read line by line each port in the journey.
-    string line, lastPortName=rootPortName;
+    lastPortName=rootPortName;
 
     int lineNum=2;
     getline(inputFile, line);
@@ -52,7 +53,7 @@ void Clerk::load(string fileName){
         //update Time and cargo graph.
         addEdges(rootPortName, lastPortName);
         
-        //set chrrent port leaving date
+        //set current port leaving date
         OutBoundDate.setDate(trans_info.outBoundDateStr);
         
         //update\add port.
@@ -68,22 +69,28 @@ void Clerk::load(string fileName){
 
 
 
-Date Clerk::handleFirstLine(ifstream & inputFile, string fileName,string &portName){
-    
+Date Clerk::handleFirstLine(string & firstLine, string fileName,string &portName){
+    /* new addition */
+
+	std::stringstream ss(firstLine);
+
+
+
+	/*************/
+
     string line, outBoundportName, outBoundDate;
     Date dateOfDelivery;
     int lineNum=1;
     
     //handle first line
-    getline(inputFile,outBoundportName , ',');
-    if (outBoundportName.find_first_of(ALPHA)!=outBoundportName.npos)
+    getline(ss,outBoundportName , ',');
+    if (outBoundportName.find_first_not_of(ALPHA)!=outBoundportName.npos)
         throw InvalidInputException::getExcept(fileName, lineNum);
     Port outBoundPort{outBoundportName}; //create outbound port.
     //read outbound date.
-    getline(inputFile,outBoundDate , ',');
-    if (outBoundDate.find_first_of(DATE)!=outBoundDate.npos)
-        throw InvalidInputException::getExcept(fileName, lineNum);
-    
+    getline(ss,outBoundDate , ',');
+    if (outBoundDate.find_first_not_of(DATE)!=outBoundDate.npos)
+    	throw InvalidInputException::getExcept(fileName, lineNum);
     //create delivery information and add to port.
     dateOfDelivery.setDate(outBoundDate);
     Delivery outBoundDelivery{dateOfDelivery,0};
@@ -124,9 +131,10 @@ void Clerk::addEdges(string rootPort, string lastPort){
     unordered_map<string,Edges>::iterator it;
     
     it=timeEdgesMap.find(lastPort);
-    
+    /* TODO: for some reason the trans_info.outBoundDate is 0 */
     shared_ptr<Edge> timeEdge{new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate),trans_info.inBoundPortName}};
     
+    // verifying the port is already in the map, if not then constructing a new vector for the port
     if(it!=timeEdgesMap.end()){
         (it->second).push_back(timeEdge);
     }else{

@@ -18,7 +18,6 @@ public:
 	/* default CTORS */
 	EdgeCargo()=default;
 	EdgeCargo(const EdgeCargo&)=default;
-	EdgeCargo( Edge&&)=default;
 	EdgeCargo& operator=(const EdgeCargo&)=default;
 	EdgeCargo& operator=( EdgeCargo&&)=default;
 

@@ -21,9 +21,9 @@ public:
 	Delivery(Date&,int);
 	/* default CTOR */
 	Delivery(const Delivery&)=default;
-	Delivery(const Delivery&&)=default;
+	Delivery(Delivery&&)=default;
 	Delivery& operator=(const Delivery&)=default;
-	Delivery& operator=(const Delivery&&)=default;
+	Delivery& operator=(Delivery&&)=default;
 
 
 	void setNewDelivery(Date&,int);

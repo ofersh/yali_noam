@@ -41,12 +41,15 @@ public:
     
 private:
 
+    string outputFile;
     //map used as graphes.
     unordered_map<string,shared_ptr<Port>> portsMap;	//ports map.
     unordered_map<shared_ptr<Port>,Edges> edgesMap;
     
-    string outputFile;
     
+    
+    /* HELPER METHODS */
+    void readFIle(string fileName);
     
     
     

@@ -13,12 +13,15 @@
 #include <string>
 #include "EdgeTime.h"
 #include "EdgeCargo.h"
+#include <algorithm>
 
+using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
 using std::istringstream;
 using std::stoi;
+using std::for_each;
 
 
 
@@ -151,6 +154,93 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 
 
 
+	/* query functions */
 
+	/* print to screen all out bound ports and the time to get to them */
+	void Clerk::outboundQuery(string port){
+		/* check  if port exist */
+		unordered_map<string,Edges>::iterator it = timeEdgesMap.find(port);
+		if(it==timeEdgesMap.end()){
+			cerr << port << ": does not exist in the database." << endl;
+			return;
+		}
+
+		/* get all the outgoing edges from the port */
+		Edges E = it->second;
+
+		/* print all the outgping ports */
+		if(E.size() < 1)
+			cout << port << ": no outbound ports" << endl;
+		else
+			printPort(E);
+	}
+
+	/* print all the ports entering to the port */
+	void Clerk::inboundQuery(string port){
+		bool hasInbound=false;
+		// getting the map iterator. checking all the vertices in the map
+		unordered_map<string,Edges>::iterator mapIter = timeEdgesMap.begin();
+		unordered_map<string,Edges>::iterator mapIterEnd = timeEdgesMap.end();
+		for (; mapIter!= mapIterEnd; ++mapIter) {
+
+			// get all the edges that belong to a certain vertex
+			Edges E = mapIter->second;
+
+			// checking all the edges in the vertex
+			Edges::iterator edgesIter = E.begin();
+			Edges::iterator edgesIterEnd = E.end();
+			for (; edgesIter != edgesIterEnd; ++edgesIter) {
+				Edge* e = edgesIter->get();
+				// if edge is pointing to the entered vertex
+				if(e->getDestination()==port){
+					hasInbound=true;
+					cout << mapIter->first << ", " << e->getWeight() << endl;
+				}
+			}
+		}
+
+		if(!hasInbound)
+			cout << port << ": no inbound ports" << endl;
+	}
+
+
+	void Clerk::balance(string port,string date){
+		unordered_map<string,Port>::iterator it = portsMap.find(port);
+		if(it == portsMap.end()){
+			cerr << port << " port does not exist in the database" << endl;
+			return;
+		}
+		Date d;
+        if (d.setDate(date)){
+            cerr<<"Invalid Date"<<endl;
+            return;
+        }
+        cout << it->second.calculateAmountOfContainers(d) << endl;
+
+	}
+
+	void printPort(Edges& E){
+		for_each(E.begin(),E.end(),\
+				[](shared_ptr<Edge> e){\
+			cout << e->getDestination() << ", " << e->getWeight() << endl;\
+		});
+
+	}
+
+	void printGraph(string type,unordered_map<string,Edges>& map){
+		unordered_map<string,Edges>::iterator mapIter = map.begin();
+		unordered_map<string,Edges>::iterator mapIterEnd = map.end();
+		for (; mapIter!= mapIterEnd; ++mapIter) {
+			// get all the edges that belong to a certain vertex
+			Edges E = mapIter->second;
+			cout << mapIter->first << ": " << endl;
+			printPort(E);
+		}
+	}
+
+	void Clerk::print(){
+		printGraph("time",timeEdgesMap);
+		printGraph("cargo",cargoEdgesMap);
+	}
 
 

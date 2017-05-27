@@ -27,6 +27,7 @@ public:
 
 	bool operator<(const Date&);
 	bool operator>(const Date&);
+    bool operator==(const Date&);
 	int operator-(const Date&);
 
 	virtual ~Date();

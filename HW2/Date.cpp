@@ -45,6 +45,10 @@ bool Date::operator>(const Date& rhs){
 	return sum > rhs.sum;
 }
 
+bool Date::operator==(const Date & rhs){
+    return sum==rhs.sum;
+}
+
 int Date::operator-(const Date& rhs){
 	return sum - rhs.sum;
 }

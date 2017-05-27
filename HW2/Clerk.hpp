@@ -35,6 +35,14 @@ public:
     void load(string fileName); //load a update file.
     void setOutputFile(string fileName){outputFile=fileName;};
     
+    /* quary functions */
+    void outboundQuery(string port);
+	void inboundQuery(string port);
+	void balance(string port,string date);
+	void print();
+
+
+
 private:
 
     string outputFile;
@@ -51,8 +59,7 @@ private:
     void addEdges(string rootPort, string lastPort);
     void updateRecvPort();
     void updateRootPort(string rootPortName, Date rootOutBound);
-    
-    
+    void printPort(Edges e);
     
     
     /* coping is not permitted */

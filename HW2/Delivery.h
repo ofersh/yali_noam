@@ -31,6 +31,7 @@ public:
 	void addCargo(int);
 
 	bool operator>(const Delivery&);
+    bool operator==(const Delivery&);
 	bool operator<(const Delivery&);
 
 	virtual ~Delivery();

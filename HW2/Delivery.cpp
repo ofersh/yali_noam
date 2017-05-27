@@ -33,6 +33,11 @@ void Delivery::addCargo(int cargo){
 bool Delivery::operator>(const Delivery& rhs){
 	return time>rhs.time;
 }
+
+bool Delivery::operator==(const Delivery &rhs){
+    return time==rhs.time;
+}
+
 bool Delivery::operator<(const Delivery& rhs){
 	return time<rhs.time;
 }

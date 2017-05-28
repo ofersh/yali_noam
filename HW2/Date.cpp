@@ -14,7 +14,7 @@ using namespace std;
 
 /* calculate the minutes in the date */
 void Date::setDate(int minute,int hour,int day,int month){
-	sum = month*DAYS_IN_MONTH + day;
+	sum = (month)*DAYS_IN_MONTH + day;
 	sum = sum*HOURS_IN_DAY + hour;
 	sum = sum*MINUTES_IN_HOURS + minute;
 

@@ -21,7 +21,9 @@ public:
 	EdgeTime& operator=(const EdgeTime&)=default;
 	EdgeTime& operator=( EdgeTime&&)=default;
 
-	void updateEdge(const Edge&);
+    
+    
+    void updateEdge(const Edge&);
 
 	~EdgeTime();
 

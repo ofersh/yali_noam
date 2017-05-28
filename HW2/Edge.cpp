@@ -36,3 +36,7 @@ string  Edge::getDestination()const{
 
 Edge::~Edge() {}
 
+bool Edge::operator==(const Edge& rhs)const
+{
+    return dest==rhs.dest;
+}

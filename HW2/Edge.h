@@ -27,6 +27,9 @@ public:
 	Edge& operator=(const Edge&)=default;
 	Edge& operator=( Edge&&)=default;
 
+    bool operator==(const Edge & )const;
+
+    
 
 	virtual void updateEdge(const Edge&)=0;
 	virtual bool sameDestination(const Edge&);

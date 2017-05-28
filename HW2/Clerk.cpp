@@ -23,7 +23,7 @@ using std::istringstream;
 using std::stoi;
 using std::for_each;
 using std::shared_ptr;
-
+using std::find;
 
 static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
     ABCDEFGHIJKLMNOPQRSTUVWXYZ "},\
@@ -40,7 +40,7 @@ void Clerk::load(string fileName){
     string rootPortName,line, lastPortName;
     getline(inputFile, line);
     Date RootOutBoundDate=handleFirstLine(line, fileName, rootPortName);
-    Date OutBoundDate=RootOutBoundDate;
+    trans_info.outBoundDate=RootOutBoundDate;
     //read line by line each port in the journey.
     lastPortName=rootPortName;
 
@@ -54,7 +54,7 @@ void Clerk::load(string fileName){
         addEdges(rootPortName, lastPortName);
         
         //set current port leaving date
-        OutBoundDate.setDate(trans_info.outBoundDateStr);
+        trans_info.outBoundDate.setDate(trans_info.outBoundDateStr);
         
         //update\add port.
         updateRecvPort();
@@ -105,7 +105,6 @@ Date Clerk::handleFirstLine(string & firstLine, string fileName,string &portName
 void Clerk::Transaction_Info::setInfo(string line, string fileName, int lineNum){
     
     istringstream iss{line};
-    string inBoundDateStr="" ,cargoStr="";
     
     getline(iss,inBoundPortName,',');
     if (inBoundPortName.find_first_not_of(ALPHA)!=line.npos)
@@ -132,11 +131,20 @@ void Clerk::addEdges(string rootPort, string lastPort){
     unordered_map<string,Edges>::iterator it;
     
     it=timeEdgesMap.find(lastPort);
-    /* TODO: for some reason the trans_info.outBoundDate is 0 */
-    shared_ptr<Edge> timeEdge{new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate),trans_info.inBoundPortName}};
+
+    //create a new edge 
+    shared_ptr<Edge> newTimeEdge{new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate)
+        ,trans_info.inBoundPortName}};
+    
+    if (it!=timeEdgesMap.end()){
+        Edges::iterator exist=find(it->second.begin(), it->second.end(), newTimeEdge);
+        (*exist)->updateEdge(*newTimeEdge);
+    }
+    shared_ptr<Edge> timeEdge{newTimeEdge};
     
     // verifying the port is already in the map, if not then constructing a new vector for the port
     if(it!=timeEdgesMap.end()){
+        //TODO: check if edge does exist, if yes invoke update edge.
         (it->second).push_back(timeEdge);
     }else{
         Edges v;
@@ -148,6 +156,7 @@ void Clerk::addEdges(string rootPort, string lastPort){
     
     it=cargoEdgesMap.find(rootPort);
     if(it!=timeEdgesMap.end()){
+        //TODO: check if edge does exist, if yes invoke update edge.
         (it->second).push_back(cargoEdge);
     }else{
         Edges v;
@@ -248,7 +257,7 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 			return;
 		}
 		Date d;
-        if (d.setDate(date)){
+        if (!d.setDate(date)){
             cerr<<"Invalid Date"<<endl;
             return;
         }
@@ -256,6 +265,8 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 
 	}
 
+
+//TODO output to file.
 void Clerk::printPort(Edges& E){
 		for_each(E.begin(),E.end(),\
 				[](shared_ptr<Edge> e){\

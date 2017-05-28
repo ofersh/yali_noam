@@ -62,6 +62,7 @@ void Clerk::load(string fileName){
         //update root outbound deliveries.
         updateRootPort(rootPortName, RootOutBoundDate);
         
+
         lineNum++;
     }while(getline(inputFile, line));
     

@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 void BoogieLever::Command::setNewCmd(string buffer){
 	stringstream ss(buffer);
 	string firstArg,secArg;

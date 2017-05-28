@@ -17,43 +17,54 @@ using namespace std;
 void BoogieLever::Command::setNewCmd(string buffer){
 	stringstream ss(buffer);
 	string firstArg,secArg;
-	getline(ss,firstArg,',');
-	cout << firstArg << endl;
-	if(firstArg=="print"){
-		cmdNumber=PRINT;
-		return;
+
+	// if there is no comma, then the command can only be exit,print or load
+	if(buffer.find(',')==buffer.npos){
+		getline(ss,firstArg,' ');
+		getline(ss,secArg,' ');
+
+		if(firstArg=="print"){
+			cmdNumber=PRINT;
+			return;
+		}
+
+		if(firstArg=="exit"){
+			cmdNumber=EXIT;
+			return;
+		}
+
+		if(firstArg=="load"){
+			fileName = secArg;
+			cmdNumber = LOAD;
+			return;
+
+		}
+	}else{
+		// if there is comma then the commands can only be in/out bound or balance
+
+		getline(ss,firstArg,',');
+		getline(ss,secArg,',');
+
+		port=firstArg;
+
+		if(secArg=="balance"){
+			cmdNumber = BALANCE;
+			getline(ss,date);
+			return;
+		}
+
+		if(secArg=="inbound"){
+			cmdNumber = INBOUND;
+			return;
+		}
+
+		if(secArg=="outbound"){
+			cmdNumber = OUTBOUND;
+			return;
+		}
 	}
-	if(firstArg=="exit"){
-		cmdNumber=EXIT;
-		return;
-	}
 
-	getline(ss,secArg,',');
-
-	if(firstArg=="load"){
-		fileName = secArg;
-		cmdNumber = LOAD;
-		return;
-	}
-
-	port=firstArg;
-
-	if(secArg=="balance"){
-		cmdNumber = BALANCE;
-		getline(ss,date);
-		return;
-	}
-
-	if(secArg=="inbound"){
-		cmdNumber = INBOUND;
-		return;
-	}
-
-	if(secArg=="outbound"){
-		cmdNumber = OUTBOUND;
-		return;
-	}
-
+	// if commands have not been appropriatly entered
 	cmdNumber = 0;
 }
 

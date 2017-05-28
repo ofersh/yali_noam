@@ -22,6 +22,7 @@ using std::runtime_error;
 using std::ostringstream;
 using std::ifstream;
 using std::shared_ptr;
+using std::ostream;
 
 class InvalidInputException;
 
@@ -61,8 +62,11 @@ private:
     void addEdges(string rootPort, string lastPort);
     void updateRecvPort();
     void updateRootPort(string rootPortName, Date rootOutBound);
-    void printPort(Edges& E);
-    void printGraph(string type,unordered_map<string,Edges>& map);
+
+
+    /* print functions */
+    void printPort(ostream& out,Edges& E);
+    void printGraph(ostream& out,string type,unordered_map<string,Edges>& map);
     
     /* coping is not permitted */
     Clerk(const Clerk &);

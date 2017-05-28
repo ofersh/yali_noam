@@ -16,6 +16,7 @@
 #include <algorithm>
 
 using std::cout;
+using std::ofstream;
 using std::cerr;
 using std::endl;
 using std::string;
@@ -219,7 +220,7 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 		if(E.size() < 1)
 			cout << port << ": no outbound ports" << endl;
 		else
-			printPort(E);
+			printPort(cout,E);
 	}
 
 	/* print all the ports entering to the port */
@@ -268,28 +269,33 @@ void Clerk::updateRootPort(string rootPortName, Date rootOutBound){
 
 
 //TODO output to file.
-void Clerk::printPort(Edges& E){
+void Clerk::printPort(ostream& out,Edges& E){
 		for_each(E.begin(),E.end(),\
 				[](shared_ptr<Edge> e){\
-			cout << e->getDestination() << ", " << e->getWeight() << endl;\
+			out << e->getDestination() << ", " << e->getWeight() << endl;\
 		});
 
 	}
 
-void Clerk::printGraph(string type,unordered_map<string,Edges>& map){
+void Clerk::printGraph(ostream& out,string type,unordered_map<string,Edges>& map){
 		unordered_map<string,Edges>::iterator mapIter = map.begin();
 		unordered_map<string,Edges>::iterator mapIterEnd = map.end();
 		for (; mapIter!= mapIterEnd; ++mapIter) {
 			// get all the edges that belong to a certain vertex
 			Edges E = mapIter->second;
-			cout << mapIter->first << ": " << endl;
-			printPort(E);
+			out << mapIter->first << ": " << endl;
+			printPort(out,E);
 		}
 	}
 
 	void Clerk::print(){
-		printGraph("time",timeEdgesMap);
-		printGraph("cargo",cargoEdgesMap);
+		ofstream output(outputFile);
+		if(!output.is_open()){
+			cerr << "ERROR opening/reading the specified file." << endl;
+			return;
+		}
+		printGraph(output,"time",timeEdgesMap);
+		printGraph(output,"cargo",cargoEdgesMap);
 	}
 
 

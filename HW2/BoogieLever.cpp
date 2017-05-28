@@ -150,4 +150,5 @@ void BoogieLever::init_graphs(int len, const char *files[]){
 		outputFileName=files[++i];
 	else
 		outputFileName="output.dat";
+    clerk.setOutputFile(outputFileName);
 }

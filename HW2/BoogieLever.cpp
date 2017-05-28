@@ -13,11 +13,12 @@
 
 using namespace std;
 
+
 void BoogieLever::Command::setNewCmd(string buffer){
 	stringstream ss(buffer);
 	string firstArg,secArg;
 	getline(ss,firstArg,',');
-
+	cout << firstArg << endl;
 	if(firstArg=="print"){
 		cmdNumber=PRINT;
 		return;
@@ -48,7 +49,7 @@ void BoogieLever::Command::setNewCmd(string buffer){
 		return;
 	}
 
-	if(secArg=="balance"){
+	if(secArg=="outbound"){
 		cmdNumber = OUTBOUND;
 		return;
 	}
@@ -68,6 +69,7 @@ void BoogieLever::run(){
 	Command cmd;
 	bool exit=false;
 	while(!exit){
+		cout << "enter a command" << endl;
 		getline(cin,buffer);
 		cmd.setNewCmd(buffer);
 		switch (cmd.cmdNumber) {
@@ -98,15 +100,16 @@ void BoogieLever::run(){
 			cout << "wrong input, try again" << endl;
 			break;
 		}
-
-
-
 	}
 }
 
 
 
 void BoogieLever::init_graphs(int len, const char *files[]){
+	if(len<3){
+		cerr << "not enough arguments have been entered" << endl;
+		exit(1);
+	}
 	string currentArg=files[1];
 	int i=0;
 
@@ -121,7 +124,7 @@ void BoogieLever::init_graphs(int len, const char *files[]){
 	for (i=2 ; i<len; ++i)
 	{
 		currentArg=files[i];
-		if(currentArg!="-o")
+		if(currentArg=="-o")
 			break;
 		try {
 			clerk.load(currentArg);

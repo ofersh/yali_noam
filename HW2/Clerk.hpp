@@ -10,22 +10,17 @@
 #define Clerk_hpp
 
 #include <stdio.h>
-#include <unordered_map>
-#include <memory>
-#include "Port.h"
-#include "Edge.h"
 #include <stdexcept>
 #include <sstream>
+#include "Graph.cpp"
 
-using std::unordered_map;
 using std::runtime_error;
 using std::ostringstream;
 using std::ifstream;
-using std::shared_ptr;
+
+
 
 class InvalidInputException;
-
-typedef vector<shared_ptr<Edge>> Edges;
 
 
 class Clerk{
@@ -48,10 +43,15 @@ public:
 private:
 
     string outputFile;
+    Edges currentFileEdges;
+    Port *rootPort, *lastPort,*currentPort;
+    
+    
+    
     //map used as graphes.
-    unordered_map<string,Port> portsMap;	//ports map.
-    unordered_map<string,Edges> timeEdgesMap;
-    unordered_map<string,Edges> cargoEdgesMap;
+    //unordered_map<string,Port> portsMap;	//ports map.
+    //unordered_map<string,Edges> timeEdgesMap;
+    //unordered_map<string,Edges> cargoEdgesMap;
     
     
     

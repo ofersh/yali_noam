@@ -63,6 +63,10 @@ private:
     void updateRootPort(string rootPortName, Date rootOutBound);
     void printPort(Edges& E);
     void printGraph(string type,unordered_map<string,Edges>& map);
+    void addNewEdge(string portName, shared_ptr<Edge> newEdge,unordered_map<string,Edges> graph);
+    
+    
+    
     
     /* coping is not permitted */
     Clerk(const Clerk &);

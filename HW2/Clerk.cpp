@@ -125,54 +125,47 @@ void Clerk::Transaction_Info::setInfo(string line, string fileName, int lineNum)
     
 }
 
-void Clerk::addEdges(string rootPort, string lastPort){
 
-    //adding date edge from last port to current.
-    unordered_map<string,Edges>::iterator it;
-    
+//clerk create new time and cargo edges and add them.
+void Clerk::addEdges(string rootPort, string lastPort){
 
     //create a new TimeEdge. from lastPort to currentPort (held in trans_info).
     shared_ptr<Edge> newTimeEdge{new EdgeTime{(trans_info.inBoundDate)-(trans_info.outBoundDate)
         ,trans_info.inBoundPortName}};
+    //add time edge to Time Graph.
+    addNewEdge(lastPort, newTimeEdge,timeEdgesMap);
     
-    //first find if Port exist in map exist
-    it=timeEdgesMap.find(lastPort);
-    if (it!=timeEdgesMap.end()){
+    
+    //create new Cargo Edge.
+    shared_ptr<Edge> cargoEdge{new EdgeCargo{trans_info.cargoAmount,trans_info.inBoundPortName}};
+    //add cargo edge to Cargo Graph
+    addNewEdge(rootPort, cargoEdge,cargoEdgesMap);
+}
+
+
+//add a single edge to a given graph.
+void Clerk::addNewEdge(string portName, shared_ptr<Edge> newEdge,unordered_map<string,Edges> graph )
+{
+    unordered_map<string,Edges>::iterator it;
+
+    it=graph.find(portName);
+    if (it!=graph.end()){
         //if port exist check in Edges Vector for Edge. if does update, else push back.
-        Edges::iterator exist=find(it->second.begin(), it->second.end(), newTimeEdge);
+        Edges::iterator exist=find(it->second.begin(), it->second.end(), newEdge);
         if (exist!=it->second.end())
-            (*exist)->updateEdge(*newTimeEdge);
+            (*exist)->updateEdge(*newEdge);
         else
-            it->second.push_back(newTimeEdge);
+            it->second.push_back(newEdge);
     }else{
         //create a new <Port,Edges> pair and add edge.
         Edges v;
-        v.push_back(newTimeEdge);
-        timeEdgesMap.emplace(lastPort,v);
+        v.push_back(newEdge);
+        timeEdgesMap.emplace(portName,v);
     }
-    shared_ptr<Edge> timeEdge{newTimeEdge};
-    
-    
-    shared_ptr<Edge> cargoEdge{new EdgeCargo{trans_info.cargoAmount,trans_info.inBoundPortName}};
-    
-    it=cargoEdgesMap.find(rootPort);
-    if(it!=timeEdgesMap.end()){
-        //TODO: check if edge does exist, if yes invoke update edge.
-        (it->second).push_back(cargoEdge);
-    }else{
-        Edges v;
-        v.push_back(cargoEdge);
-        timeEdgesMap.emplace(lastPort,v);
-    }
-
-    
-    
-    
-    
-    
-    
-    //adding cargoEdge from root to current.
 }
+
+
+
 
 
 void Clerk::updateRecvPort(){

@@ -113,7 +113,7 @@ void BoogieLever::run(){
 			exit=true;
 			break;
 		default:		// if command wasn't entered properly
-			cerr << "USAGE: <port_name>,outbound/inbound/balance *or* ‘exit’ to terminate. " << endl;
+			cerr << "USAGE: <port_name>,outbound/inbound/balance *or* exit to terminate. " << endl;
 			break;
 		}
 	}

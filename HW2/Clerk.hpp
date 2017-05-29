@@ -36,7 +36,7 @@ public:
     
     
     void load(string fileName); //load a update file.
-    void setOutputFile(string fileName){outputFile=fileName;};
+    void setOutputFile(string fileName){outputFile=fileName;}; //set output file.
     
     /* quary functions */
 
@@ -69,15 +69,16 @@ private:
     // check the file for wrong input
     void verifyInputFile(string fileName);
 
+    //first line handler.
     Date handleFirstLine(string &, string fileName, string &outBoundPortName);
-    void addEdges(string rootPort, string lastPort);
-    void updateRecvPort();
-    void updateRootPort(string rootPortName, Date rootOutBound);
+    void addEdges(string rootPort, string lastPort); //create and add new edges.
+    void updateRecvPort();  //update recv port.
+    void updateRootPort(string rootPortName, Date rootOutBound); //update root port.
+    //added a single edge to any of the graph.
     void addNewEdge(string portName, shared_ptr<Edge> newEdge,unordered_map<string,Edges> &graph);
     
     
     /* print functions */
-
     // print the edges of a port
     void printPort(ostream& out,Edges& E);
     // print a graph to the ostream
@@ -91,13 +92,12 @@ private:
     /***************************/
     
     
-    
+    //struct to hold a current line.
     struct Transaction_Info{
         string inBoundDateStr,outBoundDateStr, inBoundPortName,cargoStr;
         Date inBoundDate, outBoundDate;
         int cargoAmount;
         void setInfo(string line,string fileName, int lineNum);
-    
     }trans_info;
     
     
@@ -123,8 +123,6 @@ private:
         };
     };
     /*******************/
-
-    
 };
 
 

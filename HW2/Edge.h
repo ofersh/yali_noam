@@ -18,6 +18,7 @@ using std::string;
 class Edge {
 public:
 
+	/* constructors */
 	Edge();
 	Edge(int,string);
 
@@ -27,13 +28,16 @@ public:
 	Edge& operator=(const Edge&)=default;
 	Edge& operator=( Edge&&)=default;
 
+
     bool operator==(const Edge & )const;
-
     
-
+    // abstract function. derived object implementation needed
 	virtual void updateEdge(const Edge&)=0;
+
+	// check if edge has same destination
 	virtual bool sameDestination(const Edge&);
 
+	/* setters and getters */
 	void setWeight(int w);
 	int getWeight()const;
 	void setDestination(string d);
@@ -44,7 +48,6 @@ public:
 private:
 	int weight;
 	string dest;
-
 };
 
 #endif /* EDGE_H_ */

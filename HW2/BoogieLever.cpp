@@ -13,8 +13,10 @@
 
 using namespace std;
 
-
+/* commmand fucntion */
+// break down the command and store in command struct
 void BoogieLever::Command::setNewCmd(string buffer){
+
 	stringstream ss(buffer);
 	string firstArg,secArg;
 
@@ -69,20 +71,23 @@ void BoogieLever::Command::setNewCmd(string buffer){
 }
 
 
+/* BoogieLever functions */
+
+// constructor
 BoogieLever::BoogieLever(int len,const char *files[]){
 	init_graphs(len,files);
 }
 
 
-
 void BoogieLever::run(){
+
 	string buffer;
 	Command cmd;
 	bool exit=false;
+
 	while(!exit){
-		cout << "enter a command" << endl;
 		getline(cin,buffer);
-		cmd.setNewCmd(buffer);
+		cmd.setNewCmd(buffer);		// get the current command
 		switch (cmd.cmdNumber) {
 		case LOAD:
 			try{
@@ -107,24 +112,27 @@ void BoogieLever::run(){
 		case EXIT:
 			exit=true;
 			break;
-		default:
-			cout << "wrong input, try again" << endl;
+		default:		// if command wasn't entered properly
+			cerr << "USAGE: <port_name>,outbound/inbound/balance *or* ‘exit’ to terminate. " << endl;
 			break;
 		}
 	}
 }
 
 
-
+// initialize graph with entered files
 void BoogieLever::init_graphs(int len, const char *files[]){
-	if(len<3){
+
+	string outputFileName;
+
+	if(len<3){	// need to have at least 3 argumets
 		cerr << "not enough arguments have been entered" << endl;
 		exit(1);
 	}
 	string currentArg=files[1];
 	int i=0;
 
-	if (currentArg!="-i"){
+	if (currentArg!="-i"){		// -i must be entered
 		cerr<<"program arguments must start with -i"<<endl;
 		exit(1);
 	}
@@ -138,6 +146,7 @@ void BoogieLever::init_graphs(int len, const char *files[]){
 		if(currentArg=="-o")
 			break;
 		try {
+			// load file into graph
 			clerk.load(currentArg);
 		}catch(runtime_error &e)
 		{
@@ -145,6 +154,7 @@ void BoogieLever::init_graphs(int len, const char *files[]){
 			exit(1);
 		}
 	}
+
 	/* set output file.*/
 	if (i<len && currentArg=="-o")
 		outputFileName=files[++i];

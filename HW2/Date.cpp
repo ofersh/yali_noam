@@ -36,7 +36,7 @@ std::string Date::getDate(){
 	return formatedDate;
 }
 
-/* compare between the dates */
+/* operaors for dates */
 bool Date::operator<(const Date& rhs)const{
 	return sum < rhs.sum;
 }

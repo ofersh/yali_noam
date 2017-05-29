@@ -21,14 +21,13 @@ public:
 	EdgeTime& operator=(const EdgeTime&)=default;
 	EdgeTime& operator=( EdgeTime&&)=default;
 
-    
-    
+    // calculate the new weight of the edge
     void updateEdge(const Edge&);
 
 	~EdgeTime();
 
 private:
-	int travels_counter;
+	int travels_counter; // amount of time traveled on the edge
 };
 
 #endif /* EDGETIME_H_ */

@@ -39,9 +39,17 @@ public:
     void setOutputFile(string fileName){outputFile=fileName;};
     
     /* quary functions */
+
+    // get all the outbound edges from a given port
     void outboundQuery(string port);
+
+    // get all the inbound edges to a given port
 	void inboundQuery(string port);
+
+	// caluclate the amount of containers in a gicen port at a given date
 	void balance(string port,string date);
+
+	// print the graph to the file
 	void print();
 
 
@@ -58,18 +66,21 @@ private:
     
     /* HELPER METHODS */
     void readFIle(string fileName);
+    // check the file for wrong input
     void verifyInputFile(string fileName);
+
     Date handleFirstLine(string &, string fileName, string &outBoundPortName);
     void addEdges(string rootPort, string lastPort);
     void updateRecvPort();
     void updateRootPort(string rootPortName, Date rootOutBound);
-    void printPort(Edges& E);
-    void printGraph(string type,unordered_map<string,Edges>& map);
     void addNewEdge(string portName, shared_ptr<Edge> newEdge,unordered_map<string,Edges> &graph);
     
     
     /* print functions */
+
+    // print the edges of a port
     void printPort(ostream& out,Edges& E);
+    // print a graph to the ostream
     void printGraph(ostream& out,string type,unordered_map<string,Edges>& map);
     
     /* coping is not permitted */

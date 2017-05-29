@@ -17,6 +17,7 @@ private:
 
 	void setDeliveryDetails(Date&,int);
 public:
+	// necessary constructors
 	Delivery();
 	Delivery(Date&,int);
 	/* default CTOR */
@@ -25,18 +26,23 @@ public:
 	Delivery& operator=(const Delivery&)=default;
 	Delivery& operator=(Delivery&&)=default;
 
-
+	// add delivery details
 	void setNewDelivery(Date&,int);
+
+	// get the date of the buffer
 	const Date& getDate()const;
+	int getCargo() const;
+
+	// add cargo to the delivery
 	void addCargo(int);
 
+	// Delivery operators
 	bool operator>(const Delivery&)const;
     bool operator==(const Delivery&)const;
 	bool operator<(const Delivery&)const;
 
+	// Delivery destructor
 	virtual ~Delivery();
-
-	int getCargo() const;
 };
 
 #endif /* DELIVERY_H_ */

@@ -21,6 +21,7 @@ public:
 	EdgeCargo& operator=(const EdgeCargo&)=default;
 	EdgeCargo& operator=( EdgeCargo&&)=default;
 
+	// calculate the new weight
 	void updateEdge(const Edge&);
 
 	virtual ~EdgeCargo();

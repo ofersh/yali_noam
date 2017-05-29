@@ -13,9 +13,10 @@
 
 class BoogieLever {
 public:
-
+	// constructor. initializes the graph
 	BoogieLever(int len, const char *files[]);
 
+	// run a command prompt with the user
 	void run();
 
 private:
@@ -33,19 +34,16 @@ private:
 	BoogieLever& operator=(const BoogieLever&)=default;
 	BoogieLever& operator=(BoogieLever&&)=default;
 
+	// contains the received command
 	struct Command{
-
-
 		int cmdNumber;
 		string port,date,fileName;
 
 		void setNewCmd(string buffer);
 	};
 
-
 	void init_graphs(int len, const char *files[]);    //build graph using given files.
 
-	string outputFileName;
 	Clerk clerk;
 };
 #endif /* BoogieLever_hpp */

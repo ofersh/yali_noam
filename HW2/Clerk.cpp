@@ -245,7 +245,6 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
 
 
 
-
 	void Clerk::updateRecvPort(){
 
 		Delivery inboundDelivery{trans_info.inBoundDate,trans_info.cargoAmount};
@@ -296,9 +295,11 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
 	/* print all the ports entering to the port */
 	void Clerk::inboundQuery(string port){
 		bool hasInbound=false;
+
 		// getting the map iterator. checking all the vertices in the map
 		unordered_map<string,Edges>::iterator mapIter = timeEdgesMap.begin();
 		unordered_map<string,Edges>::iterator mapIterEnd = timeEdgesMap.end();
+
 		for (; mapIter!= mapIterEnd; ++mapIter) {
 
 			// get all the edges that belong to a certain vertex
@@ -309,6 +310,7 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
 			Edges::iterator edgesIterEnd = E.end();
 			for (; edgesIter != edgesIterEnd; ++edgesIter) {
 				Edge* e = edgesIter->get();
+
 				// if edge is pointing to the entered vertex
 				if(e->getDestination()==port){
 					hasInbound=true;
@@ -322,23 +324,28 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
 	}
 
 
+	// calculating the number of containers at a given port in a given time
 	void Clerk::balance(string port,string date){
+		// get the port and check validity
 		unordered_map<string,Port>::iterator it = portsMap.find(port);
 		if(it == portsMap.end()){
 			cerr << port << " port does not exist in the database" << endl;
 			return;
 		}
+		// get the date and check validity
 		Date d;
 		if (!d.setDate(date)){
 			cerr<<"Invalid Date"<<endl;
 			return;
 		}
+		// get the sum
 		cout << it->second.calculateAmountOfContainers(d) << endl;
 
 	}
 
 
 	void Clerk::printPort(ostream& out,Edges& E){
+		// print all given edges
 		for_each(E.begin(),E.end(),\
 				[&](shared_ptr<Edge> e){\
 			out << e->getDestination() << ", " << e->getWeight() << endl;\
@@ -346,10 +353,14 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
 
 	}
 
+
 	void Clerk::printGraph(ostream& out,string type,unordered_map<string,Edges>& map){
+
 		unordered_map<string,Edges>::iterator mapIter = map.begin();
 		unordered_map<string,Edges>::iterator mapIterEnd = map.end();
+
 		out<<type<<" graph"<<":"<<endl;
+		// for all vertices
 		for (; mapIter!= mapIterEnd; ++mapIter) {
 			// get all the edges that belong to a certain vertex
 			Edges E = mapIter->second;
@@ -359,12 +370,15 @@ static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
 		}
 	}
 
+	// print all the records to a file
 	void Clerk::print(){
+		// open file and check validity
 		ofstream output(outputFile);
 		if(!output.is_open()){
 			cerr << "ERROR opening/reading the specified file." << endl;
 			return;
 		}
+
 		output<<endl;
 		printGraph(output,"Time",timeEdgesMap);
 		output<<endl<<"----------------"<<endl<<endl;

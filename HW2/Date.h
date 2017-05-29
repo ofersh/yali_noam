@@ -25,6 +25,7 @@ public:
 	bool setDate(string&);
 	string getDate();
 
+	// operators for Date
 	bool operator<(const Date&)const;
 	bool operator>(const Date&)const;
     bool operator==(const Date&)const;
@@ -40,6 +41,7 @@ private:
 	static const int HOURS_IN_DAY=24;
 	static const int MINUTES_IN_HOURS=60;
 
+	// calculate the sum of the date
 	void setDate(int,int,int,int);
 
 };

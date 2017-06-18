@@ -51,7 +51,6 @@ public class Server {
     {
         Socket s;
         while (true) {
-
             try {
                 s = serverSocket.accept();
                 SocketHandler sh = new SocketHandler(s);

@@ -19,7 +19,7 @@ public class HtmlResponse {
     //default constructor, setting default fields.
     public HtmlResponse ()
     {
-        httpVersion="HTTP/1.1";
+        httpVersion="HTTP/1.1 ";
         contentType="Content-Type: text/html\n";
         contentLength="Content-Length: 0\n";
         connection="Connection: Closed\n";
@@ -49,7 +49,7 @@ public class HtmlResponse {
     public String getResponse()
     {
         StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(new StringWriter());
+        PrintWriter pw = new PrintWriter(sw);
         pw.print(httpVersion+requestStatusCode+contentLength+contentType+connection+
         HEADER_END+content);
         return sw.toString();

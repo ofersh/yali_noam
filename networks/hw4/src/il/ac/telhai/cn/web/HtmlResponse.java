@@ -38,21 +38,24 @@ public class HtmlResponse {
 
     //set the request status code.
     public void setRequestStatusCode(String requestStatusCode) {
-        this.requestStatusCode = requestStatusCode;
-
+        StringBuilder sb= new StringBuilder();
+        sb.append(requestStatusCode);
+        sb.append("\n");
+        this.requestStatusCode = sb.toString();
     }
 
 
+    //return a whole response message.
     public String getResponse()
     {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(new StringWriter());
-        pw.print(httpVersion+requestStatusCode+);
-
-
-
+        pw.print(httpVersion+requestStatusCode+contentLength+contentType+connection+
+        HEADER_END+content);
         return sw.toString();
     }
+
+
 
 
 }

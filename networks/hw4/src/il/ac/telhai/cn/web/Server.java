@@ -12,17 +12,17 @@ public class Server {
 
     public static void main(String[] args) {
         Server s = null;
-//        if (args.length!=3)
-//            System.out.println("Usage Server <PORT NUMBER> <ROOT FOLDER>");
-//        try {
-//            int newPort=Integer.parseInt(args[1]);
-//        }catch (NumberFormatException e){
-//            e.printStackTrace();
-//            System.exit(1);
-//        }
+        int newPort=0;
+        if (args.length!=2)
+            System.out.println("Usage Server <PORT NUMBER> <ROOT FOLDER>");
         try {
-            s= new Server(4555,"");
-            //Server s= new Server(Integer.parseInt(args[1]),args[2]);
+            newPort=Integer.parseInt(args[0]);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        try {
+            s= new Server(newPort,args[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,8 +52,10 @@ public class Server {
         Socket s;
         while (true) {
             try {
+                System.out.println("waiting for connection on port: "+serverSocket.getLocalPort()+ "ip: " + serverSocket.getInetAddress());
+
                 s = serverSocket.accept();
-                SocketHandler sh = new SocketHandler(s);
+                SocketHandler sh = new SocketHandler(s,rootFolder);
                 sh.run();
 
 

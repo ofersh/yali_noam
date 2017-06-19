@@ -4,23 +4,35 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../BoogieLever.cpp \
+../Clerk.cpp \
 ../Date.cpp \
 ../Delivery.cpp \
 ../Edge.cpp \
+../EdgeCargo.cpp \
+../EdgeTime.cpp \
 ../Main.cpp \
 ../Port.cpp 
 
 OBJS += \
+./BoogieLever.o \
+./Clerk.o \
 ./Date.o \
 ./Delivery.o \
 ./Edge.o \
+./EdgeCargo.o \
+./EdgeTime.o \
 ./Main.o \
 ./Port.o 
 
 CPP_DEPS += \
+./BoogieLever.d \
+./Clerk.d \
 ./Date.d \
 ./Delivery.d \
 ./Edge.d \
+./EdgeCargo.d \
+./EdgeTime.d \
 ./Main.d \
 ./Port.d 
 

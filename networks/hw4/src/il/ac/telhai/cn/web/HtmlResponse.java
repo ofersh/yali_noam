@@ -51,7 +51,7 @@ public class HtmlResponse {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         pw.print(httpVersion+requestStatusCode+contentLength+contentType+connection+
-        HEADER_END+content);
+        HEADER_END+content+HEADER_END );
         return sw.toString();
     }
 

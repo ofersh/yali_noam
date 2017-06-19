@@ -19,6 +19,7 @@ public class SocketHandler implements Runnable {
 
     private Socket s;
 
+    private String rootFolder;
     //input streams.
     private Scanner sc;
     //outpustreams.
@@ -28,9 +29,10 @@ public class SocketHandler implements Runnable {
 
 
 
-    public SocketHandler(Socket s) throws IOException {
+    public SocketHandler(Socket s, String rootFolder) throws IOException {
         this.s=s;
 
+        this.rootFolder = rootFolder;
         //init input Streams.
         InputStreamReader isr= new InputStreamReader(s.getInputStream());
         sc = new Scanner(isr);
@@ -53,6 +55,8 @@ public class SocketHandler implements Runnable {
             answer=handleRequest();
             bufferedWriter.write(answer);
             bufferedWriter.flush();
+            bufferedWriter.close();
+            s.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,13 +67,16 @@ public class SocketHandler implements Runnable {
     private String handleRequest() throws IOException
     {
         String request, fileFoler, httpver;
+        StringBuilder sb = new StringBuilder(rootFolder);
         HtmlResponse resp;
 
         /** read First line **/
         request=sc.next();
         if (!request.equalsIgnoreCase(GET))
             return BADREQUEST;
-        fileFoler=sc.next();
+        sb.append(sc.next());
+        fileFoler = sb.toString();
+//        fileFoler=sc.next();
         httpver=sc.next();
         /***/
         System.out.println(request + " " + fileFoler + " " + httpver);
@@ -97,6 +104,20 @@ public class SocketHandler implements Runnable {
     }
 
 
+    private File checkHtmlExt(String fileName){
+        String[] extensions = {".htm",".html",".HTM",".HTML"};
+
+        for (String ext: extensions) {
+            StringBuilder sb = new StringBuilder(fileName);
+            sb.append(ext);
+            File f =new File(sb.toString());
+            if(f.exists())
+                return f;
+        }
+        return null;
+    }
+
+
     // get the index file. return null if not exist
     private File getIndexFile(String folder){
 
@@ -105,7 +126,7 @@ public class SocketHandler implements Runnable {
         for (String ind : indexFiles) {
             // build the index file name
             StringBuilder sb = new StringBuilder();
-            sb.append(folder).append("/").append(ind);
+            sb.append(folder).append(ind);
             File f = new File(sb.toString());
 
             // check if the file exists
@@ -124,8 +145,11 @@ public class SocketHandler implements Runnable {
 
         // check if path exists if not return file not found answer
         if(!file.exists()) {
-            resp.setRequestStatusCode(FILENOTFOUND);
-            return resp;
+            file = checkHtmlExt(fileFoler);
+            if(file == null) {
+                resp.setRequestStatusCode(FILENOTFOUND);
+                return resp;
+            }
         }
 
         // check if path is a directory
@@ -134,12 +158,12 @@ public class SocketHandler implements Runnable {
             if(index==null) {
                 // if no index file then send back list of files
                 String[] list = file.list();
-                resp.setContent(String.join("\n",list));
+                resp.setContent(String.join("<BR>",list));
                 return resp;
             }
-
             file = index;
         }
+
 
         // a file has been found. send back content
         try {

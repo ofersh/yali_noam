@@ -29,7 +29,7 @@ using std::stringstream;
 
 static const string ALPHA{"abcdefghijklmnopqrstuvwxyz\
     ABCDEFGHIJKLMNOPQRSTUVWXYZ "},\
-DATE{"0123456789:/ "},\
+DATE{"0123456789:/\r\n "},\
 NUMBERS{"0123456789"};
 
 
@@ -170,12 +170,15 @@ Date Clerk::handleFirstLine(string & firstLine, string fileName,string &portName
     getline(ss,outBoundportName , ',');
     if (outBoundportName.find_first_not_of(ALPHA)!=outBoundportName.npos)
         throw InvalidInputException::getExcept(fileName, lineNum);
+
     //read outbound date.
     getline(ss,outBoundDate , ',');
-    if (outBoundDate.find_first_not_of(DATE)!=outBoundDate.npos)
-        throw InvalidInputException::getExcept(fileName, lineNum);
+    //if (outBoundDate.find_first_not_of(DATE)!=outBoundDate.npos)
+    //    throw InvalidInputException::getExcept(fileName, lineNum);
+
     //create delivery information and add to port.
-    dateOfDelivery.setDate(outBoundDate);
+    if (!dateOfDelivery.setDate(outBoundDate))
+    	throw InvalidInputException::getExcept(fileName, lineNum);
     Delivery outBoundDelivery{dateOfDelivery,0};
     
     

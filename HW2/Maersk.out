@@ -1,0 +1,19 @@
+
+Time graph:
+Suez-> Ashdod, 1260
+
+Mumbai-> Suez, 6645
+
+Singapore-> Mumbai, 9990
+
+Tuen Mun-> Singapore, 9017
+
+
+----------------
+
+Cargo graph:
+Tuen Mun-> Singapore, 67
+Mumbai, 23
+Suez, 15
+Ashdod, 44
+

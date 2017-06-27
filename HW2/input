@@ -1,0 +1,7 @@
+load Maersk_1.dat
+Tuen Mun,inbound
+Tuen Mun,balance,05/01 10:00
+Tuen Mun,balance,05/01 10:01
+Singapore,balance,11/01 16:30
+quit
+exit

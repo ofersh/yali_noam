@@ -18,17 +18,16 @@ public class SocketHandler implements Runnable {
 
 
     private Socket s;
+    private String rootFolder; //working dir.
 
-    private String rootFolder;
-    //input streams.
-    private Scanner sc;
-    //outpustreams.
-    private BufferedWriter bufferedWriter;
+    private Scanner sc;    //input stream.
+    private BufferedWriter bufferedWriter;     //output stream.
 
 
 
 
 
+    //constructor. reciev an open socket and the root folder.
     public SocketHandler(Socket s, String rootFolder) throws IOException {
         this.s=s;
 
@@ -46,13 +45,14 @@ public class SocketHandler implements Runnable {
     }
 
 
+    //start handling requests from server.
     @Override
     public void run()
     {
         String answer;
         try
         {
-            answer=handleRequest();
+            answer=handleRequest(); // handle request, and send back answer.
             bufferedWriter.write(answer);
             bufferedWriter.flush();
             bufferedWriter.close();
@@ -76,10 +76,8 @@ public class SocketHandler implements Runnable {
             return BADREQUEST;
         sb.append(sc.next());
         fileFoler = sb.toString();
-//        fileFoler=sc.next();
-        httpver=sc.next();
+        httpver=sc.next(); // not really used.
         /***/
-        System.out.println(request + " " + fileFoler + " " + httpver);
 
         resp = fileHandler(fileFoler);
 

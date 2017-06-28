@@ -10,6 +10,7 @@ import java.net.Socket;
 
 public class Server {
 
+    // create a new server instance and launch it.
     public static void main(String[] args) {
         Server s = null;
         int newPort=0;
@@ -46,14 +47,12 @@ public class Server {
     }
 
 
-
+    //start the server loop. waiting for socket to open.
     public void startServer()
     {
         Socket s;
         while (true) {
             try {
-                System.out.println("waiting for connection on port: "+serverSocket.getLocalPort()+ "ip: " + serverSocket.getInetAddress());
-
                 s = serverSocket.accept();
                 SocketHandler sh = new SocketHandler(s,rootFolder);
                 sh.run();
@@ -66,12 +65,4 @@ public class Server {
 
 
     }
-
-
-
-
-
-
-
-
 }

@@ -5,14 +5,14 @@
  *      Author: noam
  */
 
-#include "PirateShip.h"
+#include "Cruiser.h"
 
-Pirate_Ship::Pirate_Ship() {
+Cruiser::Cruiser() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Pirate_Ship::~Pirate_Ship() {
+Cruiser::~Cruiser() {
 	// TODO Auto-generated destructor stub
 }
 

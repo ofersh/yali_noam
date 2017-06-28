@@ -10,18 +10,22 @@
 
 #include "MarineElement.h"
 #include "Scouter.h"
+#include <string>
 
-
+using std::string;
 
 class Ship: public Marine_Element {
     
 private:
     enum State {STOPPED, DOCKED, DEAD, MOVING}; // current state;
+
     
     State state;
     Scouter scouter;
     
 public:
+    enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
+
 	Ship();
 	virtual ~Ship();
     
@@ -32,6 +36,8 @@ public:
     void set_direction(double arg);
     
     virtual void status()const = 0;
+    
+    
     
     
 };

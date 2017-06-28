@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef PIRATESHIP_H_
-#define PIRATESHIP_H_
+#ifndef CRUISER_H_
+#define CRUISER_H_
 
 #include "Ship.h"
 #include <memory>
@@ -17,7 +17,7 @@ class Freighter;
 class CruiseShip;
 
 
-class Pirate_Ship: public Ship {
+class Cruiser: public Ship {
     
     
 private:
@@ -32,8 +32,8 @@ private:
     
     
 public:
-	Pirate_Ship();
-	virtual ~Pirate_Ship();
+	Cruiser();
+	virtual ~Cruiser();
     
     
     void status()const;
@@ -45,4 +45,4 @@ public:
     void attack(CruiseShip *);  //attacking Cruise.
 };
 
-#endif /* PIRATESHIP_H_ */
+#endif /* CRUISER_H_ */

@@ -7,7 +7,7 @@
 
 #include "Freighter.h"
 
-Freighter::Freighter() {
+Freighter::Freighter(int maxCont,int res) {
 	// TODO Auto-generated constructor stub
 
 }

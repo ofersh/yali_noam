@@ -27,7 +27,7 @@ private:
 public:
 	
     //Meyer's singelton.
-    Model & getModel(){
+    static Model & getModel(){
         static Model model;
         return model;
     };

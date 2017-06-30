@@ -38,7 +38,7 @@ public:
     virtual void status()const = 0;
     
     
-    
+
     
 };
 

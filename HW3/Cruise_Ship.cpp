@@ -5,7 +5,7 @@
  *      Author: noam
  */
 
-#include "CruiseShip.h"
+#include "Cruise_Ship.h"
 
 Cruise_Ship::Cruise_Ship() {
 	// TODO Auto-generated constructor stub

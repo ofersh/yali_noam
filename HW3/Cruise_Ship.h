@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef CRUISESHIP_H_
-#define CRUISESHIP_H_
+#ifndef CRUISE_SHIP_H_
+#define CRUISE_SHIP_H_
 
 #include "Ship.h"
 #include <memory>
@@ -47,4 +47,4 @@ public:
 
 };
 
-#endif /* CRUISESHIP_H_ */
+#endif /* CRUISE_SHIP_H_ */

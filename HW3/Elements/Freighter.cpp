@@ -6,20 +6,46 @@
  */
 
 #include "Freighter.h"
+#include <iostream>
 
-Freighter::Freighter(int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel):Ship(t, name, x, y, fuel), maxCargo(maxCont), container(maxCont), resistence(res)
+using namespace std;
+
+
+Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, x, y, fuel), maxCargo(maxCont), current_containers(maxCont), resistence(res)
 {}
-
-
-void Freighter::dock(weak_ptr<Port> pname)
-{
-    setDestination(pname);
-    if ()
-}
-
-
 
 Freighter::~Freighter() {
 	// TODO Auto-generated destructor stub
 }
 
+
+
+// unload containers at port.
+void Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
+{
+    weak_ptr<Port> dest=Civil_ship::get_destination();
+    
+    if (dest.lock()!=port.lock())
+    {
+        Civil_ship::dock(port);
+        return;
+    }
+        
+    if (Ship::get_state()==State::DOCKED)
+    {
+        if (amount>current_containers){
+            cerr<<"cant unload: "<<amount<<" containers. unloading: "<<current_containers<<endl;
+            amount=current_containers;
+        }
+        port.lock()->unload_ship(amount);
+    }
+}
+
+
+// load containers to ship.
+void Freighter::embark(weak_ptr<Port> port)
+{
+    Civil_ship::dock(port);
+    if (Ship::get_state()==State::DOCKED)
+        port.lock()->load_ship(*this);
+}

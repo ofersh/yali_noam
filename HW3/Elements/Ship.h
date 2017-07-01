@@ -26,17 +26,15 @@ using std::weak_ptr;
 
 class Ship: public Marine_Element {
     
-private:
-    
-    queue<shared_ptr<Ships_commands>> command_queue;   //command queue.
-    
+public:
     enum State {STOPPED, DOCKED, DEAD, MOVING}; // current state.
 
+private:
     State state;
+
+    queue<shared_ptr<Ships_commands>> command_queue;   //command queue.
     Scouter scouter;
-    weak_ptr<Port> destination;
-    
-    void calculate_route();
+
     
 public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
@@ -50,8 +48,12 @@ public:
     void halt();    //V
     void set_direction(double arg);
     void set_velocity(double v);
-    
+    void set_state(State state);
+    State get_state()const {return state;};
     virtual void status()const = 0;
+    double calculate_distance(coordinates to);
+    void calculate_route();
+    
 
     
 };

@@ -10,7 +10,7 @@
 
 
 
-Ship::Ship(Type t, string name, int x, int y, double fuel):Marine_Element(name,x,y,fuel), state(STOPPED)
+Ship::Ship(Type t, string name, int x, int y, double fuel):Marine_Element(name,x,y,fuel), state(STOPPED),scouter(x,y)
 {}
 
 

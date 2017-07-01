@@ -9,6 +9,6 @@
 
 
 
-Marine_Element::Marine_Element(string name, int x, int y, double fuel):name(name),position(y,x),fuel_tank(fuel)
+Marine_Element::Marine_Element(string name, int x, int y, double fuel):name(name),position(y,x),fuel_tank_capacity(fuel)
 {
 }

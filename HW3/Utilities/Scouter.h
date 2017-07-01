@@ -19,7 +19,10 @@ private:
     double azimuth;
     
 public:
-	Scouter(int x,int y, );
+	Scouter(int x,int y );
+    
+    double calculate_distance(const coordinates & from, const coordinates & to);
+    
     
     void setVelocity(double v){velocity = v;}
     double getVelocity()const{return velocity;}

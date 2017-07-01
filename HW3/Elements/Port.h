@@ -10,41 +10,42 @@
 
 #include "MarineElement.h"
 #include <queue>
+#include <deque>
 #include <memory>
-#include <map>
+#include <vector>
 
-using std::map;
+using std::vector;
 class Freighter;
 class Ship;
 
 using std::weak_ptr;
+using std::shared_ptr;
 using std::queue;
-
-
 
 class Port: public Marine_Element {
     
-
 private:
     double containers;
-    queue<weak_ptr<Ship>> fuel_queue;
-    static map<coordinates,string> port_map; // monitor ports and coordinates.
+    
+    queue<Ship*> fuel_queue;
+    static vector<weak_ptr<Port>> ports_list;
+    
+    Port(string name, int x, int y, double fuel);
 
-    
-    
 public:
+    shared_ptr<Port> create_port(string name, int x, int y, double fuel);
+	~Port();
     
-	Port();
-	virtual ~Port();
-    
-    void unload_ship (Freighter& fr);
+    void unload_ship (unsigned int amount);
     void load_ship (Freighter& fr);
-    void fuel_request (Ship& ship);
-    string portAt(int x, int y)const;
+    void fuel_request (Ship* ship);
     
+    weak_ptr<Port> portAt(int x, int y)const;
     
-    
-    
+    void go();
+
+    //mostly for cruise ship.
+    vector<weak_ptr<Port>> get_port_list(){return ports_list;};
 };
 
 #endif /* PORT_H_ */

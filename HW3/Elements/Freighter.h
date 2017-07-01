@@ -8,22 +8,15 @@
 #ifndef FREIGHTER_H_
 #define FREIGHTER_H_
 
-#include "Ship.h"
+#include "Civil_ship.h"
 #include <memory>
 
-
-class Port;
-using std::weak_ptr;
-
-
-class Freighter: public Ship {
+class Freighter: public Civil_ship {
     
 private:
-    unsigned int container;
+    unsigned int current_containers;
     unsigned int maxCargo;
-    int resistence;
-    weak_ptr<Port> destinationPort;
-   
+    int resistence;   
     
     constexpr static const double MAXFUEL = 500;        // maximum fuel
     constexpr static const double MAXVELOCITY = 40;     // maximum velocity
@@ -31,15 +24,16 @@ private:
 
     
 public:
-    Freighter(int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel);
+    Freighter(unsigned int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel, weak_ptr<Port> dest_port);
     ~Freighter();
     
     
-    void refuel();
-    void disembark(weak_ptr<Port> portName, int amount);   //unload_at
-    void embark(weak_ptr<Port> portName);  //load_at
-    void fuel();
-     
+    void disembark(weak_ptr<Port> port,unsigned int amount);   //unload_at
+    void embark(weak_ptr<Port> port);  //load_at
+    unsigned int containers_amount()const {return current_containers;};
+    unsigned int empty_space()const{return maxCargo-current_containers;};
+    void add_cargo(unsigned int amount);
+
     void status()const;
 };
 

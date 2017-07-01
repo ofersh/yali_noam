@@ -22,8 +22,10 @@ class Marine_Element {
 private:
     string name;
     coordinates position; // position in the seven seas.
-    double fuel_tank;
-
+    
+    double fuel_tank_capacity;
+    double current_fuel;
+    
     
 public:
 	Marine_Element(string name, int x, int y, double fuel);
@@ -32,9 +34,10 @@ public:
     coordinates getPosition() const {return position;};
     void setPosition(int x, int y){ position.first=y; position.second=x;};
 
-    
-    double getFuel()const{return fuel_tank;};
-    void setFuel(double fuel){fuel_tank=fuel;};
+    double getFuelCapcity()const{return fuel_tank_capacity;};
+    double getCurrentFuel()const{return current_fuel;};
+    double getRquiredFuelAmount()const{return fuel_tank_capacity-current_fuel;};
+    void fuel(double fuel){current_fuel+=fuel;};
     
     virtual void go()=0;
     

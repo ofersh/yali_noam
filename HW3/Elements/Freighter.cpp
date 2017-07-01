@@ -13,7 +13,7 @@ Freighter::Freighter(int maxCont, int res,Ship::Type t, string name, int x, int 
 
 void Freighter::dock(weak_ptr<Port> pname)
 {
-    set_destination(pname);
+    setDestination(pname);
     if ()
 }
 

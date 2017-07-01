@@ -35,9 +35,7 @@ public:
     ~Freighter();
     
     
-    void dock(weak_ptr<Port> portName);
     void refuel();
-    void setDestination(weak_ptr<Port> portName);
     void disembark(weak_ptr<Port> portName, int amount);   //unload_at
     void embark(weak_ptr<Port> portName);  //load_at
     void fuel();

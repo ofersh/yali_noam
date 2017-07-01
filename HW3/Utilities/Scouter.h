@@ -8,6 +8,9 @@
 #ifndef SCOUTER_H_
 #define SCOUTER_H_
 
+
+using coordinates = pair<int, int>; //VERY IMPORTANT, FIRST Y THEN X.
+
 class Scouter {
     
 private:
@@ -16,7 +19,7 @@ private:
     double azimuth;
     
 public:
-	Scouter();
+	Scouter(int x,int y, );
     
     void setVelocity(double v){velocity = v;}
     double getVelocity()const{return velocity;}

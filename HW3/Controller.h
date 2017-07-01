@@ -12,9 +12,13 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
+#include "Ship.h"
 
 using std::ifstream;
 using std::string;
+
+
+
 
 class Controller {
 public:
@@ -40,11 +44,13 @@ public:
 
 
 	private:
+    enum commandType{MODEL,VIEW,SHIP,QUIT};
 	enum modelCommand{STATUS,GO,CREATE};
 	enum viewCommand{DEFAULT,SIZE,ZOOM,PAN,SHOW};
-	enum shipCommand{COURSE,POSITION,DESTINATION,LOAD_AT,UNLOAD_AT,DOCK_AT,ATTACK,REFUEL,STOP};
-	enum commandType{MODEL,VIEW,SHIP,QUIT};
 
+    enum shipCommand{COURSE,POSITION,DESTINATION,LOAD_AT,UNLOAD_AT,DOCK_AT,ATTACK,REFUEL,STOP};
+
+    
 	void checkValidity(ifstream& file);
 	void create_port(string portDetails);
 
@@ -60,7 +66,6 @@ public:
 		Ship::Type type;
 		int x,y;
 		int arg1,arg2;
-
 	};
 
 	View view;

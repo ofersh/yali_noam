@@ -82,25 +82,60 @@ void Controller::handle_model_cmd(string& cmd){
 	Model& m = Model::getModel();
 	stringstream ss{cmd};
 
+    // handle STATUS
 	m.status();
 
+    // HANDLE GO
 	m.go();
 
+    // HANDLE CREATE.
 	ShipInfo si(cmd);
 	m.create(si.name,si.type,si.x,si.y,si.arg1,si.arg2);
-
-
 }
 
 void Controller::handle_view_cmd(string& cmd){
 
 	//,SIZE,ZOOM,PAN,SHOW
 		// DEFAULT
+    view._default();
+    
+    view.show();
+    
+    // get the size from the string
+    view.size(<#unsigned int size#>);
+    
+    // get the two coordinates
+    view.pan(<#unsigned int x#>, <#unsigned int y#>);
 
 }
 
 void Controller::handle_ship_cmd(string& cmd){
-	Model& m = Model::getModel();
+	
+    Model& m = Model::getModel();
+    
+    
+    //HANDLE COURSE
+    
+    //HANDLE POSITION
+    
+    //HANDLE DESTINATION
+    
+    //HANDLE LOAD_AT
+    
+    //HANDLE UNLOAD_AT
+    
+    //HANDLE DOCK_AT
+    
+    //HANDLE ATTACK
+    
+    //HANDLE REFUEL
+    
+    //HANDLE STOP
+    
+    
+    
+    
+    
 }
 
 

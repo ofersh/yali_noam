@@ -30,14 +30,16 @@ private:
     constexpr static const double LPM = 1;              // liter per mile (fuel consumption)
     
     
+    
+    
 public:
     Freighter(int maxCont, int res);
     ~Freighter();
     
     void setDestination(string portName);
     void dock();
-    void disembark();
-    void embark();
+    void disembark();   //unload_at
+    void embark();  //load_at
     void fuel();
     
     void status()const;

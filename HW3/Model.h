@@ -11,7 +11,7 @@
 #include <vector>
 #include "MarineElement.h"
 #include <memory>
-#include "Ship.h"
+#include "Model.h"
 
 using std::vector;
 using std::shared_ptr;

@@ -47,7 +47,7 @@ Thumbs.db
 #Eclipse
 ##############
 **/Debug/
-**/.cproject
+##**/.cproject
 
 #Idea misc
 ##################

@@ -14,7 +14,7 @@
 using std::pair;
 using std::string;
 
-using coordinates = pair<int, int>;
+using coordinates = pair<int, int>; //VERY IMPORTANT, FIRST Y THEN X.
 
 class Marine_Element {
 

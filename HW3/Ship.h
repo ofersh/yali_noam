@@ -11,12 +11,19 @@
 #include "MarineElement.h"
 #include "Scouter.h"
 #include <string>
+#include "Ships_commands.h"
+
+
 
 using std::string;
 
 class Ship: public Marine_Element {
     
 private:
+    double arg;
+    double velocity;
+    
+    friend Ships_commands;
     enum State {STOPPED, DOCKED, DEAD, MOVING}; // current state;
 
     

@@ -6,4 +6,7 @@
 //  Copyright © 2017 Noam Stolero. All rights reserved.
 //
 
-#include "Map_Cell.hpp"
+#include "Map_Cell.h"
+
+
+const string Map_Cell::EMPTY_CELL=". ";

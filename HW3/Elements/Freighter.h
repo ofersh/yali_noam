@@ -28,18 +28,18 @@ private:
     constexpr static const double MAXFUEL = 500;        // maximum fuel
     constexpr static const double MAXVELOCITY = 40;     // maximum velocity
     constexpr static const double LPM = 1;              // liter per mile (fuel consumption)
-    
-    
-    
+
     
 public:
-    Freighter(int maxCont, int res);
+    Freighter(int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel);
     ~Freighter();
     
-    void setDestination(string portName);
-    void dock();
-    void disembark(string pname, int amount);   //unload_at
-    void embark(string pname);  //load_at
+    
+    void dock(weak_ptr<Port> portName);
+    void refuel();
+    void setDestination(weak_ptr<Port> portName);
+    void disembark(weak_ptr<Port> portName, int amount);   //unload_at
+    void embark(weak_ptr<Port> portName);  //load_at
     void fuel();
      
     void status()const;

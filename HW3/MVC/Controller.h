@@ -45,11 +45,6 @@ public:
 
 
 	private:
-	enum commandType{MODEL,VIEW,SHIP,QUIT};
-	enum modelCommand{STATUS,GO,CREATE};
-	enum viewCommand{DEFAULT,SIZE,ZOOM,PAN,SHOW};
-
-
 
 
 	void checkValidity(ifstream& file);

@@ -24,9 +24,15 @@ public:
 };
 
 class Attack : public Cruiser_commands{
+	Attack(weak_ptr<Ship> attackedShip): attackedShip(attackedShip){};
+	~Attack();
+
 	void operator()(Cruiser* c){
-		c->a
+		c->attack(attackedShip);
 	}
+
+private:
+	weak_ptr<Ship> attackedShip;
 }
 
 

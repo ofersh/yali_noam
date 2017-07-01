@@ -10,25 +10,26 @@
 
 #include "Ships_commands.h"
 
+
 class Civil_Ships_Commands: public Ships_commands {
 public:
 	Civil_Ships_Commands();
 	virtual ~Civil_Ships_Commands();
 
-	virtual void operator()(Ship *)=0;
+	virtual void operator()(Civil_Ship *s)=0;
 };
 
 class Destination :public Civil_Ships_Commands
 {
 private:
-    string port_name;
+    weak_ptr<Port> port_name;
     double velocity;
 
 public:
-    Destination(string port_name, double v);
+    Destination(weak_ptr<Port> port_name, double v):port_name(port_name),velocity(v){};
     ~Destination();
 
-    void operator()(Ship *s){
+    void operator()(Civil_Ship *s){
         s->set_destination(port_name);
         s->set_velocity(velocity);
     }
@@ -39,12 +40,12 @@ public:
 class Dock_at :public Civil_Ships_Commands
 {
 private:
-    string port_name;
+	weak_ptr<Port> port_name;
 public:
-    Dock_at(string pname);
+    Dock_at(weak_ptr<Port> port_name);
     ~Dock_at();
 
-    void operator()(Ship * s){
+    void operator()(Civil_Ship * s){
         s->dock(port_name);
     }
 };
@@ -55,7 +56,7 @@ class Refuel :public Civil_Ships_Commands
 {
 
 public:
-    void operator()(Ship * s){
+    void operator()(Civil_Ship * s){
         s->refuel();
     };
 };

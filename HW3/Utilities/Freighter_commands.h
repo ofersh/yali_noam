@@ -24,10 +24,10 @@ public:
 //Load Functor.
 class Load_at :public Freighter_commands {
     
-    string port_name;
+	weak_ptr<Port> port_name;
     
 public:
-    Load_at(string pname);
+    Load_at(weak_ptr<Port> port):port_name(port){}
     
     void operator()(Freighter * f){
         f->embark(port_name);
@@ -42,11 +42,11 @@ public:
 //Unload Functor.
 class Unload_at :public Freighter_commands {
     
-    string port_name;
+	weak_ptr<Port> port_name;
     int amount;
     
 public:
-    Unload_at(string pname, int amount);
+    Unload_at(weak_ptr<Port> port, int amount):port_name(port),amount(amount){}
     
     void operator()(Freighter * f){
         f->disembark(port_name, amount);

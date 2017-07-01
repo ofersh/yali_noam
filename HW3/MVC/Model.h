@@ -41,6 +41,13 @@ public:
     // Ship creation.
     bool create(string name, Ship::Type type, int x, int y, int resistence=0, int force=0);
 
+    // getters from model
+    shared_ptr<Port> getPort(string portName);
+
+    shared_ptr<Ship> getShip(string shipName);
+
+    Ship::Type getShipType(string shipName);
+
 };
 
 #endif /* MODEL_H_ */

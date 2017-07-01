@@ -38,10 +38,10 @@ public:
     
     void setDestination(string portName);
     void dock();
-    void disembark();   //unload_at
-    void embark();  //load_at
+    void disembark(string pname, int amount);   //unload_at
+    void embark(string pname);  //load_at
     void fuel();
-    
+     
     void status()const;
 };
 

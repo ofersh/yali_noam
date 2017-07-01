@@ -11,6 +11,7 @@
 #include <utility>
 #include <string>
 
+
 using std::pair;
 using std::string;
 
@@ -25,11 +26,11 @@ private:
 
     
 public:
-	Marine_Element();
+	Marine_Element(string name, int x, int y, double fuel);
 	virtual ~Marine_Element()=0;
     
     coordinates getPosition() const {return position;};
-    void setPosition(int x, int y){ position.first=x; position.second=y;};
+    void setPosition(int x, int y){ position.first=y; position.second=x;};
 
     
     double getFuel()const{return fuel_tank;};

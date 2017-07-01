@@ -7,12 +7,8 @@
 
 #include "MarineElement.h"
 
-Marine_Element::Marine_Element() {
-	// TODO Auto-generated constructor stub
 
+
+Marine_Element::Marine_Element(string name, int x, int y, double fuel):name(name),position(y,x),fuel_tank(fuel)
+{
 }
-
-Marine_Element::~Marine_Element() {
-	// TODO Auto-generated destructor stub
-}
-

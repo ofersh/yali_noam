@@ -38,6 +38,10 @@ public:
     Cruise_Ship();
     virtual ~Cruise_Ship();
     
+    
+    void dock(string pname);
+    void refuel();
+
     void setDestination(string portName);
     void dock();
     void fuel();

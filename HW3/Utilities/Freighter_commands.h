@@ -9,13 +9,12 @@
 #ifndef Freighter_commands_h
 #define Freighter_commands_h
 
-#include <stdio.h>
-#include "Ships_commands.h"
+#include "CivilShipsCommands.h"
 #include "../Elements/Freighter.h"
 
 
 //Freighter only commands.
-class Freighter_commands :public Ships_commands {
+class Freighter_commands :public Civil_Ships_Commands {
 public:
     
     void operator()(Freighter * f);
@@ -33,6 +32,10 @@ public:
     void operator()(Freighter * f){
         f->embark(port_name);
     };
+
+    void operator()(Ship* f){
+    	operator ()(dynamic_cast<Freighter*>(f));
+    };
 };
 
 
@@ -48,6 +51,9 @@ public:
     void operator()(Freighter * f){
         f->disembark(port_name, amount);
     };
+    void operator()(Ship* f){
+        	operator ()(dynamic_cast<Freighter*>(f));
+        };
 };
 
 

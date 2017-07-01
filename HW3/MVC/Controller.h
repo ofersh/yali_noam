@@ -44,13 +44,13 @@ public:
 
 
 	private:
-    enum commandType{MODEL,VIEW,SHIP,QUIT};
+	enum commandType{MODEL,VIEW,SHIP,QUIT};
 	enum modelCommand{STATUS,GO,CREATE};
 	enum viewCommand{DEFAULT,SIZE,ZOOM,PAN,SHOW};
 
-    enum shipCommand{COURSE,POSITION,DESTINATION,LOAD_AT,UNLOAD_AT,DOCK_AT,ATTACK,REFUEL,STOP};
 
-    
+
+
 	void checkValidity(ifstream& file);
 	void create_port(string portDetails);
 
@@ -59,14 +59,8 @@ public:
 	void handle_view_cmd(string& cmd);
 	void handle_ship_cmd(string& cmd);
 
-	struct ShipInfo{
-		ShipInfo(string cmd);
-		~ShipInfo();
-		string name;
-		Ship::Type type;
-		int x,y;
-		int arg1,arg2;
-	};
+
+
 
 	View view;
 };

@@ -15,11 +15,19 @@
 
 
 class Cruiser_commands :public Ships_commands {
-    
-
 public:
 
+	Cruiser_commands();
+	~Cruiser_commands();
+	virtual void operator()(Cruiser *)=0;
+
 };
+
+class Attack : public Cruiser_commands{
+	void operator()(Cruiser* c){
+		c->a
+	}
+}
 
 
 #endif /* Cruiser_commands_hpp */

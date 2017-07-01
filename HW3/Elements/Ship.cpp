@@ -28,11 +28,10 @@ void Ship::enqueue(Ships_commands *sc)
 
 }
 
-
 //calculate route to current destination.
 void Ship::calculate_route()
 {
-    /***** IMPLEMENT ****/
+    /***** TODO IMPLEMENT ****/
 }
 
 

@@ -12,7 +12,7 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
-#include "Ship.h"
+#include "../Elements/Ship.h"
 
 using std::ifstream;
 using std::string;

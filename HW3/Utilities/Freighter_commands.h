@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "Ships_commands.h"
-#include "Freighter.h"
+#include "../Elements/Freighter.h"
 
 
 //Freighter only commands.

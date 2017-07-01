@@ -9,7 +9,7 @@
 #define SHIP_H_
 
 #include "MarineElement.h"
-#include "Scouter.h"
+#include "../Utilities/Scouter.h"
 #include <string>
 #include <queue>
 #include <memory>

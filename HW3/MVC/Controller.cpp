@@ -74,7 +74,7 @@ void Controller::run(){
 Controller::commandType Controller::getCommandType(string cmd){
 
 
-
+	return commandType(MODEL);
 }
 
 
@@ -102,16 +102,16 @@ void Controller::handle_view_cmd(string& cmd){
     view.show();
     
     // get the size from the string
-    view.size(<#unsigned int size#>);
+    //view.size(<#unsigned int size#>);
     
     // get the two coordinates
-    view.pan(<#unsigned int x#>, <#unsigned int y#>);
+    //view.pan(<#unsigned int x#>, <#unsigned int y#>);
 
 }
 
 void Controller::handle_ship_cmd(string& cmd){
 	
-    Model& m = Model::getModel();
+    //Model& m = Model::getModel();
     
     
     //HANDLE COURSE

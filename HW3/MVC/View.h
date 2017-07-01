@@ -11,8 +11,9 @@
 #include <utility>
 #include <vector>
 #include <map>
-#include "MarineElement.h"
+#include "../Elements/MarineElement.h"
 #include <string>
+#include <memory>
 
 using std::pair;
 using std::map;

@@ -11,14 +11,14 @@
 
 #include <stdio.h>
 #include "Ships_commands.h"
-#include "Cruiser.h"
+#include "../Elements/Cruiser.h"
 
 
-class Cruiser_commands :publie  {
-    <#instance variables#>
+class Cruiser_commands :public Ships_commands {
     
+
 public:
-    <#member functions#>
+
 };
 
 

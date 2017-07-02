@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef MODEL_H_
-#define MODEL_H_
+#ifndef MVC_MODEL_H_
+#define MVC_MODEL_H_
 
 #include <vector>
 #include "../Elements/MarineElement.h"

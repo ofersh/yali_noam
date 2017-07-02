@@ -6,8 +6,8 @@
 //  Copyright © 2017 Noam Stolero. All rights reserved.
 //
 
-#ifndef Freighter_commands_h
-#define Freighter_commands_h
+#ifndef Utilities_Freighter_commands_h
+#define Utilities_Freighter_commands_h
 
 #include "CivilShipsCommands.h"
 #include "../Elements/Freighter.h"

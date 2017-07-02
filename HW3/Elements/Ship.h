@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef SHIP_H_
-#define SHIP_H_
+#ifndef ELEMENTS_SHIP_H_
+#define ELEMENTS_SHIP_H_
 
 #include "MarineElement.h"
 #include "Port.h"
@@ -51,6 +51,8 @@ public:
     void set_state(State state);
     State get_state()const {return state;};
     
+    shared_ptr<Ships_commands> getNextCommand()const;
+    void dequeue_command();
     
     double getAzimuth()const{return scouter.getAzimuth();};
     double getVelocity()const{return scouter.getVelocity();};

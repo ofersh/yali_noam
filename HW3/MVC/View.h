@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef VIEW_H_
-#define VIEW_H_
+#ifndef MVC_VIEW_H_
+#define MVC_VIEW_H_
 
 #include <utility>
 #include <vector>

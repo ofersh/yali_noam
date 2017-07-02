@@ -6,11 +6,11 @@
 //  Copyright © 2017 Noam Stolero. All rights reserved.
 //
 
-#ifndef Civil_ship_hpp
-#define Civil_ship_hpp
+#ifndef ELEMENTS_Civil_ship_hpp
+#define ELEMENTS_Civil_ship_hpp
 
 #include "Ship.h"
-#include "CivilShipsCommands.h"
+#include "../Utilities/CivilShipsCommands.h"
 #include <stdio.h>
 
 class Civil_ship :public Ship {
@@ -18,6 +18,7 @@ class Civil_ship :public Ship {
 private:
     constexpr static const double DOCKING_RANGE=0.1;
 
+    bool fuelling;
     weak_ptr<Port> destination;
     
 public:
@@ -28,9 +29,9 @@ public:
     void dock(weak_ptr<Port> port);
     void setDestination(weak_ptr<Port> port);
     void refuel();
+    void set_Waiting_for_fuel(bool b);
+    bool isFuelling()const{return fuelling;};
     weak_ptr<Port> get_destination()const{return destination;};
-    
-    coordinates get_dest_coordinates()const;
     void enqueue(Civil_Ships_Commands *csc );
 };
 

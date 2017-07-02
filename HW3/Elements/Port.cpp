@@ -12,7 +12,7 @@
 using namespace std;
 
 
-Port::Port(string name, int x, int y, double fuel):Marine_Element(name,x,y,fuel)
+Port::Port(string name, coordinates pos, double fuel):Marine_Element(name,pos,fuel)
 {
 }
 
@@ -21,9 +21,9 @@ Port::~Port() {
 }
 
 // The  only way to get port is to use this function.
-shared_ptr<Port> Port::create_port(string name, int x, int y, double fuel)
+shared_ptr<Port> Port::create_port(string name, coordinates pos, double fuel)
 {
-    shared_ptr<Port> sp{new Port(name,x,y,fuel)};
+    shared_ptr<Port> sp{new Port(name,pos,fuel)};
     ports_list.push_back(sp);
     return sp;
 }
@@ -47,25 +47,26 @@ void Port::load_ship(Freighter &fr)
     fr.add_cargo(amount);
 }
 
+
 //adding ship to fuel request.
-void Port::fuel_request(Ship *ship)
+void Port::fuel_request( Civil_ship* ship)
 {
     fuel_queue.push(ship);
-    ship->set_state(Ship::STOPPED);
+    ship->set_Waiting_for_fuel(true);
 }
 
 
 // fullfill fuel request by FIFO.
 void Port::go()
 {
-    Ship * ship_to_fuel=fuel_queue.front();
+    Civil_ship * ship_to_fuel=fuel_queue.front();
     fuel_queue.pop();
     double amount=ship_to_fuel->getRquiredFuelAmount();
     double availble=Marine_Element::getCurrentFuel();
     if (amount>availble)
         amount=availble;
     ship_to_fuel->fuel(amount);
-    ship_to_fuel->set_state(Ship::State::DOCKED);
+    ship_to_fuel->set_Waiting_for_fuel(false);
 }
 
 

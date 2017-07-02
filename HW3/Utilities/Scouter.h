@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef SCOUTER_H_
-#define SCOUTER_H_
+#ifndef Utilities_SCOUTER_H_
+#define Utilities_SCOUTER_H_
 
 
 using coordinates = pair<double, double>; //VERY IMPORTANT, FIRST Y THEN X.
@@ -19,7 +19,7 @@ private:
     double azimuth;
     
 public:
-	Scouter(double x,double y );
+	Scouter();
     
     double calculate_distance(const coordinates & from, const coordinates & to);
     

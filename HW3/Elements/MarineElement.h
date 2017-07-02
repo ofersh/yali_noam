@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef MARINEELEMENT_H_
-#define MARINEELEMENT_H_
+#ifndef ELEMENTS_MARINEELEMENT_H_
+#define ELEMENTS_MARINEELEMENT_H_
 
 #include <utility>
 #include <string>

@@ -6,8 +6,8 @@
 //  Copyright © 2017 Noam Stolero. All rights reserved.
 //
 
-#ifndef Ships_commands_h
-#define Ships_commands_h
+#ifndef Utilities_Ships_commands_h
+#define Utilities_Ships_commands_h
 
 #include "../Elements/Ship.h"
 

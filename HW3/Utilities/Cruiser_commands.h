@@ -6,12 +6,12 @@
 //  Copyright © 2017 Noam Stolero. All rights reserved.
 //
 
-#ifndef Cruiser_commands_h
-#define Cruiser_commands_h
+#ifndef Utilities_Cruiser_commands_h
+#define Utilities_Cruiser_commands_h
 
 #include <stdio.h>
 #include "Ships_commands.h"
-#include "../Elements/Cruiser.h"
+#include "Elements/Cruiser.h"
 
 
 class Cruiser_commands :public Ships_commands {

@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef CRUISER_H_
-#define CRUISER_H_
+#ifndef ELEMENTS_CRUISER_H_
+#define ELEMENTS_CRUISER_H_
 
 #include "Ship.h"
 #include <memory>

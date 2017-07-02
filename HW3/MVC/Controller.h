@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef CONTROLLER_H_
-#define CONTROLLER_H_
+#ifndef MVC_CONTROLLER_H_
+#define MVC_CONTROLLER_H_
 
 #include "View.h"
 #include <string>

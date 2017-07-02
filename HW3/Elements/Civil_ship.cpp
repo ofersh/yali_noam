@@ -8,7 +8,7 @@
 
 #include "Civil_ship.h"
 
-Civil_ship::Civil_ship(Type t, string name, coordinates pos, double fuel):Ship(t,name,pos,fuel)
+Civil_ship::Civil_ship(Type t, string name, coordinates pos, double fuel):Ship(t,name,pos,fuel),fuelling(false)
 {
 }
 
@@ -47,14 +47,12 @@ void Civil_ship::enqueue(Civil_Ships_Commands *csc)
     Ship::enqueue(csc);
 }
 
-coordinates Civil_ship::get_dest_coordinates()const
-{
-    destination.lock()->getPosition();
-}
 
 //add ship to fuel queue of port.
 void Civil_ship::refuel()
 {
+    
+    //might be unneccssary.
     if (Ship::get_state()==State::DOCKED)
     {
         destination.lock()->fuel_request(this);

@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef SEVENSEAS_H_
-#define SEVENSEAS_H_
+#ifndef ELEMENTS_SEVENSEAS_H_
+#define ELEMENTS_SEVENSEAS_H_
 
 class Seven_Seas {
 public:

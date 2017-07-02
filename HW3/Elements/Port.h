@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef PORT_H_
-#define PORT_H_
+#ifndef ELEMENTS_PORT_H_
+#define ELEMENTS_PORT_H_
 
 #include "MarineElement.h"
 #include <queue>
@@ -16,7 +16,7 @@
 
 using std::vector;
 class Freighter;
-class Ship;
+class Civil_ship;
 
 using std::weak_ptr;
 using std::shared_ptr;
@@ -27,25 +27,25 @@ class Port: public Marine_Element {
 private:
     double containers;
     
-    queue<Ship*> fuel_queue;
+    queue<Civil_ship*> fuel_queue;  //think about it, maybe ask from model ship by name?
     static vector<weak_ptr<Port>> ports_list;
     
-    Port(string name, int x, int y, double fuel);
+    Port(string name,coordinates pos, double fuel);
 
 public:
-    shared_ptr<Port> create_port(string name, int x, int y, double fuel);
+    shared_ptr<Port> create_port(string name,coordinates pos, double fuel);
 	~Port();
     
     void unload_ship (unsigned int amount);
     void load_ship (Freighter& fr);
-    void fuel_request (Ship* ship);
+    void fuel_request (Civil_ship* ship);
     
     weak_ptr<Port> portAt(int x, int y)const;
     
     void go();
 
     //mostly for cruise ship.
-    vector<weak_ptr<Port>> get_port_list(){return ports_list;};
+    static vector<weak_ptr<Port>> get_port_list(){return ports_list;};
 };
 
 #endif /* PORT_H_ */

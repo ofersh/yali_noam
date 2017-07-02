@@ -7,6 +7,7 @@
 
 #include "Freighter.h"
 #include <iostream>
+#include "Freighter_commands.h"
 
 using namespace std;
 
@@ -18,6 +19,10 @@ Freighter::~Freighter() {
 	// TODO Auto-generated destructor stub
 }
 
+//enqueue freighter command to queue.
+void Freighter::enqueue(Freighter_commands *csc){
+    Civil_ship::enqueue(csc);
+}
 
 
 // unload containers at port.

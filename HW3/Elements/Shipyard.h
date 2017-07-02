@@ -5,8 +5,8 @@
  *      Author: yali
  */
 
-#ifndef SHIPYARD_H_
-#define SHIPYARD_H_
+#ifndef ELEMENTS_SHIPYARD_H_
+#define ELEMENTS_SHIPYARD_H_
 
 #include "Cruise_Ship.h"
 #include "Cruiser.h"

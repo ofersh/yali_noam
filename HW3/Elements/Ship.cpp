@@ -10,7 +10,7 @@
 
 
 
-Ship::Ship(Type t, string name, int x, int y, double fuel):Marine_Element(name,x,y,fuel), state(STOPPED),scouter(x,y)
+Ship::Ship(Type t, string name,coordinates pos, double fuel):Marine_Element(name,pos,fuel), state(STOPPED)
 {}
 
 
@@ -46,6 +46,23 @@ void Ship::set_velocity(double v){
     scouter.setVelocity(v);
 }
 
+
+//get next command from command queue.
+shared_ptr<Ships_commands> Ship::getNextCommand()const
+{
+    if (command_queue.empty())
+        return shared_ptr<Ships_commands>{};
+    
+    return command_queue.front();;
+}
+
+
+//remove last command.
+void Ship::dequeue_command(){
+    if (command_queue.empty())
+        return;
+    command_queue.pop();
+}
 
 
 

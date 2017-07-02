@@ -5,12 +5,13 @@
  *      Author: noam
  */
 
-#ifndef FREIGHTER_H_
-#define FREIGHTER_H_
+#ifndef ELEMENTS_FREIGHTER_H_
+#define ELEMENTS_FREIGHTER_H_
 
 #include "Civil_ship.h"
 #include <memory>
 
+class Freighter_commands;
 class Freighter: public Civil_ship {
     
 private:
@@ -28,6 +29,8 @@ public:
     ~Freighter();
     
     
+    
+    void enqueue (Freighter_commands *csc);
     void disembark(weak_ptr<Port> port,unsigned int amount);   //unload_at
     void embark(weak_ptr<Port> port);  //load_at
     unsigned int containers_amount()const {return current_containers;};

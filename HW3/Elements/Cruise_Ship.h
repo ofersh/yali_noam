@@ -5,8 +5,8 @@
  *      Author: noam
  */
 
-#ifndef CRUISE_SHIP_H_
-#define CRUISE_SHIP_H_
+#ifndef ELEMENTS_CRUISE_SHIP_H_
+#define ELEMENTS_CRUISE_SHIP_H_
 
 #include "Civil_ship.h"
 #include <memory>
@@ -23,6 +23,8 @@ private:
     int resistence;
     vector<weak_ptr<Port>> remainingPorts;
     
+    bool waiting_for_action;
+    
     
     constexpr static const double MAXFUEL = 900;        // maximum fuel
     constexpr static const double MAXVELOCITY = 15;     // maximum velocity
@@ -34,8 +36,9 @@ private:
     
 public:
     Cruise_Ship(Type t, string name, coordinates pos, double fuel);
-    virtual ~Cruise_Ship();
-
+    ~Cruise_Ship();
+    
+    void go();
     void status()const;
 };
 

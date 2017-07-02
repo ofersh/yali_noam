@@ -9,7 +9,9 @@
 #define UTILITIES_CIVILSHIPSCOMMANDS_H_
 
 #include "Ships_commands.h"
+#include "../Elements/Civil_ship.h"
 
+//#include "../Elements/Civil_ship.h"
 
 class Civil_Ships_Commands: public Ships_commands {
 public:

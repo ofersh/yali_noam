@@ -9,6 +9,6 @@
 
 
 
-Marine_Element::Marine_Element(string name, coordinates pos , double fuel):name(name),position(pos),fuel_tank_capacity(fuel)
+Marine_Element::Marine_Element(string name, Point pos , double fuel):name(name),position(pos),fuel_tank_capacity(fuel)
 {
 }

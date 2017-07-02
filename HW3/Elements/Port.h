@@ -30,10 +30,10 @@ private:
     queue<Civil_ship*> fuel_queue;  //think about it, maybe ask from model ship by name?
     static vector<weak_ptr<Port>> ports_list;
     
-    Port(string name,coordinates pos, double fuel);
+    Port(string name,Point pos, double fuel);
 
 public:
-    shared_ptr<Port> create_port(string name,coordinates pos, double fuel);
+    shared_ptr<Port> create_port(string name,Point pos, double fuel);
 	~Port();
     
     void unload_ship (unsigned int amount);

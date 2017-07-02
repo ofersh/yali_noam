@@ -7,9 +7,9 @@
 
 #ifndef Utilities_SCOUTER_H_
 #define Utilities_SCOUTER_H_
+#include "Geometry.h"
 
 
-using coordinates = pair<double, double>; //VERY IMPORTANT, FIRST Y THEN X.
 
 class Scouter {
     
@@ -17,14 +17,12 @@ private:
     
     double velocity;
     double azimuth;
+    Point destination;
     
 public:
 	Scouter();
     
-    double calculate_distance(const coordinates & from, const coordinates & to);
-    
-    
-    
+    double calculate_distance(const Point & from, const Point & to);
     
     void setVelocity(double v){velocity = v;}
     double getVelocity()const{return velocity;}
@@ -32,6 +30,8 @@ public:
     void setAzimuth(double a){azimuth = a;}
     double getAzimuth()const{return azimuth;}
     
+    void setDestination(Point dest);
+    Point getDestCoordinates()const {return destination;};
     
 	virtual ~Scouter();
 };

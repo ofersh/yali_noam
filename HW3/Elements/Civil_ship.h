@@ -10,9 +10,9 @@
 #define ELEMENTS_Civil_ship_hpp
 
 #include "Ship.h"
-#include "../Utilities/CivilShipsCommands.h"
 #include <stdio.h>
 
+class Civil_Ships_Commands;
 class Port;
 
 class Civil_ship :public Ship {
@@ -24,17 +24,18 @@ private:
     weak_ptr<Port> destination;
     
 public:
-    Civil_ship(Type t, string name, coordinates pos, double fuel, double lpm);
+    Civil_ship(Type t, string name, Point pos, double fuel, double lpm);
     virtual ~Civil_ship()=0;
     
     
-    bool dock(weak_ptr<Port> port);
-    void setDestination(weak_ptr<Port> port);
-    bool refuel();
-    void set_Waiting_for_fuel(bool b);
+    bool dock(weak_ptr<Port> port); // try dock at given port.
+    void setDestination(weak_ptr<Port> port);   //set destination to port.
+    bool refuel();  //try to refuel.
+    void set_Waiting_for_fuel(bool b); //for fuel flag.
     bool isFuelling()const{return fuelling;};
     weak_ptr<Port> get_destination()const{return destination;};
-    void enqueue(Civil_Ships_Commands *csc );
+    
+    void enqueue(Civil_Ships_Commands *csc ); //enqueue new command.
 };
 
 #endif /* Civil_ship_hpp */

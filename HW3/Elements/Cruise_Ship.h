@@ -31,10 +31,8 @@ private:
     
     void findNextPort();
     
-    
-    
 public:
-    Cruise_Ship(Type t, string name, coordinates pos, double fuel);
+    Cruise_Ship(Type t, string name, Point pos);
     ~Cruise_Ship();
     
     void go();

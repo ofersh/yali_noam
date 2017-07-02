@@ -10,7 +10,7 @@
 
 
 
-Ship::Ship(Type t, string name,coordinates pos, double fuel, double lpm):Marine_Element(name,pos,fuel), state(STOPPED),fuel_consumption(lpm)
+Ship::Ship(Type t, string name,Point pos, double fuel, double lpm):Marine_Element(name,pos,fuel), state(STOPPED),fuel_consumption(lpm)
 {}
 
 

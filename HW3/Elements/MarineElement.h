@@ -10,29 +10,27 @@
 
 #include <utility>
 #include <string>
-
+#include "../Utilities/Scouter.h"
 
 using std::pair;
 using std::string;
-
-using coordinates = pair<double, double>; //VERY IMPORTANT, FIRST Y THEN X.
 
 class Marine_Element {
 
 private:
     string name;
-    coordinates position; // position in the seven seas.
+    Point position; // position in the seven seas.
     
     double fuel_tank_capacity;
     double current_fuel;
     
     
 public:
-	Marine_Element(string name, coordinates pos, double fuel);
+	Marine_Element(string name, Point pos, double fuel);
 	virtual ~Marine_Element()=0;
     
-    coordinates getPosition() const {return position;};
-    void setPosition(int x, int y){ position.first=y; position.second=x;};
+    Point getPosition() const {return position;};
+    void setPosition(double x, double y){ Point(x,y);};
 
     string getName()const{return name;};
     double getFuelCapcity()const{return fuel_tank_capacity;};
@@ -41,7 +39,7 @@ public:
     void fuel(double fuel){current_fuel+=fuel;};
     
     
-    
+    virtual void status()const =0;
     virtual void go()=0;
     
 };

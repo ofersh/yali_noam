@@ -12,7 +12,7 @@
 using namespace std;
 
 
-Port::Port(string name, coordinates pos, double fuel):Marine_Element(name,pos,fuel)
+Port::Port(string name, Point pos, double fuel):Marine_Element(name,pos,fuel)
 {
 }
 
@@ -21,7 +21,7 @@ Port::~Port() {
 }
 
 // The  only way to get port is to use this function.
-shared_ptr<Port> Port::create_port(string name, coordinates pos, double fuel)
+shared_ptr<Port> Port::create_port(string name, Point pos, double fuel)
 {
     shared_ptr<Port> sp{new Port(name,pos,fuel)};
     ports_list.push_back(sp);

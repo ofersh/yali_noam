@@ -1,11 +1,13 @@
 
 #include "Cruise_Ship.h"
 #include "Port.h"
-#include "Utilities/CivilShipsCommands.h"
+#include "../Utilities/CivilShipsCommands.h"
+#include <iostream>
+
+using namespace std;
 
 
-
-Cruise_Ship::Cruise_Ship(Type t, string name, coordinates pos, double fuel):Civil_ship(t, name ,pos ,MAXFUEL, LPM),waiting_for_action(true)
+Cruise_Ship::Cruise_Ship(Type t, string name, Point pos):Civil_ship(t, name ,pos ,MAXFUEL, LPM),waiting_for_action(true)
 {
     remainingPorts=Port::get_port_list();
 }
@@ -48,4 +50,28 @@ void Cruise_Ship::go()
     Civil_ship::enqueue(next_stop);
     if (remainingPorts.size()!=1)
       Civil_ship::enqueue(next_refuel);
+}
+
+
+//print cruis ship status.
+void Cruise_Ship::status()const
+{
+    Point mypos=Marine_Element::getPosition();
+    weak_ptr<Port>myDest=Civil_ship::get_destination();
+    Ship::State myState=Ship::get_state();
+    
+    cout<<"Cruise_ship "<<Marine_Element::getName()<<" at ";
+    mypos.print();
+    cout<<" fuel: "<<Ship::getCurrentFuel()<<" kl ";
+    if (myState==Ship::State::MOVING)
+    {
+        cout<<"Moving to "<<myDest.lock()->getName()<<" on course "<<Ship::getAzimuth()<<"deg, speed "<<Ship::getVelocity()<<" nm/hr";
+    }else if(myState== Ship::State::DOCKED){
+        cout<<"Docking at "<< myDest.lock()->getName();
+    }else if(myState==Ship::State::STOPPED)
+        cout<<"Stopped";
+    else if (myState==Ship::State::DEAD)
+        cout<<"Dead in the water";
+    
+    cout<<endl;
 }

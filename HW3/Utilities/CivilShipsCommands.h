@@ -9,14 +9,16 @@
 #define UTILITIES_CIVILSHIPSCOMMANDS_H_
 
 #include "Ships_commands.h"
+
 #include "../Elements/Civil_ship.h"
+
 
 class Civil_Ships_Commands: public Ships_commands {
 public:
 	Civil_Ships_Commands();
 	virtual ~Civil_Ships_Commands();
 
-    bool operator()(Ship*){};
+    bool operator()(Ship*){return true;};   //need to check what to do about this one.
 	virtual bool operator()(Civil_ship *s)=0;
 };
 

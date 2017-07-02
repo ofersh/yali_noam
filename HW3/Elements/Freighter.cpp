@@ -8,11 +8,13 @@
 #include "Freighter.h"
 #include <iostream>
 #include "Freighter_commands.h"
+#include "Port.h"
+
 
 using namespace std;
 
 
-Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, coordinates pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel), maxCargo(maxCont), current_containers(maxCont), resistence(res)
+Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel,LPM ), maxCargo(maxCont), current_containers(maxCont), resistence(res)
 {}
 
 Freighter::~Freighter() {

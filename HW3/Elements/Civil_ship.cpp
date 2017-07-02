@@ -8,12 +8,11 @@
 
 #include "Civil_ship.h"
 #include "Port.h"
+#include "../Utilities/CivilShipsCommands.h"
 
-Civil_ship::Civil_ship(Type t, string name, coordinates pos, double fuel,double lpm):Ship(t,name,pos,fuel, lpm),fuelling(false)
+Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm):Ship(t,name,pos,fuel, lpm),fuelling(false)
 {
 }
-
-
 
 //Dock at destination port, if not in range move to it.
 bool Civil_ship::dock(weak_ptr<Port> port)
@@ -25,7 +24,7 @@ bool Civil_ship::dock(weak_ptr<Port> port)
     }
     
     // try to dock.
-    coordinates portPos=port.lock()->getPosition();
+    Point portPos=port.lock()->getPosition();
     if (Ship::calculate_distance(portPos) < DOCKING_RANGE)
     {
         Ship::set_state(State::DOCKED);
@@ -60,3 +59,6 @@ bool Civil_ship::refuel()
     }
     return false;   //Must be at Dock state.
 }
+
+
+

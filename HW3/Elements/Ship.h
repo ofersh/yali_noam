@@ -9,7 +9,6 @@
 #define ELEMENTS_SHIP_H_
 
 #include "MarineElement.h"
-#include "../Utilities/Scouter.h"
 #include <string>
 #include <queue>
 #include <memory>
@@ -38,10 +37,9 @@ private:
 public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
 
-	Ship(Type t, string name,coordinates position, double fuel, double fuel_consumption);
+	Ship(Type t, string name,Point position, double fuel, double fuel_consumption);
 	virtual ~Ship();
     
-    virtual void go()=0;
     virtual void enqueue(Ships_commands *sc);
     
     void halt();
@@ -52,18 +50,17 @@ public:
     
     State get_state()const {return state;};
     
+    
     shared_ptr<Ships_commands> getNextCommand()const;
     void dequeue_command();
     
+    
+    //get info from scouter.
     double getAzimuth()const{return scouter.getAzimuth();};
     double getVelocity()const{return scouter.getVelocity();};
-    
-    
-    
-    
-    
-    virtual void status()const = 0;
-    double calculate_distance(coordinates to);
+    Point getDestCoordinates(){return scouter.getDestCoordinates();};
+
+    double calculate_distance(Point to);
     void calculate_route();
     
 

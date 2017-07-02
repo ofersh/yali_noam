@@ -25,7 +25,6 @@ private:
     
     bool waiting_for_action;
     
-    
     constexpr static const double MAXFUEL = 900;        // maximum fuel
     constexpr static const double MAXVELOCITY = 15;     // maximum velocity
     constexpr static const double LPM = 2;              // liter per mile (fuel consumption)

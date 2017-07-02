@@ -13,6 +13,8 @@
 #include "../Utilities/CivilShipsCommands.h"
 #include <stdio.h>
 
+class Port;
+
 class Civil_ship :public Ship {
 
 private:
@@ -22,13 +24,13 @@ private:
     weak_ptr<Port> destination;
     
 public:
-    Civil_ship(Type t, string name, coordinates pos, double fuel);
+    Civil_ship(Type t, string name, coordinates pos, double fuel, double lpm);
     virtual ~Civil_ship()=0;
     
     
-    void dock(weak_ptr<Port> port);
+    bool dock(weak_ptr<Port> port);
     void setDestination(weak_ptr<Port> port);
-    void refuel();
+    bool refuel();
     void set_Waiting_for_fuel(bool b);
     bool isFuelling()const{return fuelling;};
     weak_ptr<Port> get_destination()const{return destination;};

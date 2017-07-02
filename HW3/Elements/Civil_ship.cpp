@@ -7,21 +7,21 @@
 //
 
 #include "Civil_ship.h"
+#include "Port.h"
 
-Civil_ship::Civil_ship(Type t, string name, coordinates pos, double fuel):Ship(t,name,pos,fuel),fuelling(false)
+Civil_ship::Civil_ship(Type t, string name, coordinates pos, double fuel,double lpm):Ship(t,name,pos,fuel, lpm),fuelling(false)
 {
 }
 
 
 
 //Dock at destination port, if not in range move to it.
-void Civil_ship::dock(weak_ptr<Port> port)
+bool Civil_ship::dock(weak_ptr<Port> port)
 {
-    //if not current destination, start to move toward detination.
+    //if not current destination, start to move toward destination.
     if (destination.lock()!=port.lock())
     {
         setDestination(port);
-        return;
     }
     
     // try to dock.
@@ -29,7 +29,9 @@ void Civil_ship::dock(weak_ptr<Port> port)
     if (Ship::calculate_distance(portPos) < DOCKING_RANGE)
     {
         Ship::set_state(State::DOCKED);
+        return true;
     }
+    return false; //failed to dock.
 }
 
 
@@ -49,12 +51,12 @@ void Civil_ship::enqueue(Civil_Ships_Commands *csc)
 
 
 //add ship to fuel queue of port.
-void Civil_ship::refuel()
+bool Civil_ship::refuel()
 {
-    
-    //might be unneccssary.
     if (Ship::get_state()==State::DOCKED)
     {
         destination.lock()->fuel_request(this);
+        return true;    //entering fuel queue.
     }
+    return false;   //Must be at Dock state.
 }

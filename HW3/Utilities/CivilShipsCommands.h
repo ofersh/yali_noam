@@ -11,14 +11,13 @@
 #include "Ships_commands.h"
 #include "../Elements/Civil_ship.h"
 
-//#include "../Elements/Civil_ship.h"
-
 class Civil_Ships_Commands: public Ships_commands {
 public:
 	Civil_Ships_Commands();
 	virtual ~Civil_Ships_Commands();
 
-	virtual void operator()(Civil_Ship *s)=0;
+    bool operator()(Ship*){};
+	virtual bool operator()(Civil_ship *s)=0;
 };
 
 class Destination :public Civil_Ships_Commands
@@ -31,9 +30,10 @@ public:
     Destination(weak_ptr<Port> port_name, double v):port_name(port_name),velocity(v){};
     ~Destination();
 
-    void operator()(Civil_Ship *s){
-        s->set_destination(port_name);
+    bool operator()(Civil_ship *s){
+        s->setDestination(port_name);
         s->set_velocity(velocity);
+        return true;
     }
 };
 
@@ -42,13 +42,14 @@ public:
 class Dock_at :public Civil_Ships_Commands
 {
 private:
-	weak_ptr<Port> port_name;
+	weak_ptr<Port> port;
 public:
-    Dock_at(weak_ptr<Port> port_name);
-    ~Dock_at();
+    Dock_at(weak_ptr<Port> p):port{p}{
+    };
+    ~Dock_at(){};
 
-    void operator()(Civil_Ship * s){
-        s->dock(port_name);
+    bool operator()(Civil_ship * s){
+        return s->dock(port);
     }
 };
 
@@ -58,8 +59,9 @@ class Refuel :public Civil_Ships_Commands
 {
 
 public:
-    void operator()(Civil_Ship * s){
-        s->refuel();
+    bool operator()(Civil_ship * s){
+        return s->refuel();
+        
     };
 };
 

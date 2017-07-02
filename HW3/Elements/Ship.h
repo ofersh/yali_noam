@@ -9,7 +9,6 @@
 #define ELEMENTS_SHIP_H_
 
 #include "MarineElement.h"
-#include "Port.h"
 #include "../Utilities/Scouter.h"
 #include <string>
 #include <queue>
@@ -31,7 +30,7 @@ public:
 
 private:
     State state;
-
+    double fuel_consumption;
     queue<shared_ptr<Ships_commands>> command_queue;   //command queue.
     Scouter scouter;
 
@@ -39,16 +38,18 @@ private:
 public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
 
-	Ship(Type t, string name,coordinates position, double fuel);
+	Ship(Type t, string name,coordinates position, double fuel, double fuel_consumption);
 	virtual ~Ship();
     
     virtual void go()=0;
     virtual void enqueue(Ships_commands *sc);
     
-    void halt(); 
+    void halt();
+    void advance(); //actual moving functin, needs to calculate progress and LPM
     void set_direction(double arg);
     void set_velocity(double v);
     void set_state(State state);
+    
     State get_state()const {return state;};
     
     shared_ptr<Ships_commands> getNextCommand()const;

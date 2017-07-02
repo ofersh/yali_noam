@@ -20,7 +20,7 @@ class Ships_commands {
 public:
     Ships_commands();
     virtual ~Ships_commands();
-    virtual void operator()(Ship *)=0;
+    virtual bool operator()(Ship *)=0;
 
 };
 
@@ -36,11 +36,13 @@ public:
     Course(double arg, double v);
     ~Course();
     
-    void operator()(Ship * s){
+    bool operator()(Ship * s){
         s->set_direction(arg);
         s->set_velocity(velocity);
+        return true; //allways succseed
     };
 };
+
 
 //position functor.
 class Positon :public Ships_commands
@@ -53,9 +55,10 @@ public:
     Positon(int x, int y, double v);
     ~Positon();
     
-    void operator()(Ship * s){
+    bool operator()(Ship * s){
         s->set_velocity(velocity);
         s->setPosition(x,y);
+        return true;
     };
 };
 
@@ -66,8 +69,9 @@ public:
 class Stop :public Ships_commands
 {
 public:
-    void operator()(Ship * s){
+    bool operator()(Ship * s){
         s->halt();
+        return true;
     };
 };
 

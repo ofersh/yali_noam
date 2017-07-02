@@ -24,7 +24,7 @@ private:
 
     
 public:
-    Freighter(unsigned int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel, weak_ptr<Port> dest_port);
+    Freighter(unsigned int maxCont, int res,Ship::Type t, string name, coordinates pos, double fuel, weak_ptr<Port> dest_port);
     ~Freighter();
     
     

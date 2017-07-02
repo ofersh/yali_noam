@@ -32,7 +32,7 @@ private:
     
     
 public:
-	Cruiser();
+	Cruiser(Type t, string name, coordinates pos, double fuel, int force, double range);
 	virtual ~Cruiser();
     
     

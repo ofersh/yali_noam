@@ -7,7 +7,7 @@
 
 #include "Cruise_Ship.h"
 
-Cruise_Ship::Cruise_Ship(Type t, string name, int x, int y, double fuel):Civil_ship(t,name,x,y,fuel){
+Cruise_Ship::Cruise_Ship(Type t, string name, coordinates pos, double fuel):Civil_ship(t,name,pos,fuel){
 
 }
 

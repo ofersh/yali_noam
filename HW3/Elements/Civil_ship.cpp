@@ -8,7 +8,7 @@
 
 #include "Civil_ship.h"
 
-Civil_ship::Civil_ship(Type t, string name, int x, int y, double fuel):Ship(t,name,x,y,fuel)
+Civil_ship::Civil_ship(Type t, string name, coordinates pos, double fuel):Ship(t,name,pos,fuel)
 {
 }
 
@@ -57,6 +57,6 @@ void Civil_ship::refuel()
 {
     if (Ship::get_state()==State::DOCKED)
     {
-        destination.lock()->fuel_request(*this);
+        destination.lock()->fuel_request(this);
     }
 }

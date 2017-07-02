@@ -39,17 +39,26 @@ private:
 public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
 
-	Ship(Type t, string name, int x, int y, double fuel);
+	Ship(Type t, string name,coordinates position, double fuel);
 	virtual ~Ship();
     
     virtual void go()=0;
-    virtual void enqueue(Ships_commands *sc);   //V
+    virtual void enqueue(Ships_commands *sc);
     
-    void halt();    //V
+    void halt(); 
     void set_direction(double arg);
     void set_velocity(double v);
     void set_state(State state);
     State get_state()const {return state;};
+    
+    
+    double getAzimuth()const{return scouter.getAzimuth();};
+    double getVelocity()const{return scouter.getVelocity();};
+    
+    
+    
+    
+    
     virtual void status()const = 0;
     double calculate_distance(coordinates to);
     void calculate_route();

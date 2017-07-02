@@ -15,7 +15,7 @@
 using std::pair;
 using std::string;
 
-using coordinates = pair<int, int>; //VERY IMPORTANT, FIRST Y THEN X.
+using coordinates = pair<double, double>; //VERY IMPORTANT, FIRST Y THEN X.
 
 class Marine_Element {
 
@@ -28,16 +28,19 @@ private:
     
     
 public:
-	Marine_Element(string name, int x, int y, double fuel);
+	Marine_Element(string name, coordinates pos, double fuel);
 	virtual ~Marine_Element()=0;
     
     coordinates getPosition() const {return position;};
     void setPosition(int x, int y){ position.first=y; position.second=x;};
 
+    string getName()const{return name;};
     double getFuelCapcity()const{return fuel_tank_capacity;};
     double getCurrentFuel()const{return current_fuel;};
     double getRquiredFuelAmount()const{return fuel_tank_capacity-current_fuel;};
     void fuel(double fuel){current_fuel+=fuel;};
+    
+    
     
     virtual void go()=0;
     

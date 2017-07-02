@@ -21,7 +21,7 @@ private:
     weak_ptr<Port> destination;
     
 public:
-    Civil_ship(Type t, string name, int x, int y, double fuel);
+    Civil_ship(Type t, string name, coordinates pos, double fuel);
     virtual ~Civil_ship()=0;
     
     

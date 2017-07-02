@@ -11,7 +11,7 @@
 using namespace std;
 
 
-Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, int x, int y, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, x, y, fuel), maxCargo(maxCont), current_containers(maxCont), resistence(res)
+Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, coordinates pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel), maxCargo(maxCont), current_containers(maxCont), resistence(res)
 {}
 
 Freighter::~Freighter() {

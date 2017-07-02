@@ -9,7 +9,7 @@
 #define SCOUTER_H_
 
 
-using coordinates = pair<int, int>; //VERY IMPORTANT, FIRST Y THEN X.
+using coordinates = pair<double, double>; //VERY IMPORTANT, FIRST Y THEN X.
 
 class Scouter {
     
@@ -19,9 +19,11 @@ private:
     double azimuth;
     
 public:
-	Scouter(int x,int y );
+	Scouter(double x,double y );
     
     double calculate_distance(const coordinates & from, const coordinates & to);
+    
+    
     
     
     void setVelocity(double v){velocity = v;}
@@ -29,6 +31,7 @@ public:
     
     void setAzimuth(double a){azimuth = a;}
     double getAzimuth()const{return azimuth;}
+    
     
 	virtual ~Scouter();
 };

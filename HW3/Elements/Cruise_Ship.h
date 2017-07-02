@@ -33,7 +33,7 @@ private:
     
     
 public:
-    Cruise_Ship(Type t, string name, int x, int y, double fuel);
+    Cruise_Ship(Type t, string name, coordinates pos, double fuel);
     virtual ~Cruise_Ship();
 
     void status()const;

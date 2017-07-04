@@ -5,14 +5,15 @@
  *      Author: noam
  */
 
-#ifndef MVC_CONTROLLER_H_
-#define MVC_CONTROLLER_H_
+#ifndef CONTROLLER_H_
+#define CONTROLLER_H_
 
 #include "View.h"
 #include <string>
 #include <stdexcept>
 #include <fstream>
-#include "../Elements/Ship.h"
+#include "Ship.h"
+#include "CommandInfo.h"
 
 
 using std::ifstream;
@@ -50,10 +51,10 @@ public:
 	void checkValidity(ifstream& file);
 	void create_port(string portDetails);
 
-	commandType getCommandType(string cmd);
-	void handle_model_cmd(string& cmd);
-	void handle_view_cmd(string& cmd);
-	void handle_ship_cmd(string& cmd);
+
+	void handle_model_cmd(CommandInfo& cmd);
+	void handle_view_cmd(CommandInfo& cmd);
+	void handle_ship_cmd(CommandInfo& cmd);
 
 
 

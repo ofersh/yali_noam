@@ -7,6 +7,7 @@
 
 #include "Controller.h"
 #include "Model.h"
+#include "BadInputException.h"
 
 #include <iostream>
 #include <sstream>
@@ -36,32 +37,36 @@ void Controller::initialize(string fileName) {
 void Controller::run(){
 
 	string cmdLine;
+	CommandInfo cmdI;
 	bool running = true;
 
 	while(running){
 		getline(cin,cmdLine);		// read the line from the prompt
-		commandType cmdType = getCommandType(cmdLine);		// get the type of the command
-		switch (cmdType) {
-			case MODEL:
-				handle_model_cmd(cmdLine);
-				break;
+		try {
+			cmdI.breakCommand(cmdLine);
 
-			case VIEW:
-				handle_view_cmd(cmdLine);
-				break;
-
-			case SHIP:
-				handle_ship_cmd(cmdLine);
-				break;
-
-			case QUIT:
-				running = false;
-				break;
-
-			default:
-				cerr << "wrong input" << endl;
-				break;
+			CommandInfo::CommandSection cmdType = cmdI.cmdSec;
+			switch (static_cast<int>(cmdType)) {
+				case static_cast<int>(CommandInfo::CommandSection::MODEL):
+					handle_model_cmd(cmdI);
+					break;
+				case static_cast<int>(CommandInfo::CommandSection::VIEW):
+					handle_view_cmd(cmdI);
+					break;
+				case static_cast<int>(CommandInfo::CommandSection::SHIP):
+					handle_ship_cmd(cmdI);
+					break;
+				case static_cast<int>(CommandInfo::CommandSection::QUIT):
+					running = false;
+					break;
+				default:
+					throw BadInputException("somethimg went wrong. needed to catch before");
 		}
+		} catch (BadInputException& e) {
+			e.what();
+			continue;
+		}
+
 	}
 
 }
@@ -71,71 +76,82 @@ void Controller::run(){
 
 /*** command handles ****/
 
-Controller::commandType Controller::getCommandType(string cmd){
 
 
-	return commandType(MODEL);
-}
 
-
-void Controller::handle_model_cmd(string& cmd){
+void Controller::handle_model_cmd(CommandInfo& cmd){
 	Model& m = Model::getModel();
-	stringstream ss{cmd};
-
-    // handle STATUS
-	m.status();
-
-    // HANDLE GO
-	m.go();
-
-    // HANDLE CREATE.
-	ShipInfo si(cmd);
-	m.create(si.name,si.type,si.x,si.y,si.arg1,si.arg2);
+	int x,y,res,force;
+	switch (static_cast<int>(cmd.cmd)) {
+	case static_cast<int>(CommandInfo::Commands::STATUS):
+		m.status();
+		break;
+	case static_cast<int>(CommandInfo::Commands::GO):
+		m.go();
+		break;
+	case static_cast<int>(CommandInfo::Commands::CREATE):
+		x = cmd.arg1; y = cmd.arg2; res = cmd.arg3; force = cmd.arg4;
+		m.create(cmd.shipName,cmd.type,x,y,res,force);
+		break;
+	default:
+		throw BadInputException("command has not been properly handled");
+	}
 }
 
-void Controller::handle_view_cmd(string& cmd){
-
-	//,SIZE,ZOOM,PAN,SHOW
-		// DEFAULT
-    view._default();
-    
-    view.show();
-    
-    // get the size from the string
-    //view.size(<#unsigned int size#>);
-    
-    // get the two coordinates
-    //view.pan(<#unsigned int x#>, <#unsigned int y#>);
+void Controller::handle_view_cmd(CommandInfo& cmd){
+	unsigned int size,ratio,x,y;
+	switch (static_cast<int>(cmd.cmd)) {
+		case static_cast<int>(CommandInfo::Commands::DEFAULT):
+			view._default();
+			break;
+		case static_cast<int>(CommandInfo::Commands::SIZE):
+			size = cmd.arg1;
+			view.size(size);
+			break;
+		case static_cast<int>(CommandInfo::Commands::ZOOM):
+			ratio = cmd.arg1;
+			view.zoom(ratio);
+			break;
+		case static_cast<int>(CommandInfo::Commands::PAN):
+			x = cmd.arg1; y = cmd.arg2;
+			view.pan(x,y);
+			break;
+		case static_cast<int>(CommandInfo::Commands::SHOW):
+			view.show();
+			break;
+		default:
+			throw BadInputException("command has not been properly handled");
+	}
 
 }
 
-void Controller::handle_ship_cmd(string& cmd){
-	
-    //Model& m = Model::getModel();
-    
-    
-    //HANDLE COURSE
-    
-    //HANDLE POSITION
-    
-    //HANDLE DESTINATION
-    
-    //HANDLE LOAD_AT
-    
-    //HANDLE UNLOAD_AT
-    
-    //HANDLE DOCK_AT
-    
-    //HANDLE ATTACK
-    
-    //HANDLE REFUEL
-    
-    //HANDLE STOP
-    
-    
-    
-    
-    
+void Controller::handle_ship_cmd(CommandInfo& cmd){
+
+	//Model& m = Model::getModel();
+
+
+	//HANDLE COURSE
+
+	//HANDLE POSITION
+
+	//HANDLE DESTINATION
+
+	//HANDLE LOAD_AT
+
+	//HANDLE UNLOAD_AT
+
+	//HANDLE DOCK_AT
+
+	//HANDLE ATTACK
+
+	//HANDLE REFUEL
+
+	//HANDLE STOP
+
+
+
+
+
 }
 
 

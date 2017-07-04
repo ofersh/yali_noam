@@ -14,10 +14,12 @@
 
 class Civil_Ships_Commands;
 class Port;
+class Cruiser;
 
 class Civil_ship :public Ship {
 
 private:
+    //docking range of ship.
     constexpr static const double DOCKING_RANGE=0.1;
 
     bool fuelling;
@@ -35,8 +37,18 @@ public:
     bool isFuelling()const{return fuelling;};
     weak_ptr<Port> get_destination()const{return destination;};
     
+    
+    double getRequiredFuelAmount()const;    // for fuelling purpose.
+    void fuel(double fuel);     //fuelling command.
+
+
     void enqueue(Civil_Ships_Commands *csc ); //enqueue new command.
     void pritorityCommand(Civil_Ships_Commands *csc ); //push command first.
+    
+    virtual bool under_attack(Cruiser * attacking)=0;
+    
+
+
 };
 
 #endif /* Civil_ship_hpp */

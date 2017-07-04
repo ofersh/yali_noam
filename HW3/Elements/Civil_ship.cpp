@@ -33,6 +33,18 @@ bool Civil_ship::dock(weak_ptr<Port> port)
     return false; //failed to dock.
 }
 
+// fuel ship.
+void Civil_ship::fuel(double fuel)
+{
+    Marine_Element::addFuel(fuel);
+}
+
+//for fueling purposes.
+double Civil_ship::getRequiredFuelAmount()const
+{
+    return Marine_Element::getFuelCapcity()-Marine_Element::getCurrentFuel();
+}
+
 
 //set destiantion to given port.
 void Civil_ship::setDestination(weak_ptr<Port> port)
@@ -59,6 +71,5 @@ bool Civil_ship::refuel()
     }
     return false;   //Must be at Dock state.
 }
-
 
 

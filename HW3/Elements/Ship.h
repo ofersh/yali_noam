@@ -37,29 +37,38 @@ private:
 public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
 
+    
 	Ship(Type t, string name,Point position, double fuel, double fuel_consumption);
 	virtual ~Ship();
+    
+    virtual Type getType()const=0;
+
     
     virtual void enqueue(Ships_commands *sc);
     
     void halt();
     void advance(); //actual moving functin, needs to calculate progress and LPM
-    void set_direction(double arg);
-    void set_velocity(double v);
     void set_state(State state);
     
-    State get_state()const {return state;};
     
-    
+    //return next command.
     shared_ptr<Ships_commands> getNextCommand()const;
-    void dequeue_command();
     
+    void dequeue_command(); //upon finishing succsesfully.
     
-    //get info from scouter.
+    //getter and setter.
+    State get_state()const {return state;};
+
+    
+    //scouter getters and setters.
+    void set_direction(double arg);
+    void set_velocity(double v);
     double getAzimuth()const{return scouter.getAzimuth();};
     double getVelocity()const{return scouter.getVelocity();};
     Point getDestCoordinates(){return scouter.getDestCoordinates();};
 
+    
+    bool inRange(weak_ptr<Ship> ship);
     double calculate_distance(Point to);
     void calculate_route();
     

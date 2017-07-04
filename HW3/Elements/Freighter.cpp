@@ -7,14 +7,15 @@
 
 #include "Freighter.h"
 #include <iostream>
-#include "Freighter_commands.h"
+#include "Cruiser.h"
+#include "../Utilities/Freighter_commands.h"
 #include "Port.h"
 
 
 using namespace std;
 
 
-Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel,LPM ), maxCargo(maxCont), current_containers(maxCont), resistence(res)
+Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel,LPM ), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
 {}
 
 Freighter::~Freighter() {
@@ -39,7 +40,8 @@ bool Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
         Civil_ship::pritorityCommand(newDest); //must add as first.
         return false;
     }
-        
+    
+    // cant disambark without DOCKED stated.
     if (Ship::get_state()==State::DOCKED)
     {
         if (amount>current_containers){
@@ -69,3 +71,11 @@ bool Freighter::embark(weak_ptr<Port> port)
         port.lock()->load_ship(*this);
     return true;
 }
+
+//freighter revealing its type to attacking ship
+bool Freighter::under_attack(Cruiser *attacking)
+{
+    return attacking->attack(this);
+}
+
+Ship::Type getType(){ return Ship::Type::FREIGHTER; }

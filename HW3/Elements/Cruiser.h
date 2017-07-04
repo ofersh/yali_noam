@@ -10,11 +10,13 @@
 
 #include "Ship.h"
 #include <memory>
+class Civil_ship;
+
 
 using std::weak_ptr;
 
 class Freighter;
-class CruiseShip;
+class Cruise_Ship;
 
 
 class Cruiser: public Ship {
@@ -37,12 +39,11 @@ public:
     
     
     void status()const;
-    void attack();  //commence attack.
+    bool attack(weak_ptr<Civil_ship> target);  //commence attack.
+    bool attack(Freighter * fr);
+    bool attack(Cruise_Ship * cs);
     
-    
-    /** maybe double disptach ??? */
-    void attack(Freighter *);   //attacking Freighter
-    void attack(CruiseShip *);  //attacking Cruise.
+    Ship::Type getType();
 };
 
 #endif /* CRUISER_H_ */

@@ -36,14 +36,15 @@ public:
     shared_ptr<Port> create_port(string name,Point pos, double fuel);
 	~Port();
     
-    void unload_ship (unsigned int amount);
+    void add_containers (unsigned int amount);
     void load_ship (Freighter& fr);
     void fuel_request (Civil_ship* ship);
     
     weak_ptr<Port> portAt(int x, int y)const;
     
     void go();
-
+    void status()const;
+    
     //mostly for cruise ship.
     static vector<weak_ptr<Port>> get_port_list(){return ports_list;};
 };

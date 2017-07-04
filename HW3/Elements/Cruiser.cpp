@@ -6,6 +6,7 @@
  */
 
 #include "Cruiser.h"
+#include "Civil_ship.h"
 
 #include <iostream>
 
@@ -20,8 +21,11 @@ Cruiser::~Cruiser() {
 	// TODO Auto-generated destructor stub
 }
 
-
-
+// invoke double dispatch chain, at end one of 2 attack method will perform.
+bool Cruiser::attack(weak_ptr<Civil_ship> target)
+{
+    return (target.lock())->under_attack(this);
+}
 
 //print cruiser status.
 void Cruiser::status()const
@@ -32,4 +36,6 @@ void Cruiser::status()const
     cout<<" force: "<<force<<", Moving on course  "<<Ship::getAzimuth()<<" deg, speed "<<Ship::getVelocity()<<" nm/hr" <<endl;
 }
 
+
+Ship::Type getType(){ return Ship::Type::CRUISER; }
 

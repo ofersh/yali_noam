@@ -31,11 +31,14 @@ public:
     void enqueue (Freighter_commands *csc); //enqueue Freighter commands.
     bool disembark(weak_ptr<Port> port,unsigned int amount);   //unload at method.
     bool embark(weak_ptr<Port> port);  //load at method.
+    bool under_attack(Cruiser * attacking);
+    
     
     //setters and getters.
     unsigned int containers_amount()const {return current_containers;};
     unsigned int empty_space()const{return maxCargo-current_containers;};
     void add_cargo(unsigned int amount);
+    Ship::Type getType();
 
     void status()const;
     void go();

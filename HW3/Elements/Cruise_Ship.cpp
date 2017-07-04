@@ -1,6 +1,7 @@
 
 #include "Cruise_Ship.h"
 #include "Port.h"
+#include "Cruiser.h"
 #include "../Utilities/CivilShipsCommands.h"
 #include <iostream>
 
@@ -14,6 +15,12 @@ Cruise_Ship::Cruise_Ship(Type t, string name, Point pos):Civil_ship(t, name ,pos
 
 Cruise_Ship::~Cruise_Ship() {
 	// TODO Auto-generated destructor stub
+}
+
+
+//perform double dispatch.
+bool Cruise_Ship::under_attack(Cruiser *attacking){
+    return attacking->attack(this);
 }
 
 //cruise ship go command.
@@ -75,3 +82,9 @@ void Cruise_Ship::status()const
     
     cout<<endl;
 }
+
+
+//return type of ship.
+Ship::Type getType(){ return Ship::Type::CRUISE_SHIP; }
+
+

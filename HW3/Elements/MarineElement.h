@@ -27,21 +27,19 @@ private:
     
 public:
 	Marine_Element(string name, Point pos, double fuel);
-	virtual ~Marine_Element()=0;
-    
+	
+    //must be implemented.
+    virtual ~Marine_Element()=0;
+    virtual void status()const =0;
+    virtual void go()=0;
+
+    //setters and getters.
     Point getPosition() const {return position;};
     void setPosition(double x, double y){ Point(x,y);};
-
     string getName()const{return name;};
     double getFuelCapcity()const{return fuel_tank_capacity;};
     double getCurrentFuel()const{return current_fuel;};
-    double getRquiredFuelAmount()const{return fuel_tank_capacity-current_fuel;};
-    void fuel(double fuel){current_fuel+=fuel;};
-    
-    
-    virtual void status()const =0;
-    virtual void go()=0;
-    
+    void addFuel(double fuel){current_fuel+=fuel;};
 };
 
 #endif /* MARINEELEMENT_H_ */

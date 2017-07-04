@@ -29,14 +29,19 @@ private:
     constexpr static const double MAXVELOCITY = 15;     // maximum velocity
     constexpr static const double LPM = 2;              // liter per mile (fuel consumption)
     
-    void findNextPort();
+    void findNextPort();    //find next clost port.
     
 public:
     Cruise_Ship(Type t, string name, Point pos);
     ~Cruise_Ship();
     
-    void go();
-    void status()const;
+    void go(); //perform a step.
+    void status()const; //print status of ship.
+    Ship::Type getType();   //return type.
+    
+    
+    bool under_attack(Cruiser * attacking); //double dispatch method.
+
 };
 
 #endif /* CRUISE_SHIP_H_ */

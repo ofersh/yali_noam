@@ -30,7 +30,7 @@ shared_ptr<Port> Port::create_port(string name, Point pos, double fuel)
 
 
 //rcieve amount of containers from ship.
-void Port::unload_ship(unsigned int amount)
+void Port::add_containers(unsigned int amount)
 {
     containers+=amount;
 }
@@ -61,7 +61,7 @@ void Port::go()
 {
     Civil_ship * ship_to_fuel=fuel_queue.front();
     fuel_queue.pop();
-    double amount=ship_to_fuel->getRquiredFuelAmount();
+    double amount=ship_to_fuel->getRequiredFuelAmount();
     double availble=Marine_Element::getCurrentFuel();
     if (amount>availble)
         amount=availble;

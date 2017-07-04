@@ -66,7 +66,10 @@ void Ship::dequeue_command(){
 }
 
 
+bool Ship::inRange(Point p,double range){
 
+	return true;
+}
 
 
 

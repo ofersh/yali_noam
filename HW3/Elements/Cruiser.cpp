@@ -27,6 +27,32 @@ bool Cruiser::attack(weak_ptr<Civil_ship> target)
     return (target.lock())->under_attack(this);
 }
 
+bool Cruiser::attack(Freighter* target)
+{
+	// check if ship is in range
+	Point targetPos = dynamic_cast<Marine_Element*>(target)->getPosition();
+	if(!Ship::inRange(targetPos,range))
+		return false;
+
+	if(force > target->getResistance()){
+		force++;
+		return true;
+	}else
+		force--;
+
+	return false;
+}
+
+bool Cruiser::attack(Cruise_Ship* target)
+{
+	// check if ship is in range
+	Point targetPos = dynamic_cast<Marine_Element*>(target)->getPosition();
+	if(!Ship::inRange(targetPos,range))
+		return false;
+
+	return true;
+}
+
 //print cruiser status.
 void Cruiser::status()const
 {

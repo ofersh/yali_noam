@@ -45,7 +45,7 @@ public:
 
 
 private:
-	weak_ptr<Port>& getLegalPort(string name, Model& m);
+	weak_ptr<Port> getLegalPort(string name, Model& m);
 };
 
 #endif /* UTILITIES_COMMANDFACTORY_H_ */

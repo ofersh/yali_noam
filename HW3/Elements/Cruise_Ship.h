@@ -20,7 +20,6 @@ using std::vector;
 class Cruise_Ship: public Civil_ship {
 
 private:
-    int resistence;
     vector<weak_ptr<Port>> remainingPorts;
     
     bool waiting_for_action;

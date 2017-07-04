@@ -33,7 +33,7 @@ private:
     double velocity;
     
 public:
-    Course(double arg, double v);
+    Course(double arg, double v):arg(arg),velocity(v){};
     ~Course()=default;
     
     bool operator()(Ship * s){
@@ -52,7 +52,7 @@ private:
     double velocity;
     
 public:
-    Positon(int x, int y, double v);
+    Positon(int x, int y, double v):x(x),y(y),velocity(v){};
     ~Positon()=default;
     
     bool operator()(Ship * s){

@@ -78,43 +78,43 @@ Ships_commands* Command_Factory::getShipCommand(CommandInfo cmdInfo){
 
 
 // ship commands
-	Ships_commands* get_Course_Command(double arg, double v){
+	Ships_commands* Command_Factory::get_Course_Command(double arg, double v){
 		return new Course(arg,v);
 	}
-	Ships_commands* get_Position_Command(double x,double y, double v){
+	Ships_commands* Command_Factory::get_Position_Command(double x,double y, double v){
 		return new Positon(x,y,v);
 	}
-	Ships_commands* get_Stop_Command(){
+	Ships_commands* Command_Factory::get_Stop_Command(){
 		return new Stop();
 	}
 
 	// civil ship commands
-	Civil_Ships_Commands* get_Destination_Command(weak_ptr<Port> port_name,double velocity){
+	Civil_Ships_Commands* Command_Factory::get_Destination_Command(weak_ptr<Port> port_name,double velocity){
 		return new Destination(port_name,velocity);
 	}
-	Civil_Ships_Commands* get_Dock_at_Command(weak_ptr<Port> port_name){
+	Civil_Ships_Commands* Command_Factory::get_Dock_at_Command(weak_ptr<Port> port_name){
 		return new Dock_at(port_name);
 	}
-	Civil_Ships_Commands* get_Refuel_Command(){
+	Civil_Ships_Commands* Command_Factory::get_Refuel_Command(){
 		return new Refuel();
 	}
 
 	// freighter commands
-	Freighter_commands* get_Load_at_Command(weak_ptr<Port> port_name){
+	Freighter_commands* Command_Factory::get_Load_at_Command(weak_ptr<Port> port_name){
 		return new Load_at(port_name);
 	}
-	Freighter_commands* get_UnLoad_at_Command(weak_ptr<Port> port_name,int amount){
+	Freighter_commands* Command_Factory::get_UnLoad_at_Command(weak_ptr<Port> port_name,int amount){
 		return new Unload_at(port_name,amount);
 	}
 
 	//cruiser commands
-	Cruiser_commands* get_Attack_Command(weak_ptr<Ship> ship_name){
+	Cruiser_commands* Command_Factory::get_Attack_Command(weak_ptr<Ship> ship_name){
 		return new Attack(ship_name);
 	}
 
 
 
-	weak_ptr<Port> getLegalPort(string name, Model& m){
+	weak_ptr<Port> Command_Factory::getLegalPort(string name, Model& m){
 		weak_ptr<Port> destPort;
 		destPort = m.getPort(name);
 		if(destPort.expired())

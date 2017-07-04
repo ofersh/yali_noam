@@ -1,7 +1,6 @@
 Undefined symbols for architecture x86_64:
   
-  "Cruise_Ship::findNextPort()", referenced from:
-      Cruise_Ship::go()      in ccldnKCh.o
+
   "Command_Factory::getLegalPort(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Model&)", referenced from:
       Command_Factory::getShipCommand(CommandInfo)        in ccVzJty8.o
   "Command_Factory::get_Course_Command(double, double)", referenced from:

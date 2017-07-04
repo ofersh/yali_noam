@@ -10,14 +10,14 @@
 
 #include "MarineElement.h"
 #include <string>
-#include <queue>
+#include <deque>
 #include <memory>
 
 class Ships_commands;
 
 
 using std::string;
-using std::queue;
+using std::deque;
 using std::shared_ptr;
 using std::weak_ptr;
 
@@ -30,7 +30,7 @@ public:
 private:
     State state;
     double fuel_consumption;
-    queue<shared_ptr<Ships_commands>> command_queue;   //command queue.
+    deque<shared_ptr<Ships_commands>> command_queue;   //command queue.
     Scouter scouter;
 
     
@@ -45,6 +45,7 @@ public:
 
     
     virtual void enqueue(Ships_commands *sc);
+    void pritorityCommand(Ships_commands *sc);
     
     void halt();
     void advance(); //actual moving functin, needs to calculate progress and LPM

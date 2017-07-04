@@ -72,4 +72,13 @@ bool Civil_ship::refuel()
     return false;   //Must be at Dock state.
 }
 
+//set fuelling flag.
+void Civil_ship::set_Waiting_for_fuel(bool b)
+{
+    fuelling=b;
+}
 
+void Civil_ship::pritorityCommand(Civil_Ships_Commands *csc)
+{
+    Ship::pritorityCommand(csc);
+}

@@ -25,7 +25,7 @@ void Ship::halt()
 //add a command to ship command queue.
 void Ship::enqueue(Ships_commands *sc)
 {
-    command_queue.push(shared_ptr<Ships_commands>(sc));
+    command_queue.push_back(shared_ptr<Ships_commands>(sc));
 
 }
 
@@ -62,11 +62,14 @@ shared_ptr<Ships_commands> Ship::getNextCommand()const
 void Ship::dequeue_command(){
     if (command_queue.empty())
         return;
-    command_queue.pop();
+    command_queue.pop_front();
 }
 
 
 
-
-
+//set command to be first.
+void Ship::pritorityCommand(Ships_commands *sc)
+{
+    command_queue.push_front(shared_ptr<Ships_commands>{sc});
+}
 

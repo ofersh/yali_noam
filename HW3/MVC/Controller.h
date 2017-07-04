@@ -12,8 +12,8 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
-#include "Ship.h"
-#include "CommandInfo.h"
+#include "../Elements/Ship.h"
+#include "../Utilities/CommandInfo.h"
 
 
 using std::ifstream;

@@ -7,7 +7,7 @@
 
 #include "Controller.h"
 #include "Model.h"
-#include "BadInputException.h"
+#include "../Utilities/BadInputException.h"
 
 #include <iostream>
 #include <sstream>

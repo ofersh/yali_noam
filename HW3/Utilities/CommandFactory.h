@@ -10,6 +10,9 @@
 
 
 #include "../Elements/Ship.h"
+#include "CivilShipsCommands.h"
+#include "Freighter_commands.h"
+#include "Cruiser_commands.h"
 #include "CommandInfo.h"
 
 class Port;

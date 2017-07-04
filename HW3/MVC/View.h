@@ -20,8 +20,6 @@ using std::map;
 using std::string;
 using std::weak_ptr;
 
-using vertexes=pair<int, int>; //different scale.
-
 class View {
 private:
     
@@ -30,17 +28,17 @@ private:
     const static int MAX_SIZE=30;
     const static int DEFAULT_SIZE=25;
     
-    coordinates origin;
+    Point origin;
     int cell_size;  //for scaling.
     int maxY;   //last visible y point.
     int maxX;   //last visible x point.
     
     
     // Holding map, sorted pair by y, and then x. values needs to be size 2 string.
-    map<coordinates,string> Map;
+    map<Point,string> Map;
     
     //calculate vertex.
-    vertexes coordinates_to_vertexes(coordinates cord)const;
+    Point scale(Point cord)const;
     
     //place new element in map.
     void place(weak_ptr<Marine_Element> elem);

@@ -27,7 +27,8 @@ private:
     
 public:
     Civil_ship(Type t, string name, Point pos, double fuel, double lpm);
-    virtual ~Civil_ship()=0;
+    virtual bool under_attack(Cruiser * attacking)=0;
+    virtual ~Civil_ship()=default;
     
     
     bool dock(weak_ptr<Port> port); // try dock at given port.
@@ -45,7 +46,6 @@ public:
     void enqueue(Civil_Ships_Commands *csc ); //enqueue new command.
     void pritorityCommand(Civil_Ships_Commands *csc ); //push command first.
     
-    virtual bool under_attack(Cruiser * attacking)=0;
     
 
 

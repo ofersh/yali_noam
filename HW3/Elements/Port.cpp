@@ -12,13 +12,11 @@
 using namespace std;
 
 
-Port::Port(string name, Point pos, double fuel):Marine_Element(name,pos,fuel)
+Port::Port(string name, Point pos, double fuel):Marine_Element(name,pos,fuel),containers(0)
 {
 }
 
-Port::~Port() {
-	// TODO Auto-generated destructor stub
-}
+Port::~Port() {}
 
 // The  only way to get port is to use this function.
 shared_ptr<Port> Port::create_port(string name, Point pos, double fuel)

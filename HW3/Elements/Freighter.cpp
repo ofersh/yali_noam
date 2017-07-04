@@ -18,9 +18,7 @@ using namespace std;
 Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel,LPM ), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
 {}
 
-Freighter::~Freighter() {
-	// TODO Auto-generated destructor stub
-}
+Freighter::~Freighter() {}
 
 //enqueue freighter command to queue.
 void Freighter::enqueue(Freighter_commands *csc){
@@ -83,4 +81,6 @@ bool Freighter::under_attack(Cruiser *attacking)
     return false;
 }
 
-Ship::Type getType(){ return Ship::Type::FREIGHTER; }
+Ship::Type Freighter::getType(){
+	return Ship::Type::FREIGHTER;
+}

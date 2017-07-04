@@ -17,8 +17,8 @@
 class Cruiser_commands :public Ships_commands {
 public:
 
-	Cruiser_commands();
-	~Cruiser_commands();
+	Cruiser_commands()=default;
+	~Cruiser_commands()=default;
 	virtual bool operator()(Cruiser *)=0;
 	virtual bool operator()(Ship * s){ return operator ()(dynamic_cast<Cruiser*>(s));}
 
@@ -27,7 +27,7 @@ public:
 class Attack : public Cruiser_commands{
 public:
 	Attack(weak_ptr<Ship> attackedShip): attackedShip(attackedShip){};
-	~Attack();
+	~Attack()=default;
 
 	bool operator()(Cruiser* c){
 

@@ -44,12 +44,12 @@ public:
     virtual Type getType()const=0;
 
     
+    //command queue manipulation.
     virtual void enqueue(Ships_commands *sc);
     void pritorityCommand(Ships_commands *sc);
     
-    void halt();
+    void halt(); //Stop ship.
     void advance(); //actual moving functin, needs to calculate progress and LPM
-    void set_state(State state);
     
     
     //return next command.
@@ -59,6 +59,7 @@ public:
     
     //getter and setter.
     State get_state()const {return state;};
+    void set_state(State state){Ship::state=state;};
 
     
     //scouter getters and setters.

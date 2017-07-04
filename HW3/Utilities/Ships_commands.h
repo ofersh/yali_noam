@@ -18,8 +18,8 @@
 class Ships_commands {
     
 public:
-    Ships_commands();
-    virtual ~Ships_commands();
+    Ships_commands()=default;
+    virtual ~Ships_commands()=default;
     virtual bool operator()(Ship *)=0;
 
 };

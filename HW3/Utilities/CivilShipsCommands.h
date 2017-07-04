@@ -15,7 +15,7 @@
 
 class Civil_Ships_Commands: public Ships_commands {
 public:
-	Civil_Ships_Commands();
+	Civil_Ships_Commands()=default;
 	virtual ~Civil_Ships_Commands()=default;
 
     bool operator()(Ship* s){return operator ()(dynamic_cast<Civil_ship*>(s));};   //need to check what to do about this one.

@@ -1,3 +1,0 @@
-/Users/noamstolero/Documents/CS/yali_noam/HW3/CMakeFiles/rebuild_cache.dir
-/Users/noamstolero/Documents/CS/yali_noam/HW3/CMakeFiles/edit_cache.dir
-/Users/noamstolero/Documents/CS/yali_noam/HW3/CMakeFiles/ship_sim.dir

@@ -33,6 +33,10 @@ public:
     void setDestination(Point dest);
     Point getDestCoordinates()const ;
     
+    Point calculateNextStep(const Point current);
+
+
+
 	virtual ~Scouter();
 };
 

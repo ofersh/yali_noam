@@ -71,7 +71,6 @@ public:
 
     
     bool inRange(Point p,double range);
-    void calculate_route();
     
 
     

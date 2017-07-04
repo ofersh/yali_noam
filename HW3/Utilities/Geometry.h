@@ -15,7 +15,10 @@ struct Point {
 	bool operator==(const Point& rhs);
 };
 
+// our function. calculate the distance between two points
 double distance_between_two_points(Point a,Point b);
+
+
 struct Polar_vector;
 struct Cartesian_vector {
 	Cartesian_vector(const struct Polar_vector & pv);

@@ -29,12 +29,6 @@ void Ship::enqueue(Ships_commands *sc)
 
 }
 
-//calculate route to current destination.
-void Ship::calculate_route()
-{
-    /***** TODO IMPLEMENT ****/
-}
-
 
 //set the direction to head.
 void Ship::set_direction(double arg){
@@ -67,7 +61,7 @@ void Ship::dequeue_command(){
 
 
 bool Ship::inRange(Point p,double range){
-	double actualRange = distance_between_two_points(Marine_Element::getPosition(),p);
+	double actualRange = scouter.calculate_distance(Marine_Element::getPosition(),p);
 	if(actualRange > range)
 		return false;
 	return true;
@@ -79,5 +73,11 @@ void Ship::pritorityCommand(Ships_commands *sc)
     command_queue.push_front(shared_ptr<Ships_commands>{sc});
 }
 
-
+void Ship::advance(){
+	Point currentPos = Marine_Element::getPosition();
+	Point nextPos = scouter.calculateNextStep(currentPos);
+	if(nextPos == scouter.destination)
+		set_state(State::STOPPED);
+	Marine_Element::setPosition(nextPos.x,nextPos.y);
+}
 

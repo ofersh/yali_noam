@@ -16,3 +16,7 @@ Scouter::~Scouter() {
 	// TODO Auto-generated destructor stub
 }
 
+Point Scouter::getDestCoordinates()const {
+	return destination;
+}
+

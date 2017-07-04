@@ -31,7 +31,7 @@ public:
     double getAzimuth()const{return azimuth;}
     
     void setDestination(Point dest);
-    Point getDestCoordinates()const {return destination;};
+    Point getDestCoordinates()const ;
     
 	virtual ~Scouter();
 };

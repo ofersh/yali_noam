@@ -25,7 +25,7 @@ bool Civil_ship::dock(weak_ptr<Port> port)
     
     // try to dock.
     Point portPos=port.lock()->getPosition();
-    if (Ship::calculate_distance(portPos) < DOCKING_RANGE)
+    if (Ship::inRange(portPos,DOCKING_RANGE))
     {
         Ship::set_state(State::DOCKED);
         return true;

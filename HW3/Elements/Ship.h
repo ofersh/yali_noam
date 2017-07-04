@@ -71,7 +71,6 @@ public:
 
     
     bool inRange(Point p,double range);
-    double calculate_distance(Point to);
     void calculate_route();
     
 

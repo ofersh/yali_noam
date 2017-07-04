@@ -10,8 +10,8 @@
 
 using namespace std;
 Model::Model() {
-	// TODO Auto-generated constructor stub
-
+    // TODO Auto-generated constructor stub
+    
 }
 
 
@@ -38,8 +38,32 @@ bool Model::create(string name, Ship::Type type, int x, int y, int resistence, i
 }
 
 
-shared_ptr<Port> Model::getPort(string portName)
+//return port by name.
+weak_ptr<Port> Model::getPort(string portName)
 {
-    cout<<"Model::getPort"<<endl;
-    return shared_ptr<Port>{};
+    vector<weak_ptr<Port>> portList=Port::get_port_list();
+    for (weak_ptr<Port> wp : portList)
+    {
+        if (!wp.expired())
+        {
+            if (wp.lock()->getName()==portName)
+                return wp;
+        }
+    }
+    return weak_ptr<Port>{};
 }
+
+
+weak_ptr<Ship> Model::getShip(string shipName)
+{
+    for (shared_ptr<Marine_Element> sme: elements_list)
+    {
+        if (sme->getName()==shipName)
+            if (shared_ptr<Ship> sShip=dynamic_pointer_cast<Ship>(sme))
+            {
+                return sShip;
+            }
+    }
+    return weak_ptr<Ship>{};
+}
+

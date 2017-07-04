@@ -16,7 +16,7 @@ using namespace std;
 
 Ships_commands* Command_Factory::getShipCommand(CommandInfo cmdInfo){
 	Model m = Model::getModel();
-	shared_ptr<Ship> currentShip = m.getShip(cmdInfo.shipName);
+	shared_ptr<Ship> currentShip = m.getShip(cmdInfo.shipName).lock();
 	if(currentShip == nullptr)
 		throw BadInputException((cmdInfo.shipName + " is not a ship or does not exist").c_str());
 	//cmdInfo.type = currentShip->getType();

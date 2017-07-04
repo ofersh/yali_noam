@@ -43,9 +43,9 @@ public:
     bool create(string name, Ship::Type type, int x, int y, int resistence=0, int force=0);
 
     // getters from model
-    shared_ptr<Port> getPort(string portName);
+    weak_ptr<Port> getPort(string portName);
 
-    shared_ptr<Ship> getShip(string shipName);
+    weak_ptr<Ship> getShip(string shipName);
 
     Ship::Type getShipType(string shipName);
 

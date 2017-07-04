@@ -7,6 +7,9 @@
 
 #include "Cruiser.h"
 #include "Civil_ship.h"
+#include "Freighter.h"
+#include "Cruise_Ship.h"
+
 
 #include <iostream>
 

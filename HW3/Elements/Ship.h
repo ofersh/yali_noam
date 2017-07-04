@@ -39,7 +39,7 @@ public:
 
     
 	Ship(Type t, string name,Point position, double fuel, double fuel_consumption);
-	virtual ~Ship();
+	virtual ~Ship()=default;
     
     virtual Type getType()const=0;
 

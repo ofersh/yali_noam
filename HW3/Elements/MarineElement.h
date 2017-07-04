@@ -29,7 +29,7 @@ public:
 	Marine_Element(string name, Point pos, double fuel);
 	
     //must be implemented.
-    virtual ~Marine_Element()=0;
+    virtual ~Marine_Element()=default;
     virtual void status()const =0;
     virtual void go()=0;
 

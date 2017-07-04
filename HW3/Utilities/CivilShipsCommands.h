@@ -16,7 +16,7 @@
 class Civil_Ships_Commands: public Ships_commands {
 public:
 	Civil_Ships_Commands();
-	virtual ~Civil_Ships_Commands();
+	virtual ~Civil_Ships_Commands()=default;
 
     bool operator()(Ship* s){return operator ()(dynamic_cast<Civil_ship*>(s));};   //need to check what to do about this one.
 	virtual bool operator()(Civil_ship *s)=0;
@@ -30,7 +30,7 @@ private:
 
 public:
     Destination(weak_ptr<Port> port_name, double v):port_name(port_name),velocity(v){};
-    ~Destination();
+    ~Destination()=default;
 
     bool operator()(Civil_ship *s){
         s->setDestination(port_name);
@@ -48,7 +48,7 @@ private:
 public:
     Dock_at(weak_ptr<Port> p):port{p}{
     };
-    ~Dock_at(){};
+    ~Dock_at()=default;
 
     bool operator()(Civil_ship * s){
         return s->dock(port);

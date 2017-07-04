@@ -34,7 +34,7 @@ private:
     
 public:
     Course(double arg, double v);
-    ~Course();
+    ~Course()=default;
     
     bool operator()(Ship * s){
         s->set_direction(arg);
@@ -53,7 +53,7 @@ private:
     
 public:
     Positon(int x, int y, double v);
-    ~Positon();
+    ~Positon()=default;
     
     bool operator()(Ship * s){
         s->set_velocity(velocity);

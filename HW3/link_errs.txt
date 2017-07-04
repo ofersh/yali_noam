@@ -1,0 +1,97 @@
+Undefined symbols for architecture x86_64:
+  "Controller::create_port(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)", referenced from:
+      Controller::initialize(std::basic_string<char, std::char_traits<char>, std::allocator<char> >) in cccOaBtG.o
+  "Controller::checkValidity(std::basic_ifstream<char, std::char_traits<char> >&)", referenced from:
+      Controller::initialize(std::basic_string<char, std::char_traits<char>, std::allocator<char> >) in cccOaBtG.o
+  "Cruise_Ship::findNextPort()", referenced from:
+      Cruise_Ship::go()      in ccM3cw79.o
+  "Ships_commands::Ships_commands()", referenced from:
+      Stop::Stop()  in cceaZmpv.o
+  "Ships_commands::~Ships_commands()", referenced from:
+      Civil_Ships_Commands::~Civil_Ships_Commands() in ccM3cw79.o
+      Civil_Ships_Commands::~Civil_Ships_Commands() in ccM3cw79.o
+      Civil_Ships_Commands::~Civil_Ships_Commands() in ccmvKgkn.o
+      Civil_Ships_Commands::~Civil_Ships_Commands() in ccmvKgkn.o
+      Civil_Ships_Commands::~Civil_Ships_Commands() in cceaZmpv.o
+      Civil_Ships_Commands::~Civil_Ships_Commands() in cceaZmpv.o
+      Stop::~Stop() in cceaZmpv.o
+      ...
+  "Command_Factory::getLegalPort(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Model&)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Command_Factory::get_Course_Command(double, double)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Command_Factory::get_Dock_at_Command(std::weak_ptr<Port>)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Command_Factory::get_Load_at_Command(std::weak_ptr<Port>)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Command_Factory::get_Position_Command(double, double, double)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Command_Factory::get_UnLoad_at_Command(std::weak_ptr<Port>, int)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Command_Factory::get_Destination_Command(std::weak_ptr<Port>, double)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Cruiser_commands::Cruiser_commands()", referenced from:
+      Attack::Attack(std::weak_ptr<Ship>) in cceaZmpv.o
+  "Civil_Ships_Commands::Civil_Ships_Commands()", referenced from:
+      Dock_at::Dock_at(std::weak_ptr<Port>) in ccM3cw79.o
+      Refuel::Refuel() in ccM3cw79.o
+      Dock_at::Dock_at(std::weak_ptr<Port>) in ccmvKgkn.o
+      Destination::Destination(std::weak_ptr<Port>, double) in cceaZmpv.o
+      Dock_at::Dock_at(std::weak_ptr<Port>) in cceaZmpv.o
+      Freighter_commands::Freighter_commands() in cceaZmpv.o
+      Refuel::Refuel() in cceaZmpv.o
+      ...
+  "Port::ports_list", referenced from:
+      Port::get_port_list()      in ccM3cw79.o
+      Port::create_port(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Point, double) in ccKAq1Nf.o
+  "Ship::calculate_distance(Point)", referenced from:
+      Civil_ship::dock(std::weak_ptr<Port>)    in ccwg8sPO.o
+  "Ship::advance()", referenced from:
+      Cruise_Ship::go()      in ccM3cw79.o
+  "Ship::set_state(Ship::State)", referenced from:
+      Civil_ship::dock(std::weak_ptr<Port>)    in ccwg8sPO.o
+      Civil_ship::setDestination(std::weak_ptr<Port>)     in ccwg8sPO.o
+  "View::pan(unsigned int, unsigned int)", referenced from:
+      Controller::handle_view_cmd(CommandInfo&)        in cccOaBtG.o
+  "View::size(unsigned int)", referenced from:
+      Controller::handle_view_cmd(CommandInfo&)        in cccOaBtG.o
+  "View::zoom(unsigned int)", referenced from:
+      Controller::handle_view_cmd(CommandInfo&)        in cccOaBtG.o
+  "View::_default()", referenced from:
+      Controller::handle_view_cmd(CommandInfo&)        in cccOaBtG.o
+  "Model::go()", referenced from:
+      Controller::handle_model_cmd(CommandInfo&)        in cccOaBtG.o
+  "Model::create(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Ship::Type, int, int, int, int)", referenced from:
+      Controller::handle_model_cmd(CommandInfo&)        in cccOaBtG.o
+  "Model::getPort(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)", referenced from:
+      getLegalPort(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Model&) in cceaZmpv.o
+  "Model::getShip(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)", referenced from:
+      Command_Factory::getShipCommand(CommandInfo)        in cceaZmpv.o
+  "Course::Course(double, double)", referenced from:
+      get_Course_Command(double, double) in cceaZmpv.o
+  "Positon::Positon(int, int, double)", referenced from:
+      get_Position_Command(double, double, double) in cceaZmpv.o
+  "Freighter::go()", referenced from:
+      vtable for Freighter in ccmvKgkn.o
+  "Freighter::add_cargo(unsigned int)", referenced from:
+      Port::load_ship(Freighter&)     in ccKAq1Nf.o
+  "Port::status() const", referenced from:
+      vtable for Port in ccKAq1Nf.o
+  "View::show() const", referenced from:
+      Controller::handle_view_cmd(CommandInfo&)        in cccOaBtG.o
+  "Model::status() const", referenced from:
+      Controller::handle_model_cmd(CommandInfo&)        in cccOaBtG.o
+  "Freighter::status() const", referenced from:
+      vtable for Freighter in ccmvKgkn.o
+  "typeinfo for Ships_commands", referenced from:
+      typeinfo for Civil_Ships_Commands in ccM3cw79.o
+      typeinfo for Civil_Ships_Commands in ccmvKgkn.o
+      typeinfo for Civil_Ships_Commands in cceaZmpv.o
+      typeinfo for Stop in cceaZmpv.o
+  "vtable for Attack", referenced from:
+      Attack::Attack(std::weak_ptr<Ship>) in cceaZmpv.o
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "_main", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+collect2: error: ld returned 1 exit status

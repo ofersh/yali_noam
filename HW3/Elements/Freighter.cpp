@@ -75,7 +75,12 @@ bool Freighter::embark(weak_ptr<Port> port)
 //freighter revealing its type to attacking ship
 bool Freighter::under_attack(Cruiser *attacking)
 {
-    return attacking->attack(this);
+    if(attacking->attack(this)){
+    	current_containers = 0;
+    	Ship::halt();
+    	return true;
+    }
+    return false;
 }
 
 Ship::Type getType(){ return Ship::Type::FREIGHTER; }

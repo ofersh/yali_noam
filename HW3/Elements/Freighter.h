@@ -34,12 +34,13 @@ public:
     bool under_attack(Cruiser * attacking);
     
     
+
     //setters and getters.
     unsigned int containers_amount()const {return current_containers;};
     unsigned int empty_space()const{return maxCargo-current_containers;};
     void add_cargo(unsigned int amount);
     Ship::Type getType();
-
+    int getResistance()const{return resistence;};
     void status()const;
     void go();
 };

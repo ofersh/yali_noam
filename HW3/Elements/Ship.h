@@ -69,7 +69,7 @@ public:
     Point getDestCoordinates(){return scouter.getDestCoordinates();};
 
     
-    bool inRange(weak_ptr<Ship> ship);
+    bool inRange(Point p,double range);
     double calculate_distance(Point to);
     void calculate_route();
     

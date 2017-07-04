@@ -66,10 +66,13 @@ void Ship::dequeue_command(){
 }
 
 
+bool Ship::inRange(Point p,double range){
 
 //set command to be first.
 void Ship::pritorityCommand(Ships_commands *sc)
 {
     command_queue.push_front(shared_ptr<Ships_commands>{sc});
 }
+
+
 

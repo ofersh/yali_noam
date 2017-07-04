@@ -20,7 +20,11 @@ Cruise_Ship::~Cruise_Ship() {
 
 //perform double dispatch.
 bool Cruise_Ship::under_attack(Cruiser *attacking){
-    return attacking->attack(this);
+    if(attacking->attack(this)){
+    	Ship::halt();
+    	return true;
+    }
+    return false;
 }
 
 //cruise ship go command.

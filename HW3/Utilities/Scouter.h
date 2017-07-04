@@ -36,6 +36,7 @@ public:
     Point calculateNextStep(const Point current);
 
 
+
 	virtual ~Scouter();
 };
 

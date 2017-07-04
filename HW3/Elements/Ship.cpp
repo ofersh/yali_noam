@@ -7,6 +7,7 @@
 
 
 #include "Ship.h"
+#include "../Utilities/Ships_commands.h"
 
 
 

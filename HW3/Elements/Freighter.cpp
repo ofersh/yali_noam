@@ -48,7 +48,7 @@ bool Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
             cerr<<"cant unload: "<<amount<<" containers. unloading: "<<current_containers<<endl;
             amount=current_containers;
         }
-        port.lock()->unload_ship(amount);
+        port.lock()->add_containers(amount);
         return true;
     }
     return false;

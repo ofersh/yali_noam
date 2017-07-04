@@ -9,5 +9,23 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(ship_sim  )
+add_executable(ship_sim Tester.cpp
+./Elements/Civil_ship.cpp
+./Elements/Cruise_Ship.cpp
+./Elements/Cruiser.cpp
+./Elements/Freighter.cpp
+./Elements/MarineElement.cpp
+./Elements/Port.cpp
+./Elements/SevenSeas.cpp
+./Elements/Ship.cpp
+./Elements/Shipyard.cpp
+./MVC/Controller.cpp
+./MVC/Model.cpp
+./MVC/View.cpp
+./Tester.cpp
+./Utilities/BadInputException.cpp
+./Utilities/CommandFactory.cpp
+./Utilities/CommandInfo.cpp
+./Utilities/Geometry.cpp
+./Utilities/Scouter.cpp)
 

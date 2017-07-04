@@ -11,6 +11,7 @@
 
 using namespace std;
 
+vector<weak_ptr<Port>> Port::ports_list{};
 
 Port::Port(string name, Point pos, double fuel):Marine_Element(name,pos,fuel),containers(0)
 {
@@ -67,11 +68,26 @@ void Port::go()
     ship_to_fuel->set_Waiting_for_fuel(false);
 }
 
-
+//get list of ports.
 vector<weak_ptr<Port>> Port::get_port_list()
 {
     return ports_list;
 }
+
+
+
+//print port status.
+void Port::status()const
+{
+    Point mypos=Marine_Element::getPosition();
+    
+    cout<<"Port "<<Marine_Element::getName()<<" at Position ";
+    mypos.print();
+    cout<<", Fuel availble: "<<getCurrentFuel()<<" kl."<<endl;
+    
+    
+}
+
 
 
 

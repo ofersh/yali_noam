@@ -70,6 +70,10 @@ void Port::go()
 }
 
 
+vector<weak_ptr<Port>> Port::get_port_list()
+{
+    return ports_list;
+}
 
 
 

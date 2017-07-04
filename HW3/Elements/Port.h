@@ -46,7 +46,7 @@ public:
     void status()const;
     
     //mostly for cruise ship.
-    static vector<weak_ptr<Port>> get_port_list(){return ports_list;};
+    static vector<weak_ptr<Port>> get_port_list();
 };
 
 #endif /* PORT_H_ */

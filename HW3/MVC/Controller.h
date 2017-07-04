@@ -48,15 +48,13 @@ public:
 	private:
 
 
-	void checkValidity(ifstream& file);
-	void create_port(string portDetails);
+//	void checkValidity(ifstream& file);
+	void getPortDetails(string line,string& name,double& x,double& y,int& maxFuel,int& FPH);
 
 
 	void handle_model_cmd(CommandInfo& cmd);
 	void handle_view_cmd(CommandInfo& cmd);
 	void handle_ship_cmd(CommandInfo& cmd);
-
-
 
 
 	View view;

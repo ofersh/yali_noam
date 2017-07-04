@@ -35,7 +35,7 @@ public:
     
     virtual ~Model();
 
-    
+    void addPort(string port_name,double x,double y,int maxFuel,int fph);
     void go();  // one hour shift.
     void status()const; // invoke status on all elements.
     

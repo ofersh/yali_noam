@@ -5,8 +5,8 @@
 #include "../Utilities/CivilShipsCommands.h"
 #include <iostream>
 
-using namespace std;
 
+using namespace std;
 
 Cruise_Ship::Cruise_Ship(Type t, string name, Point pos):Civil_ship(t, name ,pos ,MAXFUEL, LPM),waiting_for_action(true)
 {
@@ -91,4 +91,23 @@ void Cruise_Ship::status()const
 //return type of ship.
 Ship::Type getType(){ return Ship::Type::CRUISE_SHIP; }
 
+void Cruise_Ship::findNextPort(){
+	// initialize closest port
+	Point shipPos = Marine_Element::getPosition();
+	weak_ptr<Port> nearestDest;
+	double nearestDist = 999999999;
+
+	for(weak_ptr<Port> p : remainingPorts){
+
+		if(p.expired())
+			continue;
+		shared_ptr<Port> currentP = p.lock();
+		Point portPos = currentP->getPosition();
+		double currentDist = distance_between_two_points(shipPos,portPos);
+		if(currentDist < nearestDist){
+			nearestDest = p;
+			nearestDist = currentDist;
+		}
+	}
+}
 

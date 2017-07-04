@@ -1,8 +1,5 @@
 Undefined symbols for architecture x86_64:
-  "Controller::create_port(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)", referenced from:
-      Controller::initialize(std::basic_string<char, std::char_traits<char>, std::allocator<char> >) in ccxECzFp.o
-  "Controller::checkValidity(std::basic_ifstream<char, std::char_traits<char> >&)", referenced from:
-      Controller::initialize(std::basic_string<char, std::char_traits<char>, std::allocator<char> >) in ccxECzFp.o
+  
   "Cruise_Ship::findNextPort()", referenced from:
       Cruise_Ship::go()      in ccldnKCh.o
   "Command_Factory::getLegalPort(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Model&)", referenced from:

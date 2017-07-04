@@ -17,20 +17,64 @@ using namespace std;
 
 // get the input file of the ports and set the new ports in the map
 void Controller::initialize(string fileName) {
+	try{
+		// open file
+		ifstream portFile{fileName};
+		if(!portFile.is_open())
+			throw OpenFileException(fileName);
 
-	// open file
-	ifstream portFile{fileName};
-	if(!portFile.is_open())
-		throw OpenFileException(fileName);
+//		checkValidity(portFile);	// check file for legal input
 
-	checkValidity(portFile);	// check file for legal input
+		// create all the ports
+		Model m = Model::getModel();
+		// needed variables to create a port
+		string name,line;
+		double x,y;
+		int maxFuel,fph;
 
-	// create all the ports
-	string line;
-	while(getline(portFile,line))
-		create_port(line);
+		while(getline(portFile,line)){
+			getPortDetails(line,name,x,y,maxFuel,fph);
+			m.addPort(name,x,y,maxFuel,fph);
+		}
+
+	}catch (OpenFileException& e) {
+		e.what();
+		exit(1);
+	}catch (BadInputException& e) {
+		e.what();
+		exit(1);
+	}
+}
+
+//void Controller::checkValidity(ifstream& file){
+//
+//	string name,line;
+//	double x,y;
+//	int maxFuel,fph;
+//
+//	while(getline(file,line)){
+//		getPortDetails(line,name,x,y,maxFuel,fph);
+//	}
+//}
+
+void Controller::getPortDetails(string line,string& name,double& x,double& y,int& maxFuel,int& fph){
+
+	stringstream ss(line);
+	string buffer;
+	getline(ss,buffer,' ');
+	name = buffer;
+	getline(ss,buffer,' ');
+	CommandInfo::getXCoordinate(buffer,x);
+	getline(ss,buffer,' ');
+	CommandInfo::getYCoordinate(buffer,y);
+	getline(ss,buffer,' ');
+	CommandInfo::getInt(buffer,maxFuel);
+	getline(ss,buffer,' ');
+	CommandInfo::getInt(buffer,fph);
 
 }
+
+
 
 
 // run the command prompt with the user
@@ -47,21 +91,21 @@ void Controller::run(){
 
 			CommandInfo::CommandSection cmdType = cmdI.cmdSec;
 			switch (static_cast<int>(cmdType)) {
-				case static_cast<int>(CommandInfo::CommandSection::MODEL):
-					handle_model_cmd(cmdI);
-					break;
-				case static_cast<int>(CommandInfo::CommandSection::VIEW):
-					handle_view_cmd(cmdI);
-					break;
-				case static_cast<int>(CommandInfo::CommandSection::SHIP):
-					handle_ship_cmd(cmdI);
-					break;
-				case static_cast<int>(CommandInfo::CommandSection::QUIT):
-					running = false;
-					break;
-				default:
-					throw BadInputException("somethimg went wrong. needed to catch before");
-		}
+			case static_cast<int>(CommandInfo::CommandSection::MODEL):
+									handle_model_cmd(cmdI);
+			break;
+			case static_cast<int>(CommandInfo::CommandSection::VIEW):
+									handle_view_cmd(cmdI);
+			break;
+			case static_cast<int>(CommandInfo::CommandSection::SHIP):
+									handle_ship_cmd(cmdI);
+			break;
+			case static_cast<int>(CommandInfo::CommandSection::QUIT):
+									running = false;
+			break;
+			default:
+				throw BadInputException("somethimg went wrong. needed to catch before");
+			}
 		} catch (BadInputException& e) {
 			e.what();
 			continue;
@@ -84,15 +128,15 @@ void Controller::handle_model_cmd(CommandInfo& cmd){
 	int x,y,res,force;
 	switch (static_cast<int>(cmd.cmd)) {
 	case static_cast<int>(CommandInfo::Commands::STATUS):
-		m.status();
-		break;
+						m.status();
+	break;
 	case static_cast<int>(CommandInfo::Commands::GO):
-		m.go();
-		break;
+						m.go();
+	break;
 	case static_cast<int>(CommandInfo::Commands::CREATE):
-		x = cmd.arg1; y = cmd.arg2; res = cmd.arg3; force = cmd.arg4;
-		m.create(cmd.shipName,cmd.type,x,y,res,force);
-		break;
+						x = cmd.arg1; y = cmd.arg2; res = cmd.arg3; force = cmd.arg4;
+	m.create(cmd.shipName,cmd.type,x,y,res,force);
+	break;
 	default:
 		throw BadInputException("command has not been properly handled");
 	}
@@ -101,26 +145,26 @@ void Controller::handle_model_cmd(CommandInfo& cmd){
 void Controller::handle_view_cmd(CommandInfo& cmd){
 	unsigned int size,ratio,x,y;
 	switch (static_cast<int>(cmd.cmd)) {
-		case static_cast<int>(CommandInfo::Commands::DEFAULT):
-			view._default();
-			break;
-		case static_cast<int>(CommandInfo::Commands::SIZE):
-			size = cmd.arg1;
-			view.size(size);
-			break;
-		case static_cast<int>(CommandInfo::Commands::ZOOM):
-			ratio = cmd.arg1;
-			view.zoom(ratio);
-			break;
-		case static_cast<int>(CommandInfo::Commands::PAN):
-			x = cmd.arg1; y = cmd.arg2;
-			view.pan(x,y);
-			break;
-		case static_cast<int>(CommandInfo::Commands::SHOW):
-			view.show();
-			break;
-		default:
-			throw BadInputException("command has not been properly handled");
+	case static_cast<int>(CommandInfo::Commands::DEFAULT):
+							view._default();
+	break;
+	case static_cast<int>(CommandInfo::Commands::SIZE):
+							size = cmd.arg1;
+	view.size(size);
+	break;
+	case static_cast<int>(CommandInfo::Commands::ZOOM):
+							ratio = cmd.arg1;
+	view.zoom(ratio);
+	break;
+	case static_cast<int>(CommandInfo::Commands::PAN):
+							x = cmd.arg1; y = cmd.arg2;
+	view.pan(x,y);
+	break;
+	case static_cast<int>(CommandInfo::Commands::SHOW):
+							view.show();
+	break;
+	default:
+		throw BadInputException("command has not been properly handled");
 	}
 
 }

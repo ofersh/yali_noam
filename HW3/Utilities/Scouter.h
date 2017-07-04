@@ -20,14 +20,16 @@ private:
     Point destination;
     
 public:
-	Scouter();
-    
+	Scouter()=default;
+	virtual ~Scouter()=default;
+
     double calculate_distance(const Point & from, const Point & to);
     
     void setVelocity(double v){velocity = v;}
     double getVelocity()const{return velocity;}
     
     void setAzimuth(double a){azimuth = a;}
+    void setAzimuth(Point source, Point dest);
     double getAzimuth()const{return azimuth;}
     
     void setDestination(Point dest);
@@ -37,7 +39,7 @@ public:
 
 
 
-	virtual ~Scouter();
+
 };
 
 #endif /* SCOUTER_H_ */

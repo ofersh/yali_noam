@@ -7,12 +7,20 @@
 
 #include "Scouter.h"
 
-Scouter::Scouter() {}
-
-Scouter::~Scouter() {}
-
 Point Scouter::getDestCoordinates()const {
 	return destination;
+}
+
+void Scouter::setAzimuth(Point source, Point dest){
+	Cartesian_vector cv;
+	cv.delta_x = dest.x - source.x;
+	cv.delta_y = dest.y - source.y;
+	Polar_vector pv = cv;
+	setAzimuth(pv.theta);
+}
+
+void Scouter::setDestination(Point dest){
+	destination = dest;
 }
 
 double Scouter::calculate_distance(const Point & from, const Point & to){

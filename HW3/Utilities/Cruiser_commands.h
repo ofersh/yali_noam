@@ -11,29 +11,32 @@
 
 #include <stdio.h>
 #include "Ships_commands.h"
-#include "Elements/Cruiser.h"
-
+#include "../Elements/Cruiser.h"
+#include "../Elements/Civil_ship.h"
 
 class Cruiser_commands :public Ships_commands {
 public:
 
 	Cruiser_commands();
 	~Cruiser_commands();
-	virtual void operator()(Cruiser *)=0;
+	virtual bool operator()(Cruiser *)=0;
+	virtual bool operator()(Ship * s){ return operator ()(dynamic_cast<Cruiser*>(s));}
 
 };
 
 class Attack : public Cruiser_commands{
+public:
 	Attack(weak_ptr<Ship> attackedShip): attackedShip(attackedShip){};
 	~Attack();
 
-	void operator()(Cruiser* c){
-		c->attack(attackedShip);
+	bool operator()(Cruiser* c){
+
+		return true;
 	}
 
 private:
 	weak_ptr<Ship> attackedShip;
-}
+};
 
 
 #endif /* Cruiser_commands_hpp */

@@ -18,7 +18,7 @@ public:
 	Civil_Ships_Commands();
 	virtual ~Civil_Ships_Commands();
 
-    bool operator()(Ship*){return true;};   //need to check what to do about this one.
+    bool operator()(Ship* s){return operator ()(dynamic_cast<Civil_ship*>(s));};   //need to check what to do about this one.
 	virtual bool operator()(Civil_ship *s)=0;
 };
 

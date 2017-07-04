@@ -5,8 +5,8 @@
  *      Author: yali
  */
 
-#ifndef BADINPUTEXCEPTION_H_
-#define BADINPUTEXCEPTION_H_
+#ifndef UTILITIES_BADINPUTEXCEPTION_H_
+#define UTILITIES_BADINPUTEXCEPTION_H_
 
 #include <stdexcept>
 

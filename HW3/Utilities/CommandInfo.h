@@ -9,15 +9,13 @@
 #define UTILITIES_COMMANDINFO_H_
 
 #include <string>
-#include "Ship.h"
+#include "../Elements/Ship.h"
 
 using std::string;
 
 
 class CommandInfo {
 public:
-
-
 
 	enum CommandSection{MODEL=0,VIEW=1,SHIP=2,QUIT=3};
 	enum Commands{STATUS=0,GO=1,CREATE=2,DEFAULT=3,SIZE=4,ZOOM=5,PAN=6,SHOW=7};

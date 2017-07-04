@@ -17,7 +17,8 @@
 class Freighter_commands :public Civil_Ships_Commands {
 public:
     
-    void operator()(Freighter * f);
+    virtual bool operator()(Freighter * f)=0;
+    virtual bool operator()(Civil_ship * cs){return operator()(dynamic_cast<Freighter*>(cs));};
 };
 
 
@@ -29,12 +30,8 @@ class Load_at :public Freighter_commands {
 public:
     Load_at(weak_ptr<Port> port):port_name(port){}
     
-    void operator()(Freighter * f){
-        f->embark(port_name);
-    };
-
-    void operator()(Ship* f){
-    	operator ()(dynamic_cast<Freighter*>(f));
+    bool operator()(Freighter * f){
+        return f->embark(port_name);
     };
 };
 
@@ -48,12 +45,10 @@ class Unload_at :public Freighter_commands {
 public:
     Unload_at(weak_ptr<Port> port, int amount):port_name(port),amount(amount){}
     
-    void operator()(Freighter * f){
-        f->disembark(port_name, amount);
+    bool operator()(Freighter * f){
+        return f->disembark(port_name, amount);
     };
-    void operator()(Ship* f){
-        	operator ()(dynamic_cast<Freighter*>(f));
-        };
+
 };
 
 

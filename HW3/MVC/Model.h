@@ -9,9 +9,10 @@
 #define MVC_MODEL_H_
 
 #include <vector>
-#include "../Elements/MarineElement.h"
+#include "../Elements/Ship.h"
+#include "../Elements/Port.h"
 #include <memory>
-#include "Model.h"
+
 
 using std::vector;
 using std::shared_ptr;

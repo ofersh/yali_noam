@@ -31,12 +31,12 @@ private:
     void findNextPort();    //find next clost port.
     
 public:
-    Cruise_Ship(Type t, string name, Point pos);
+    Cruise_Ship(string name, Point pos);
     ~Cruise_Ship();
     
     void go(); //perform a step.
     void status()const; //print status of ship.
-    Ship::Type getType();   //return type.
+    Ship::Type getType()const;   //return type.
     
     
     bool under_attack(Cruiser * attacking); //double dispatch method.

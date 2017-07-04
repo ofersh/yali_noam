@@ -14,12 +14,20 @@
 using namespace std;
 
 
+
+Command_Factory& Command_Factory::getCommandFactory(){
+	static Command_Factory command_factory;
+	return command_factory;
+}
+
+
+
 Ships_commands* Command_Factory::getShipCommand(CommandInfo cmdInfo){
 	Model m = Model::getModel();
 	shared_ptr<Ship> currentShip = m.getShip(cmdInfo.shipName).lock();
 	if(currentShip == nullptr)
 		throw BadInputException((cmdInfo.shipName + " is not a ship or does not exist").c_str());
-	//cmdInfo.type = currentShip->getType();
+	cmdInfo.type = currentShip->getType();
 	weak_ptr<Ship> destShip;
 	switch (static_cast<int>(cmdInfo.shipCMD)) {
 		case static_cast<int>(CommandInfo::shipCommand::COURSE):

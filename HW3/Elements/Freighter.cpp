@@ -15,7 +15,8 @@
 using namespace std;
 
 
-Freighter::Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port):Civil_ship(t, name, pos, fuel,LPM ), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
+Freighter::Freighter(string name, Point pos,unsigned int maxCont, int res):\
+		Civil_ship(Ship::Type::FREIGHTER,name, pos, MAXFUEL,LPM ), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
 {}
 
 Freighter::~Freighter() {}
@@ -82,7 +83,7 @@ bool Freighter::under_attack(Cruiser *attacking)
 }
 
 //return ship type.
-Ship::Type Freighter::getType(){
+Ship::Type Freighter::getType()const{
 	return Ship::Type::FREIGHTER;
 }
 

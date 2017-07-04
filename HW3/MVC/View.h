@@ -45,7 +45,7 @@ private:
     
 public:
 	View();
-	virtual ~View();
+	~View();
     
     
     void _default();

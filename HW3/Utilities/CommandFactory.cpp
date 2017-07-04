@@ -57,7 +57,7 @@ Ships_commands* Command_Factory::getShipCommand(CommandInfo cmdInfo){
 			if(cmdInfo.type != Ship::Type::CRUISER)
 				throw BadInputException((cmdInfo.shipName + " is not a cruiser").c_str());
 			destShip = m.getShip(cmdInfo.destination);
-			if(destShip == nullptr || destShip.expired())
+			if(destShip.expired())
 				throw BadInputException((cmdInfo.destination + " does not exist anymore").c_str());
 			return new Attack(destShip);
 
@@ -114,10 +114,10 @@ Ships_commands* Command_Factory::getShipCommand(CommandInfo cmdInfo){
 
 
 
-	weak_ptr<Port>& getLegalPort(string name, Model& m){
+	weak_ptr<Port> getLegalPort(string name, Model& m){
 		weak_ptr<Port> destPort;
 		destPort = m.getPort(name);
-		if(destPort == nullptr || destPort.expired())
+		if(destPort.expired())
 			throw BadInputException((name + " does not exist anymore").c_str());
 		return destPort;
 	}

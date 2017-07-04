@@ -50,7 +50,7 @@ double Civil_ship::getRequiredFuelAmount()const
 void Civil_ship::setDestination(weak_ptr<Port> port)
 {
     destination=port;
-    Ship::calculate_route();
+    Ship::set_route(port.lock()->getPosition());
     Ship::set_state(State::MOVING);
 }
 

@@ -41,6 +41,11 @@ void Ship::set_velocity(double v){
     scouter.setVelocity(v);
 }
 
+void Ship::set_route(Point dest){
+	scouter.setAzimuth(Marine_Element::getPosition(),dest);
+	scouter.setDestination(dest);
+}
+
 
 //get next command from command queue.
 shared_ptr<Ships_commands> Ship::getNextCommand()const
@@ -76,7 +81,7 @@ void Ship::pritorityCommand(Ships_commands *sc)
 void Ship::advance(){
 	Point currentPos = Marine_Element::getPosition();
 	Point nextPos = scouter.calculateNextStep(currentPos);
-	if(nextPos == scouter.destination)
+	if(nextPos == scouter.getDestCoordinates())
 		set_state(State::STOPPED);
 	Marine_Element::setPosition(nextPos.x,nextPos.y);
 }

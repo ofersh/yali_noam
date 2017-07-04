@@ -65,6 +65,7 @@ public:
     //scouter getters and setters.
     void set_direction(double arg);
     void set_velocity(double v);
+    void set_route(Point dest);
     double getAzimuth()const{return scouter.getAzimuth();};
     double getVelocity()const{return scouter.getVelocity();};
     Point getDestCoordinates(){return scouter.getDestCoordinates();};

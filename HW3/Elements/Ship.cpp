@@ -67,7 +67,9 @@ void Ship::dequeue_command(){
 
 
 bool Ship::inRange(Point p,double range){
-
+	double actualRange = distance_between_two_points(Marine_Element::getPosition(),p);
+	if(actualRange > range)
+		return false;
 	return true;
 }
 

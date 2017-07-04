@@ -11,6 +11,14 @@ double to_degrees(double theta_r)
 {
 	return theta_r * 180.0 / pi;
 }
+
+double distance_between_two_points(Point a,Point b){
+	double x = a.x - b.x;
+	double y = a.y - b.y;
+	return sqrt((x*x)+(y*y));
+}
+
+
 // construct a Cartesian_vector from a Polar_vector
 Cartesian_vector::Cartesian_vector(const Polar_vector& pv) {
 	delta_x = pv.r * cos(pv.theta);

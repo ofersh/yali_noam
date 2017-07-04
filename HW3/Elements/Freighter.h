@@ -28,16 +28,17 @@ public:
     Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port);
     ~Freighter();
     
+    void enqueue (Freighter_commands *csc); //enqueue Freighter commands.
+    bool disembark(weak_ptr<Port> port,unsigned int amount);   //unload at method.
+    bool embark(weak_ptr<Port> port);  //load at method.
     
-    
-    void enqueue (Freighter_commands *csc);
-    void disembark(weak_ptr<Port> port,unsigned int amount);   //unload_at
-    void embark(weak_ptr<Port> port);  //load_at
+    //setters and getters.
     unsigned int containers_amount()const {return current_containers;};
     unsigned int empty_space()const{return maxCargo-current_containers;};
     void add_cargo(unsigned int amount);
 
     void status()const;
+    void go();
 };
 
 #endif /* FREIGHTER_H_ */

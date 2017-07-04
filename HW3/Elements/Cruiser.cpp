@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Cruiser::Cruiser(Type t, string name, Point pos , int force, double range):Ship(t,name, pos) {
+Cruiser::Cruiser(Type t, string name, Point pos , int force, double range):Ship(t,name, pos, -1,-1) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -27,7 +27,9 @@ Cruiser::~Cruiser() {
 void Cruiser::status()const
 {
     Point mypos=Marine_Element::getPosition();
-    cout<<"Cruiser "<<Marine_Element::getName()<<" at ("<<mypos.second<<", "<<mypos.first<<"), force: "<<force<<", Moving on course  "<<Ship::getAzimuth()<<" deg, speed "<<Ship::getVelocity()<<" nm/hr" <<endl;
+    cout<<"Cruiser "<<Marine_Element::getName()<<" at ";
+    mypos.print();
+    cout<<" force: "<<force<<", Moving on course  "<<Ship::getAzimuth()<<" deg, speed "<<Ship::getVelocity()<<" nm/hr" <<endl;
 }
 
 

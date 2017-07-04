@@ -36,6 +36,7 @@ public:
     weak_ptr<Port> get_destination()const{return destination;};
     
     void enqueue(Civil_Ships_Commands *csc ); //enqueue new command.
+    void pritorityCommand(Civil_Ships_Commands *csc ); //push command first.
 };
 
 #endif /* Civil_ship_hpp */

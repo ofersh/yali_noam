@@ -28,14 +28,16 @@ void Freighter::enqueue(Freighter_commands *csc){
 
 
 // unload containers at port.
-void Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
+bool Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
 {
     weak_ptr<Port> dest=Civil_ship::get_destination();
     
+    //in case trying to disembark on diffrent port than destination, add a new docking command.
     if (dest.lock()!=port.lock())
     {
-        Civil_ship::dock(port);
-        return;
+        Dock_at *newDest=new Dock_at{dest};
+        Civil_ship::pritorityCommand(newDest); //must add as first.
+        return false;
     }
         
     if (Ship::get_state()==State::DOCKED)
@@ -45,14 +47,25 @@ void Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
             amount=current_containers;
         }
         port.lock()->unload_ship(amount);
+        return true;
     }
+    return false;
 }
 
 
 // load containers to ship.
-void Freighter::embark(weak_ptr<Port> port)
+bool Freighter::embark(weak_ptr<Port> port)
 {
-    Civil_ship::dock(port);
+    weak_ptr<Port> dest=Civil_ship::get_destination();
+    //in case trying to embark on diffrent port than destination, add a new docking command.
+    if (dest.lock()!=port.lock())
+    {
+        Dock_at *newDest=new Dock_at{dest};
+        Civil_ship::pritorityCommand(newDest);  //must add as first.
+        return false;
+    }
+    
     if (Ship::get_state()==State::DOCKED)
         port.lock()->load_ship(*this);
+    return true;
 }

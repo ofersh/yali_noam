@@ -10,7 +10,7 @@
 #include "Port.h"
 #include "../Utilities/CivilShipsCommands.h"
 
-Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm):Ship(t,name,pos,fuel, lpm),fuelling(false)
+Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm):Ship(t,name,pos,fuel), fuel_consumption(lpm),fuelling(false)
 {
 }
 
@@ -81,4 +81,13 @@ void Civil_ship::set_Waiting_for_fuel(bool b)
 void Civil_ship::pritorityCommand(Civil_Ships_Commands *csc)
 {
     Ship::pritorityCommand(csc);
+}
+
+void Civil_ship::advance(){
+	if(Marine_Element::getCurrentFuel() == 0){
+		Ship::set_state(Ship::State::DEAD);
+		return;
+	}
+	Marine_Element::addFuel(-fuel_consumption);
+	Ship::advance();
 }

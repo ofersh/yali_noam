@@ -29,7 +29,6 @@ public:
 
 private:
     State state;
-    double fuel_consumption;
     deque<shared_ptr<Ships_commands>> command_queue;   //command queue.
     Scouter scouter;
 
@@ -38,7 +37,7 @@ public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
 
     
-	Ship(Type t, string name,Point position, double fuel, double fuel_consumption);
+	Ship(Type t, string name,Point position, double fuel);
 	virtual ~Ship()=default;
     
     virtual Type getType()const=0;
@@ -49,7 +48,7 @@ public:
     void pritorityCommand(Ships_commands *sc);
     
     void halt(); //Stop ship.
-    void advance(); //actual moving functin, needs to calculate progress and LPM
+    virtual void advance(); //actual moving functin, needs to calculate progress and LPM
     
     
     //return next command.

@@ -22,6 +22,7 @@ private:
     //docking range of ship.
     constexpr static const double DOCKING_RANGE=0.1;
 
+    double fuel_consumption;
     bool fuelling;
     weak_ptr<Port> destination;
     
@@ -37,7 +38,7 @@ public:
     void set_Waiting_for_fuel(bool b); //for fuel flag.
     bool isFuelling()const{return fuelling;};
     weak_ptr<Port> get_destination()const{return destination;};
-    
+    virtual void advance();
     
     double getRequiredFuelAmount()const;    // for fuelling purpose.
     void fuel(double fuel);     //fuelling command.

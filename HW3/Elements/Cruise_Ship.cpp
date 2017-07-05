@@ -30,6 +30,10 @@ bool Cruise_Ship::under_attack(Cruiser *attacking){
 //cruise ship go command.
 void Cruise_Ship::go()
 {
+	// if the ship has finished its route
+	if(remainingPorts.empty() && Ship::get_state() != Ship::State::STOPPED)
+		Ship::set_state(Ship::State::STOPPED);
+
 	//as long as ship is moving, keep on moving.
 	if (Ship::get_state()==Ship::MOVING)
 		Ship::advance();
@@ -55,12 +59,14 @@ void Cruise_Ship::go()
 		return;
 
 	//enqueue new commands.
-	Dock_at *next_stop= new Dock_at{new_dest};
-	Refuel *next_refuel= new Refuel{};
+	Civil_Ships_Commands *next_stop= Command_Factory::getCommandFactory().get_Dock_at_Command(new_dest);
+	Civil_Ships_Commands *next_refuel= Command_Factory::getCommandFactory().get_Refuel_Command();
 
 	Civil_ship::enqueue(next_stop);
 	if (remainingPorts.size()!=1)
 		Civil_ship::enqueue(next_refuel);
+	else
+		delete next_refuel;
 }
 
 

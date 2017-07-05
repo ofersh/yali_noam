@@ -30,6 +30,7 @@ public:
 private:
     State state;
     deque<shared_ptr<Ships_commands>> command_queue;   //command queue.
+    double maxVelocity;
     Scouter scouter;
 
     
@@ -37,7 +38,7 @@ public:
     enum Type {FREIGHTER, CRUISE_SHIP, CRUISER };   //Neccessary for ship creation.
 
     
-	Ship(Type t, string name,Point position, double fuel);
+	Ship(Type t, string name,Point position, double fuel,double maxV);
 	virtual ~Ship()=default;
     
     virtual Type getType()const=0;
@@ -67,6 +68,7 @@ public:
     void set_route(Point dest);
     double getAzimuth()const{return scouter.getAzimuth();};
     double getVelocity()const{return scouter.getVelocity();};
+    double getMaxVelocity()const{return maxVelocity;};
     Point getDestCoordinates(){return scouter.getDestCoordinates();};
 
     

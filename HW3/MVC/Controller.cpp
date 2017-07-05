@@ -116,9 +116,6 @@ void Controller::run(){
 
 /*** command handles ****/
 
-
-
-
 void Controller::handle_model_cmd(CommandInfo& cmd){
 	Model& m = Model::getModel();
 

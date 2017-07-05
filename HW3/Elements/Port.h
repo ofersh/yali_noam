@@ -25,16 +25,18 @@ using std::queue;
 class Port: public Marine_Element {
     
 private:
-    double containers;
+    double containers;  //port containers.
+    double fuel_generate_rate;  //port fuel genrate rate.
     
-    queue<Civil_ship*> fuel_queue;  //think about it, maybe ask from model ship by name?
+    queue<Civil_ship*> fuel_queue;  // hold a queue of ship fuel request
     static vector<weak_ptr<Port>> ports_list;
     
-    Port(string name,Point pos, double fuel);
+    Port(string name,Point pos, double fuel, double fuel_generate );
 
 public:
-    shared_ptr<Port> create_port(string name,Point pos, double fuel);
-	~Port();
+    static shared_ptr<Port> create_port(string name,Point pos, double fuel, double fuel_generate);
+	
+    ~Port()=default;
     
     void add_containers (unsigned int amount);
     void load_ship (Freighter& fr);

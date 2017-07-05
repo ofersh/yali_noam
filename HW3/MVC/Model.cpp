@@ -13,17 +13,15 @@
 
 
 using namespace std;
-Model::Model() {
-    // TODO Auto-generated constructor stub
-    
+
+//add a new port to model.
+void Model::addPort(string port_name, double x, double y, int maxFuel, int fph)
+{
+    elements_list.push_back(Port::create_port(port_name, Point(x,y), maxFuel,fph));
 }
 
 
-
-void Model::addPort(string port_name, double x, double y, int maxFuel, int fph){
-    cout<<"Model::addPort()"<<endl;
-}
-
+//add command to ship, polymorphicly will fall into place.
 void Model::addCommand(string ship,Ships_commands* shipCmd)
 {
     shared_ptr<Ship> ship_on_duty= getShip(ship).lock();

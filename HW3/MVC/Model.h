@@ -22,11 +22,8 @@ class Model {
     
 private:
     
-    Model();
-    
-    
+    Model()=default;
     vector<shared_ptr<Marine_Element>> elements_list;
-    
     
 public:
 	

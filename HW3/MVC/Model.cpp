@@ -6,6 +6,7 @@
  */
 
 #include "Model.h"
+#include "View.h"
 #include <iostream>
 #include "../Utilities/Freighter_commands.h"
 #include "../Utilities/CivilShipsCommands.h"
@@ -111,5 +112,6 @@ weak_ptr<Ship> Model::getShip(string shipName)
 
 void Model::setView(shared_ptr<View> v){
 	view = v;
+    v->refresh();
 }
 

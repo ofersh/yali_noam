@@ -55,14 +55,15 @@ void View::map_all_elements()
 //place a new element in map.
 void View::place(Point real_pos, string name)
 {
-    if (real_pos.x>maxX || real_pos.y>maxY)
-        return;
     
     //prepare new point and string.
     Point scaledPos=scale(real_pos);
+    if (scaledPos.x> map_size-1 || scaledPos.y>map_size-1)
+        return;
     name.resize(2);
     
-    elements_cell cell=map.at(scaledPos.y).at(scaledPos.x);
+    elements_row &er =map.at(scaledPos.y);
+    elements_cell &cell=er.at(scaledPos.x);
     cell.push_back(name);
 }
 

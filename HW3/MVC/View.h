@@ -63,7 +63,7 @@ public:
     void zoom(double ratio);
     void pan(unsigned int x, unsigned int y);
     void show()const;
-    
+    void refresh(){init();};
     
     void updatePosition(string name,Point oldPos,Point newPos);
     

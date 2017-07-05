@@ -19,13 +19,11 @@ Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm,do
 //Dock at destination port, if not in range move to it.
 bool Civil_ship::dock(weak_ptr<Port> port)
 {
-    Command_Factory & cf = Command_Factory::getCommandFactory();
-    
     //if not current destination, start to move toward destination.
     if (destination.lock()!=port.lock())
     {
-        Civil_Ships_Commands* newDestCMD=cf.get_Destination_Command(port, Ship::getMaxVelocity());
-        pritorityCommand(newDestCMD);
+        set_velocity(getMaxVelocity());
+        setDestination(port);
         return false;
     }
     
@@ -84,10 +82,6 @@ void Civil_ship::set_Waiting_for_fuel(bool b)
     fuelling=b;
 }
 
-void Civil_ship::pritorityCommand(Civil_Ships_Commands *csc)
-{
-    Ship::pritorityCommand(csc);
-}
 
 void Civil_ship::advance(){
 	if(Marine_Element::getCurrentFuel() == 0){

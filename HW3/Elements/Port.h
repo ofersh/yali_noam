@@ -25,7 +25,7 @@ using std::queue;
 class Port: public Marine_Element {
     
 private:
-    double containers;  //port containers.
+
     double fuel_generate_rate;  //port fuel genrate rate.
     
     queue<Civil_ship*> fuel_queue;  // hold a queue of ship fuel request
@@ -38,7 +38,6 @@ public:
 	
     ~Port()=default;
     
-    void add_containers (unsigned int amount);
     void load_ship (Freighter& fr);
     void fuel_request (Civil_ship* ship);
     

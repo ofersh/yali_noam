@@ -21,7 +21,6 @@ using std::deque;
 using std::shared_ptr;
 using std::weak_ptr;
 
-
 class Ship: public Marine_Element {
     
 public:
@@ -46,7 +45,6 @@ public:
     
     //command queue manipulation.
     virtual void enqueue(Ships_commands *sc);
-    void pritorityCommand(Ships_commands *sc);
     
     void halt(); //Stop ship.
     virtual void advance(); //actual moving functin, needs to calculate progress and LPM

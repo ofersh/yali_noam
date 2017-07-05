@@ -44,7 +44,7 @@ void Model::addCommand(string ship,Ships_commands* shipCmd)
 // perform go step on all elemments.
 void Model::go()
 {
-    for (shared_ptr<Marine_Element> wme : elements_list)
+    for (shared_ptr<Marine_Element> &wme : elements_list)
     {
         wme->go();
     }
@@ -54,7 +54,7 @@ void Model::go()
 //perform status action on all elements.
 void Model::status()const
 {
-    for (shared_ptr<Marine_Element> wme : elements_list)
+    for (const shared_ptr<Marine_Element>& wme : elements_list)
     {
         wme->status();
     }

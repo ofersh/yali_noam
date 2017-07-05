@@ -34,7 +34,7 @@ private:
     const static string EMPTY_CELL;
     
     Point origin;
-    int cell_size;  //for scaling.
+    double cell_size;  //for scaling.
     int map_size;
     int maxY;   //last visible y point.
     int maxX;   //last visible x point.
@@ -60,13 +60,20 @@ public:
     
     void _default();
     void size(unsigned int size);
-    void zoom(unsigned int ratio);
+    void zoom(double ratio);
     void pan(unsigned int x, unsigned int y);
     void show()const;
     
     
     void updatePosition(string name,Point oldPos,Point newPos);
-
+    
+    
+    
+    class IllegalMapSizeException : public runtime_error
+    {
+    public:
+        IllegalMapSizeException(string what)        :runtime_error{what}{};
+    };
 
 };
 

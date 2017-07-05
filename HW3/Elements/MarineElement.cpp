@@ -20,15 +20,15 @@ void Marine_Element::addFuel(double fuel)
         current_fuel=fuel_tank_capacity;
 }
 
-void Marine_Element::setObsetrver(View* v){
+void Marine_Element::setObsetrver(weak_ptr<View> v){
 	observer = v;
 }
 
 void Marine_Element::setPosition(double x, double y){
 	Point oldPos = position, newPos = Point{x,y};
-	string shortName = name.substr(0,2);
 	position = newPos;
-	if(observer)
-		observer->updatePosition(shortName,oldPos,newPos);
+
+	if(!observer.expired())
+		observer.lock()->updatePosition(name,oldPos,newPos);
 }
 

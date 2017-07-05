@@ -57,7 +57,7 @@ public:
 	void handle_ship_cmd(CommandInfo& cmd);
 
 
-	View view;
+	shared_ptr<View> view;
 };
 
 #endif /* CONTROLLER_H_ */

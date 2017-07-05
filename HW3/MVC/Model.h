@@ -14,6 +14,7 @@
 #include "../Elements/Shipyard.h"
 #include <memory>
 
+class View;
 
 using std::vector;
 using std::shared_ptr;
@@ -24,6 +25,8 @@ private:
     
     Model()=default;
     vector<shared_ptr<Marine_Element>> elements_list;
+    weak_ptr<View> view;
+
     
 public:
 	
@@ -51,6 +54,8 @@ public:
     weak_ptr<Ship> getShip(string shipName);
 
     Ship::Type getShipType(string shipName);
+
+    void setView(shared_ptr<View> v);
 };
 
 #endif /* MODEL_H_ */

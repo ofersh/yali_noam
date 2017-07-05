@@ -74,6 +74,7 @@ void View::updatePosition(string name,Point oldElemPos,Point newElemPos){
 	Point newPosOnMap = scale(newElemPos);
 	int oldX = oldPosOnMap.x,oldY = oldPosOnMap.y ,newX = newPosOnMap.x,newY = newPosOnMap.y;
 
+	place(newElemPos,name);
 }
 
 

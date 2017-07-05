@@ -19,8 +19,9 @@ using std::vector;
 using std::string;
 using std::weak_ptr;
 
-using elements_map=vector<vector<vector<string>>>;
-using elements_row=vector<vector<string>>;
+using elements_cell=vector<string>;
+using elements_row=vector<elements_cell>;
+using elements_map=vector<elements_row>;
 
 class View {
 private:

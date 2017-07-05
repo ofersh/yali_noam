@@ -89,7 +89,7 @@ void Cruise_Ship::status()const
 
 
 //return type of ship.
-Ship::Type getType(){ return Ship::Type::CRUISE_SHIP; }
+Ship::Type Cruise_Ship::getType(){ return Ship::Type::CRUISE_SHIP; }
 
 void Cruise_Ship::findNextPort(){
 	// initialize closest port

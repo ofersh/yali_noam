@@ -16,9 +16,9 @@
 
 using namespace std;
 
-Controller::Controller(){
+Controller::Controller():view(new View()){
     Model& m = Model::getModel();
-    
+    m.setView(view);
     m.addPort("Acapulco", 50, 5, 1000000, 1000);
 }
 
@@ -146,26 +146,25 @@ void Controller::handle_model_cmd(CommandInfo& cmd){
 }
 
 void Controller::handle_view_cmd(CommandInfo& cmd){
-	unsigned int size,ratio,x,y;
 	switch (static_cast<int>(cmd.cmd)) {
-	case static_cast<int>(CommandInfo::Commands::DEFAULT):
-									view._default();
-	break;
+		case static_cast<int>(CommandInfo::Commands::DEFAULT):
+		view->_default();
+		break;
 	case static_cast<int>(CommandInfo::Commands::SIZE):
-									size = cmd.arg1;
-	view.size(size);
-	break;
+		// size = arg1
+		view->size(cmd.arg1);
+		break;
 	case static_cast<int>(CommandInfo::Commands::ZOOM):
-									ratio = cmd.arg1;
-	view.zoom(ratio);
-	break;
+		// ratio = arg1
+		view->zoom(cmd.arg1);
+		break;
 	case static_cast<int>(CommandInfo::Commands::PAN):
-									x = cmd.arg1; y = cmd.arg2;
-	view.pan(x,y);
-	break;
+		// x = arg1 , y = arg2
+		view->pan(cmd.arg1,cmd.arg2);
+		break;
 	case static_cast<int>(CommandInfo::Commands::SHOW):
-									view.show();
-	break;
+		view->show();
+		break;
 	default:
 		throw BadInputException("command has not been properly handled");
 	}

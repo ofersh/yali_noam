@@ -11,14 +11,12 @@
 #include "MarineElement.h"
 #include <queue>
 #include <deque>
-#include <memory>
 #include <vector>
 
 using std::vector;
 class Freighter;
 class Civil_ship;
 
-using std::weak_ptr;
 using std::shared_ptr;
 using std::queue;
 

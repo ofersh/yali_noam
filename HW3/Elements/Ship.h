@@ -9,9 +9,7 @@
 #define ELEMENTS_SHIP_H_
 
 #include "MarineElement.h"
-#include <string>
 #include <deque>
-#include <memory>
 
 class Ships_commands;
 
@@ -19,7 +17,6 @@ class Ships_commands;
 using std::string;
 using std::deque;
 using std::shared_ptr;
-using std::weak_ptr;
 
 class Ship: public Marine_Element {
     

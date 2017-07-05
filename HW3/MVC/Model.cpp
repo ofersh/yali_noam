@@ -17,7 +17,9 @@ using namespace std;
 //add a new port to model.
 void Model::addPort(string port_name, double x, double y, int maxFuel, int fph)
 {
-    elements_list.push_back(Port::create_port(port_name, Point(x,y), maxFuel,fph));
+	shared_ptr<Port> newPort = Port::create_port(port_name, Point(x,y), maxFuel,fph);
+    elements_list.push_back(newPort);
+    newPort->setObsetrver(view);
 }
 
 
@@ -63,19 +65,24 @@ void Model::create(string name, Ship::Type type, double x, double y, int arg1, i
 {
     Shipyard & shipyard =Shipyard::get_ship_factory();
     int force=arg1,range=arg2,maxCargo=arg1,resistance=arg2;
+    shared_ptr<Ship> newShip;
     switch (static_cast<int>(type)) {
         case static_cast<int> (Ship::Type::CRUISER) :
-            elements_list.push_back(shipyard.build_cruiser(name, x, y, force, range));
+        	newShip = shipyard.build_cruiser(name, x, y, force, range);
+            elements_list.push_back(newShip);
             break;
         case static_cast<int> (Ship::Type::CRUISE_SHIP) :
-            elements_list.push_back(shipyard.build_cruise_ship(name, x, y));
+        	newShip = shipyard.build_cruise_ship(name, x, y);
+            elements_list.push_back(newShip);
             break;
         case static_cast<int> (Ship::Type::FREIGHTER) :
-            elements_list.push_back(shipyard.build_freighter(name, x, y, maxCargo, resistance));
+        	newShip = shipyard.build_freighter(name, x, y, maxCargo, resistance);
+            elements_list.push_back(newShip);
             break;
         default:
             break;
     }
+    newShip->setObsetrver(view);
 }
 
 
@@ -99,5 +106,10 @@ weak_ptr<Ship> Model::getShip(string shipName)
 {
     Shipyard & shipyard =Shipyard::get_ship_factory();
     return shipyard.findShip(shipName);
+}
+
+
+void Model::setView(shared_ptr<View> v){
+	view = v;
 }
 

@@ -78,6 +78,7 @@ void Ship::pritorityCommand(Ships_commands *sc)
     command_queue.push_front(shared_ptr<Ships_commands>{sc});
 }
 
+
 void Ship::advance(){
 	Point currentPos = Marine_Element::getPosition();
 	Point nextPos = scouter.calculateNextStep(currentPos);

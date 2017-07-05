@@ -9,6 +9,8 @@
 #include "Civil_ship.h"
 #include "Port.h"
 #include "../Utilities/CivilShipsCommands.h"
+#include "../Utilities/CommandFactory.h"
+
 
 Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm):Ship(t,name,pos,fuel), fuel_consumption(lpm),fuelling(false)
 {
@@ -17,10 +19,14 @@ Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm):S
 //Dock at destination port, if not in range move to it.
 bool Civil_ship::dock(weak_ptr<Port> port)
 {
+    Command_Factory & cf = Command_Factory::getCommandFactory();
+    
     //if not current destination, start to move toward destination.
     if (destination.lock()!=port.lock())
     {
-        setDestination(port);
+        Civil_Ships_Commands* newDestCMD=cf.get_Destination_Command(port, Ship::getMaxVelocity());
+        pritorityCommand(newDestCMD);
+        return false;
     }
     
     // try to dock.

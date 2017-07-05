@@ -139,8 +139,7 @@ void View::show()const
 void View::updatePosition(string name,Point oldElemPos,Point newElemPos){
 
 	Point oldPosOnMap = scale(oldElemPos);
-	Point newPosOnMap = scale(newElemPos);
-	int oldX = oldPosOnMap.x,oldY = oldPosOnMap.y ,newX = newPosOnMap.x,newY = newPosOnMap.y;
+	int oldX = oldPosOnMap.x,oldY = oldPosOnMap.y;
 
 	elements_cell cell = map[oldX][oldY];
 

@@ -12,7 +12,6 @@
 #include "../Elements/Ship.h"
 
 using std::string;
-class std::stringstream;
 
 class CommandInfo {
 public:
@@ -43,7 +42,6 @@ private:
 	void setShipType(string type);
 	void createConditions(string line);
 	void getIntOrDouble(string line,double& arg);
-	void checkForExtraChars(std::stringstream& ss);
 };
 
 #endif /* UTILITIES_COMMANDINFO_H_ */

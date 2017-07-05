@@ -19,6 +19,9 @@ using std::vector;
 using std::string;
 using std::weak_ptr;
 
+using elements_map=vector<vector<vector<string>>>;
+using elements_row=vector<vector<string>>;
+
 class View {
 private:
     
@@ -27,13 +30,16 @@ private:
     const static int MAX_SIZE=30;
     const static int DEFAULT_MAP_SIZE=25;
     const static int DEFAULT_CELL_SIZE=2;
+    const static string EMPTY_CELL;
     
     Point origin;
     int cell_size;  //for scaling.
     int map_size;
     int maxY;   //last visible y point.
     int maxX;   //last visible x point.
-    vector<vector<string>> map; //scaled map of elements.
+    
+    elements_map map;
+    
     
     
     //calculate vertex.
@@ -41,9 +47,10 @@ private:
     
     //init the View.
     void init();
+    void map_all_elements();
     
     //place new element in map.
-    void place(weak_ptr<Marine_Element> elem);
+    void place(Point real_pos, string name);
     
 public:
 	View();

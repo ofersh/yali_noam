@@ -6,37 +6,72 @@
  */
 
 #include "View.h"
+#include "Model.h"
+#include "../Elements/MarineElement.h"
 #include <iostream>
 
-View::View():cell_size(DEFAULT_CELL_SIZE),map_size(DEFAULT_MAP_SIZE)
+const string View::EMPTY_CELL{".."};
+
+View::View(): origin(0,0), cell_size(DEFAULT_CELL_SIZE), map_size(DEFAULT_MAP_SIZE),maxY(DEFAULT_MAP_SIZE),maxX(DEFAULT_MAP_SIZE)
 {
     init();
 }
 
 View::~View() {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 
 // initailized the map regarding its properties.
 void View::init()
 {
-    if (map.max_size())
+    //init destroys the map and rebuild it.
+    map.clear();
     map.resize(map_size);
-    for (vector<string> row: map)
+    for (elements_row row: map)
     {
-        row.resize(map_size);
+        row.resize(map_size); //make a row of empty vectors.
     }
     maxY=cell_size*map_size+origin.y;
     maxX=cell_size*map_size+origin.x;
     
+    map_all_elements();
 }
 
+
+
+
+//map each elemnt of Model.
+void View::map_all_elements()
+{
+    Model& m=Model::getModel();
+    const vector<shared_ptr<Marine_Element>>& elem_list=m.get_element_list();
+    
+    for (weak_ptr<Marine_Element> wme: elem_list)
+    {
+        place(wme.lock()->getPosition(),wme.lock()->getName());
+    }
+}
+
+
+//place a new element in map.
+void View::place(Point real_pos, string name)
+{
+    if (real_pos.x>maxX || real_pos.y>maxY)
+        return;
+    
+    //prepare new point and string.
+    Point scaledPos=scale(real_pos);
+    name.resize(2);
+    
+    vector<string> cell=map.at(scaledPos.x).at(scaledPos.y);
+    cell.push_back(name);
+}
 
 // return scaled postition of enterd point.
 Point View::scale(Point cord)const
 {
-    return Point(cord.x/cell_size,cord.y/cell_size);
+    return Point(static_cast<int>(cord.x/cell_size),static_cast<int>(cord.y/cell_size));
 }
 
 

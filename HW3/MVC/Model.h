@@ -33,7 +33,7 @@ public:
         return model;
     };
     
-
+    const vector<shared_ptr<Marine_Element>>& get_element_list()const{return elements_list;};
     
     virtual ~Model()=default;
 

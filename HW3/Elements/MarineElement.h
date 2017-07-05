@@ -15,11 +15,14 @@
 using std::pair;
 using std::string;
 
+class View;
+
 class Marine_Element {
 
 private:
     string name;
     Point position; // position in the seven seas.
+    View* observer;
     
     double fuel_tank_capacity;
     double current_fuel;
@@ -34,6 +37,7 @@ public:
     virtual void go()=0;
 
     //setters and getters.
+    void setObsetrver(View* v);
     Point getPosition() const {return position;};
     void setPosition(double x, double y){ Point(x,y);};
     string getName()const{return name;};

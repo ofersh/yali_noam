@@ -55,6 +55,9 @@ public:
     void show()const;
     
     
+    void updatePosition(string name,Point oldPos,Point newPos);
+
+
 };
 
 #endif /* VIEW_H_ */

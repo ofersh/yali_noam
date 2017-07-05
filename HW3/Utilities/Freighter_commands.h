@@ -39,14 +39,14 @@ public:
 //Unload Functor.
 class Unload_at :public Freighter_commands {
     
-	weak_ptr<Port> port_name;
+	weak_ptr<Port> port;
     int amount;
     
 public:
-    Unload_at(weak_ptr<Port> port, int amount):port_name(port),amount(amount){}
+    Unload_at(weak_ptr<Port> port, int amount):port(port),amount(amount){}
     
     bool operator()(Freighter * f){
-        return f->disembark(port_name, amount);
+        return f->disembark(port, amount);
     };
 
 };

@@ -231,13 +231,13 @@ void CommandInfo::createConditions(string line){
 			case 5:
 				if(type == Ship::Type::CRUISE_SHIP)
 					throw BadInputException("cruise ship needs only 4 arguments");
-				getInt(buffer,tempArg); // get resistance
+				getInt(buffer,tempArg); // get maxCargo/force
 				arg3 = tempArg;
 				break;
 			case 6:
 				if(type == Ship::Type::CRUISE_SHIP)
 					throw BadInputException("cruise ship needs only 4 arguments");
-				getInt(buffer,tempArg);	// get
+				getInt(buffer,tempArg);	// get resistance/range
 				arg4 = tempArg;
 				break;
 			default:

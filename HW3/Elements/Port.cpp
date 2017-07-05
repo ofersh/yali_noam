@@ -62,6 +62,8 @@ void Port::go()
     //generate fuel
     Marine_Element::addFuel(fuel_generate_rate);
     
+    if(fuel_queue.empty())
+        return;
     Civil_ship * ship_to_fuel=fuel_queue.front();
     fuel_queue.pop();
     double amount=ship_to_fuel->getRequiredFuelAmount();

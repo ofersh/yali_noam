@@ -8,7 +8,7 @@
 #include "Freighter.h"
 #include <iostream>
 #include "Cruiser.h"
-#include "../Utilities/Freighter_commands.h"
+#include "../Utilities/CommandFactory.h"
 #include "Port.h"
 
 
@@ -58,11 +58,13 @@ bool Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
 bool Freighter::embark(weak_ptr<Port> port)
 {
     weak_ptr<Port> dest=Civil_ship::get_destination();
+    Command_Factory& cf=Command_Factory::getCommandFactory();
+    
     //in case trying to embark on diffrent port than destination, add a new docking command.
     if (dest.lock()!=port.lock())
     {
-        Dock_at *newDest=new Dock_at{dest};
-        Civil_ship::pritorityCommand(newDest);  //must add as first.
+        Civil_Ships_Commands* newDockCMD=cf.get_Dock_at_Command(port);
+        Civil_ship::pritorityCommand(newDockCMD);  //must add as first.
         return false;
     }
     

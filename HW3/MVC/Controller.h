@@ -24,7 +24,7 @@ using std::string;
 
 class Controller {
 public:
-	Controller() = default;
+	Controller();
 	~Controller() = default;
 
 	void initialize(string fileName);

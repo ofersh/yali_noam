@@ -43,7 +43,7 @@ public:
     void addCommand(string ship,Ships_commands* shipCmd);
     
     // Ship creation.
-    void create(string name, Ship::Type type, double x, double y, int cargo_capacity=0, int resistence=0, int force=0,int range=0);
+    void create(string name, Ship::Type type, double x, double y, int arg1,int arg2);
 
     // getters from model
     weak_ptr<Port> getPort(string portName);

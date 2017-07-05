@@ -16,6 +16,13 @@
 
 using namespace std;
 
+Controller::Controller(){
+    Model& m = Model::getModel();
+    
+    m.addPort("Acapulco", 50, 5, 1000000, 1000);
+}
+
+
 // get the input file of the ports and set the new ports in the map
 void Controller::initialize(string fileName) {
 	try{
@@ -130,7 +137,7 @@ void Controller::handle_model_cmd(CommandInfo& cmd){
 			if(!(m.getShip(cmd.shipName).expired())) 	// check if ship already exists
 				throw BadInputException("ship already exists");
 
-			//x = cmd.arg1; y = cmd.arg2; res = cmd.arg3; force = cmd.arg4
+			//x = cmd.arg1; y = cmd.arg2; maxCargo/force = cmd.arg3; resistance/range = cmd.arg4
 			m.create(cmd.shipName,cmd.type,cmd.arg1,cmd.arg2,cmd.arg3,cmd.arg4);
 			break;
 		default:

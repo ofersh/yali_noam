@@ -39,7 +39,7 @@ public:
     string getName()const{return name;};
     double getFuelCapcity()const{return fuel_tank_capacity;};
     double getCurrentFuel()const{return current_fuel;};
-    void addFuel(double fuel){current_fuel+=fuel;};
+    void addFuel(double fuel);
 };
 
 #endif /* MARINEELEMENT_H_ */

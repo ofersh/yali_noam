@@ -25,8 +25,6 @@ void Model::addPort(string port_name, double x, double y, int maxFuel, int fph)
 void Model::addCommand(string ship,Ships_commands* shipCmd)
 {
     shared_ptr<Ship> ship_on_duty= getShip(ship).lock();
-    
-    
     // reveal shipCMD true id and invoke relvant enqueue command.
     if (Freighter_commands *fc =dynamic_cast<Freighter_commands*>(shipCmd))
     {
@@ -38,8 +36,6 @@ void Model::addCommand(string ship,Ships_commands* shipCmd)
     {
         ship_on_duty->enqueue(cc);
     }
-
-    
 }
 
 
@@ -63,10 +59,10 @@ void Model::status()const
 }
 
 //create ship by given type.
-void Model::create(string name, Ship::Type type, double x, double y, int cargo_capacity, int resistence, int force,int range)
+void Model::create(string name, Ship::Type type, double x, double y, int arg1, int arg2)
 {
     Shipyard & shipyard =Shipyard::get_ship_factory();
-    
+    int force=arg1,range=arg2,maxCargo=arg1,resistance=arg2;
     switch (static_cast<int>(type)) {
         case static_cast<int> (Ship::Type::CRUISER) :
             elements_list.push_back(shipyard.build_cruiser(name, x, y, force, range));
@@ -75,13 +71,11 @@ void Model::create(string name, Ship::Type type, double x, double y, int cargo_c
             elements_list.push_back(shipyard.build_cruise_ship(name, x, y));
             break;
         case static_cast<int> (Ship::Type::FREIGHTER) :
-            elements_list.push_back(shipyard.build_freighter(name, x, y, cargo_capacity, resistence));
+            elements_list.push_back(shipyard.build_freighter(name, x, y, maxCargo, resistance));
             break;
         default:
             break;
     }
-    
-    
 }
 
 

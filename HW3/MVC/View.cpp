@@ -21,11 +21,14 @@ View::~View() {
 // initailized the map regarding its properties.
 void View::init()
 {
+    if (map.max_size())
     map.resize(map_size);
     for (vector<string> row: map)
     {
         row.resize(map_size);
     }
+    maxY=cell_size*map_size+origin.y;
+    maxX=cell_size*map_size+origin.x;
     
 }
 

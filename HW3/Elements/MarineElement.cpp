@@ -25,10 +25,10 @@ void Marine_Element::setObsetrver(View* v){
 }
 
 void Marine_Element::setPosition(double x, double y){
-	Positon oldPos = position, newPos = Point{x,y};
+	Point oldPos = position, newPos = Point{x,y};
 	string shortName = name.substr(0,2);
 	position = newPos;
 	if(observer)
 		observer->updatePosition(shortName,oldPos,newPos);
-};
+}
 

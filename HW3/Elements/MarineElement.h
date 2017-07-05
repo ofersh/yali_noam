@@ -22,10 +22,10 @@ class Marine_Element {
 private:
     string name;
     Point position; // position in the seven seas.
-    View* observer;
     
     double fuel_tank_capacity;
     double current_fuel;
+    View* observer;
     
     
 public:
@@ -39,7 +39,7 @@ public:
     //setters and getters.
     void setObsetrver(View* v);
     Point getPosition() const {return position;};
-    void setPosition(double x, double y){ position=Point(x,y);};
+    void setPosition(double x, double y);
     string getName()const{return name;};
     double getFuelCapcity()const{return fuel_tank_capacity;};
     double getCurrentFuel()const{return current_fuel;};

@@ -2,7 +2,7 @@
 #include "Cruise_Ship.h"
 #include "Port.h"
 #include "Cruiser.h"
-#include "../Utilities/CivilShipsCommands.h"
+#include "../Utilities/CommandFactory.h"
 #include <iostream>
 #include <limits>
 #include <algorithm>

@@ -8,9 +8,9 @@
 #include "View.h"
 #include <iostream>
 
-View::View() {
-	// TODO Auto-generated constructor stub
-
+View::View():cell_size(DEFAULT_CELL_SIZE),map_size(DEFAULT_MAP_SIZE)
+{
+    init();
 }
 
 View::~View() {
@@ -18,12 +18,31 @@ View::~View() {
 }
 
 
+// initailized the map regarding its properties.
+void View::init()
+{
+    map.resize(map_size);
+    for (vector<string> row: map)
+    {
+        row.resize(map_size);
+    }
+    
+}
 
 
+// return scaled postition of enterd point.
+Point View::scale(Point cord)const
+{
+    return Point(cord.x/cell_size,cord.y/cell_size);
+}
+
+
+//set all view option to default.
 void View::_default()
 {
     cout<<"View::_default"<<endl;
 }
+
 
 void View::size(unsigned int size)
 {

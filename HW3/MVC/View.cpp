@@ -18,9 +18,7 @@ View::View(): origin(0,0), cell_size(DEFAULT_CELL_SIZE), map_size(DEFAULT_MAP_SI
     init();
 }
 
-View::~View() {
-    // TODO Auto-generated destructor stub
-}
+View::~View() {}
 
 
 // initailized the map regarding its properties.
@@ -115,7 +113,7 @@ void View::pan(unsigned int x, unsigned int y)
 }
 
 
-//print the map of all the elemtns.
+//print the map of all the elements.
 void View::show()const
 {
     
@@ -144,6 +142,9 @@ void View::updatePosition(string name,Point oldElemPos,Point newElemPos){
 	Point newPosOnMap = scale(newElemPos);
 	int oldX = oldPosOnMap.x,oldY = oldPosOnMap.y ,newX = newPosOnMap.x,newY = newPosOnMap.y;
 
+	elements_cell cell = map[oldX][oldY];
+
+	cell.erase(find(cell.begin(),cell.end(),name));
 	place(newElemPos,name);
 }
 

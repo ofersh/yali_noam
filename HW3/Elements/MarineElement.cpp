@@ -29,6 +29,6 @@ void Marine_Element::setPosition(double x, double y){
 	position = newPos;
 
 	if(!observer.expired())
-		observer.lock()->updatePosition(name,oldPos,newPos);
+		observer.lock()->updatePosition(name.substr(0,2),oldPos,newPos);
 }
 

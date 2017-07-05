@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "../Elements/MarineElement.h"
 #include <iostream>
+#include <algorithm>
 
 const string View::EMPTY_CELL{".."};
 

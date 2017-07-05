@@ -28,18 +28,12 @@ void CommandInfo::breakCommand(string line){
 	case 0:
 		cmdSec = CommandSection::MODEL;
 		cmd = Commands::STATUS;
-		// check validity of status command
-		ss >> garbage;
-		if(!ss.fail())
-			throw BadInputException("extra characters on status command");
+		checkForExtraChars(ss);
 		return;
 	case 1:
 		cmdSec = CommandSection::MODEL;
 		cmd = Commands::GO;
-		// check validity of go command
-		ss >> garbage;
-		if(!ss.fail())
-			throw BadInputException("extra characters on go command");
+		checkForExtraChars(ss);
 		return;
 	case 2:
 		cmdSec = CommandSection::MODEL;
@@ -51,10 +45,7 @@ void CommandInfo::breakCommand(string line){
 	case 3:
 		cmdSec = CommandSection::VIEW;
 		cmd = Commands::DEFAULT;
-		// check validity of default command
-		ss >> garbage;
-		if(!ss.fail())
-			throw BadInputException("extra characters on default command");
+		checkForExtraChars(ss);
 		return;
 	case 4:
 		cmdSec = CommandSection::VIEW;
@@ -62,7 +53,15 @@ void CommandInfo::breakCommand(string line){
 		// check validity of size command
 		getline(ss,buffer,' ');
 		getInt(buffer,tempArg);
-		arg1 = tempArg;
+		switch (static_cast<unsigned int>(tempArg)) {
+			case 0-6:
+				throw BadInputException("New map size is too small");
+			case tempArg > 30:
+				throw BadInputException("New map size is too big");
+			default:
+				break;
+		}
+		checkForExtraChars(ss);
 		return;
 
 	case 5:
@@ -70,7 +69,8 @@ void CommandInfo::breakCommand(string line){
 		cmd = Commands::ZOOM;
 		// check validity of zoom command
 		getline(ss,buffer,' ');
-		getInt(buffer,tempArg);
+		try{getInt(buffer,tempArg);
+		checkForExtraChars(ss);
 		arg1 = tempArg;
 		return;
 
@@ -83,23 +83,18 @@ void CommandInfo::breakCommand(string line){
 		arg1 = tempArg;
 		getline(ss,buffer,' ');
 		getInt(buffer,tempArg);
+		checkForExtraChars(ss);
 		arg2 = tempArg;
 		return;
 
 	case 7:
 		cmdSec = CommandSection::VIEW;
 		cmd = Commands::SHOW;
-		// check validity of show command
-		ss >> garbage;
-		if(!ss.fail())
-			throw BadInputException("extra characters on show command");;
+		checkForExtraChars(ss);
 		return ;
 	case 8:
 		cmdSec = CommandSection::QUIT;
-		// check validity of quit command
-		ss >> garbage;
-		if(!ss.fail())
-			throw BadInputException("extra characters on quit command");
+		checkForExtraChars(ss);
 		return;
 	default:
 		cmdSec = CommandSection::SHIP;
@@ -130,6 +125,7 @@ void CommandInfo::shipCommandBreak(string line){
 			getline(ss,buffer,' ');
 			getInt(buffer,tempArg);
 			arg2 = tempArg;
+			checkForExtraChars(ss);
 			return;
 
 		case 1:
@@ -140,6 +136,7 @@ void CommandInfo::shipCommandBreak(string line){
 			getYCoordinate(buffer,arg2);		// get y
 			getline(ss,buffer,' ');
 			getDouble(buffer,arg3);				// get velocity
+			checkForExtraChars(ss);
 			return;
 
 		case 2:
@@ -148,6 +145,7 @@ void CommandInfo::shipCommandBreak(string line){
 				throw BadInputException("no destination has been entered");
 			getline(ss,buffer,' ');
 			getInt(buffer,tempArg);
+			checkForExtraChars(ss);
 			arg1 = tempArg;
 			break;
 
@@ -155,9 +153,7 @@ void CommandInfo::shipCommandBreak(string line){
 			shipCMD = LOAD_AT;
 			if(!getline(ss,destination,' '))
 				throw BadInputException("no destination has been entered");
-			ss >> garbage;
-			if(!ss.fail())
-				throw BadInputException("extra characters in LOAD_AT");
+			checkForExtraChars(ss);
 			break;
 
 		case 4:
@@ -166,6 +162,7 @@ void CommandInfo::shipCommandBreak(string line){
 				throw BadInputException("no destination has been entered");
 			getline(ss,buffer,' ');
 			getInt(buffer,tempArg);
+			checkForExtraChars(ss);
 			arg1 = tempArg;
 			break;
 
@@ -173,29 +170,21 @@ void CommandInfo::shipCommandBreak(string line){
 			shipCMD = DOCK_AT;
 			if(!getline(ss,destination,' '))
 				throw BadInputException("no destination has been entered");
-			ss >> garbage;
-			if(!ss.fail())
-				throw BadInputException("extra characters in DOCK_AT");
+			checkForExtraChars(ss);
 			break;
 		case 6:
 			shipCMD = ATTACK;
 			if(!getline(ss,destination,' '))
 				throw BadInputException("no destination has been entered");
-			ss >> garbage;
-			if(!ss.fail())
-				throw BadInputException("extra characters in ATTACK");
+			checkForExtraChars(ss);
 			break;
 		case 7:
 			shipCMD = REFUEL;
-			ss >> garbage;
-			if(!ss.fail())
-				throw BadInputException("extra characters in command refuel");
+			checkForExtraChars(ss);
 			break;
 		case 8:
 			shipCMD = STOP;
-			ss >> garbage;
-			if(!ss.fail())
-				throw BadInputException("extra characters in command STOP");
+			checkForExtraChars(ss);
 			break;
 		default:
 			throw BadInputException("command does not exist");
@@ -238,6 +227,7 @@ void CommandInfo::createConditions(string line){
 				if(type == Ship::Type::CRUISE_SHIP)
 					throw BadInputException("cruise ship needs only 4 arguments");
 				getInt(buffer,tempArg);	// get resistance/range
+				checkForExtraChars(ss);
 				arg4 = tempArg;
 				break;
 			default:
@@ -284,10 +274,7 @@ void CommandInfo::getXCoordinate(string buffer,double& arg){
 	if(!ss.fail())
 		if(garbage != ',')
 			throw BadInputException("no , between coordinates");
-	ss >> garbage;
-	if(!ss.fail())
-		throw BadInputException("extra characters in x coordinate");
-
+	checkForExtraChars(ss);
 
 }
 
@@ -303,10 +290,7 @@ void CommandInfo::getYCoordinate(string buffer,double& arg){
 	ss >> garbage;
 	if(garbage != ')')
 		throw BadInputException("coordinates does not end with )");
-	ss >> garbage;
-	if(!ss.fail())
-		throw BadInputException("extra characters in x coordinate");
-
+	checkForExtraChars(ss);
 
 }
 
@@ -320,9 +304,7 @@ void CommandInfo::getInt(string buffer,int& arg){
 	ss >> temp;
 	if(ss.fail())
 		throw BadInputException("int as not been entered properly");
-	ss >> garbage;
-	if(!ss.fail())
-		throw BadInputException("extra chars in input");
+	checkForExtraChars(ss);
 	arg = temp;
 }
 
@@ -335,8 +317,14 @@ void CommandInfo::getDouble(string buffer,double& arg){
 	ss >> temp;
 	if(ss.fail())
 		throw BadInputException("double as not been entered properly");
+	checkForExtraChars(ss);
+	arg = temp;
+}
+
+void CommandInfo::checkForExtraChars(stringstream& ss){
+	char garbage;
 	ss >> garbage;
 	if(!ss.fail())
 		throw BadInputException("extra chars in input");
-	arg = temp;
 }
+

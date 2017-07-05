@@ -6,6 +6,7 @@
  */
 
 #include "Model.h"
+#include "View.h"
 #include <iostream>
 #include "../Utilities/Freighter_commands.h"
 #include "../Utilities/CivilShipsCommands.h"
@@ -44,7 +45,7 @@ void Model::addCommand(string ship,Ships_commands* shipCmd)
 // perform go step on all elemments.
 void Model::go()
 {
-    for (shared_ptr<Marine_Element> wme : elements_list)
+    for (shared_ptr<Marine_Element> &wme : elements_list)
     {
         wme->go();
     }
@@ -54,7 +55,7 @@ void Model::go()
 //perform status action on all elements.
 void Model::status()const
 {
-    for (shared_ptr<Marine_Element> wme : elements_list)
+    for (const shared_ptr<Marine_Element>& wme : elements_list)
     {
         wme->status();
     }
@@ -111,5 +112,6 @@ weak_ptr<Ship> Model::getShip(string shipName)
 
 void Model::setView(shared_ptr<View> v){
 	view = v;
+    v->refresh();
 }
 

@@ -18,8 +18,9 @@ using namespace std;
 
 Controller::Controller():view(new View()){
     Model& m = Model::getModel();
-    m.setView(view);
     m.addPort("Acapulco", 50, 5, 1000000, 1000);
+    m.setView(view);
+
 }
 
 

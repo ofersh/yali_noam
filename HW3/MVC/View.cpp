@@ -29,7 +29,7 @@ void View::init()
     //init destroys the map and rebuild it.
     map.clear();
     map.resize(map_size);
-    for (elements_row row: map)
+    for (elements_row& row: map)
     {
         row.resize(map_size); //make a row of empty vectors.
     }
@@ -46,7 +46,7 @@ void View::map_all_elements()
     Model& m=Model::getModel();
     const vector<shared_ptr<Marine_Element>>& elem_list=m.get_element_list();
     
-    for (weak_ptr<Marine_Element> wme: elem_list)
+    for (const weak_ptr<Marine_Element>& wme: elem_list)
     {
         place(wme.lock()->getPosition(),wme.lock()->getName());
     }
@@ -56,14 +56,15 @@ void View::map_all_elements()
 //place a new element in map.
 void View::place(Point real_pos, string name)
 {
-    if (real_pos.x>maxX || real_pos.y>maxY)
-        return;
     
     //prepare new point and string.
     Point scaledPos=scale(real_pos);
+    if (scaledPos.x> map_size-1 || scaledPos.y>map_size-1)
+        return;
     name.resize(2);
     
-    vector<string> cell=map.at(scaledPos.x).at(scaledPos.y);
+    elements_row &er =map.at(scaledPos.y);
+    elements_cell &cell=er.at(scaledPos.x);
     cell.push_back(name);
 }
 
@@ -77,28 +78,63 @@ Point View::scale(Point cord)const
 //set all view option to default.
 void View::_default()
 {
-    cout<<"View::_default"<<endl;
+    origin.x=0;
+    origin.y=0;
+    cell_size=DEFAULT_CELL_SIZE;
+    map_size=DEFAULT_MAP_SIZE;
+    init();
 }
 
 
+//change the size of the map.
 void View::size(unsigned int size)
 {
-    cout<<"View::size()"<<endl;
+    if (size>MAX_SIZE || size < MIN_SIZE)
+        throw IllegalMapSizeException{"Must be between 6 and 30"};
+    map_size=size;
+    init();
 }
 
-void View::zoom(unsigned int ratio)
+
+//change the ratio of the cell to real positon.
+void View::zoom(double ratio)
 {
-    cout<<"View::zoom"<<endl;
+    if (cell_size==ratio)
+        return;
+    cell_size=ratio;
+    init();
 }
 
+//change the origin of the map.
 void View::pan(unsigned int x, unsigned int y)
 {
-    cout<<"View::pan"<<endl;
+    if (origin.x==x && origin.y == y)
+        return;
+    origin.x=x;
+    origin.y=y;
 }
 
+
+//print the map of all the elemtns.
 void View::show()const
 {
-    cout<<"View::show"<<endl;
+    
+    //going from top to bottom.
+    auto row_it_begin=map.crbegin(), row_it_end=map.crend();
+    for (; row_it_begin!=row_it_end; row_it_begin++)
+    {
+        for (const elements_cell &cell: *row_it_begin)
+        {
+            if (cell.empty())
+                cout<<".. ";
+            else{
+                cout<<cell.front()<<" ";
+            }
+        }
+        cout<<endl;
+    }
+
+    
 }
 
 

@@ -6,10 +6,25 @@
  */
 
 
-#include "Cruise_Ship.h"
+#include "Elements/Cruiser.h"
+#include "Elements/Freighter.h"
+#include <memory.h>
 
 int main()
 {
-    Cruise_Ship cs = new Cruise_Ship{ Ship::Type::CRUISE_SHIP, "yali",Point(2,3)};
+    shared_ptr<Ship> sfr {new Freighter{ "yali" ,Point(2,3),100, 7}};
+    shared_ptr<Ship> scr{new Cruiser{"noam",Point(1,2),10,12}};
+    
+    
+    sfr->status();
+    scr->status();
+    
+    shared_ptr<Cruiser> rcr=dynamic_pointer_cast<Cruiser>(scr);
+    shared_ptr<Civil_ship> rcs=dynamic_pointer_cast<Civil_ship>(sfr);
+    
+    rcr->attack(rcs);
+    
+    rcs->status();
+    rcr->status();
     
 }

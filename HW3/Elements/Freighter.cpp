@@ -100,17 +100,17 @@ void Freighter::status()const
     
     if (myStatus==Ship::State::MOVING)
     {
-        cout<<"Moving to "<<myDest.lock()->getName()<<"on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr, Containers: "<<current_containers<<", moving to loading destination."<<endl;
+        cout<<" Moving to "<<myDest.lock()->getName()<<"on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr, Containers: "<<current_containers<<", moving to loading destination."<<endl;
     }else if (myStatus==Ship::State::DOCKED)
     {
-        cout<<"Docking at, "<<myDest.lock()->getName()<<endl;
+        cout<<" Docking at, "<<myDest.lock()->getName()<<" Containers: "<<current_containers<<endl;
     }else if (myStatus==Ship::State::STOPPED)
     {
-        cout<<"Stopped."<<endl;
+        cout<<" Stopped, Containers: "<<current_containers<<endl;;
     }
     else if (myStatus==Ship::State::DEAD)
     {
-        cout<<"Dead in the water."<<endl;
+        cout<<" Dead in the water, Containers: "<<current_containers<<endl;;
     }
     
 }

@@ -65,9 +65,21 @@ bool Cruiser::attack(Cruise_Ship* target)
 void Cruiser::status()const
 {
     Point mypos=Marine_Element::getPosition();
+    Ship::State myStatus=Ship::get_state();
     cout<<"Cruiser "<<Marine_Element::getName()<<" at ";
     mypos.print();
-    cout<<" force: "<<force<<", Moving on course  "<<Ship::getAzimuth()<<" deg, speed "<<Ship::getVelocity()<<" nm/hr" <<endl;
+    cout<<" force: "<<force;
+    if (myStatus==Ship::State::MOVING)
+    {
+        cout<< "Moving on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr "<<endl;
+    }else if (myStatus==Ship::State::STOPPED)
+    {
+        cout<<" Stopped."<<endl;
+    }
+    else if (myStatus==Ship::State::DEAD)
+    {
+        cout<<" Dead in the water."<<endl;
+    }
 }
 
 

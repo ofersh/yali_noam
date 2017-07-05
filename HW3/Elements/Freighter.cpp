@@ -16,7 +16,7 @@ using namespace std;
 
 
 Freighter::Freighter(string name, Point pos,unsigned int maxCont, int res):\
-		Civil_ship(Ship::Type::FREIGHTER,name, pos, MAXFUEL,LPM,MAXVELOCITY), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
+		Civil_ship(Ship::Type::FREIGHTER,name, pos, MAXFUEL,LPM,MAXVELOCITY), current_containers(0) , maxCargo(maxCont), resistence(res)
 {}
 
 Freighter::~Freighter() {}
@@ -30,24 +30,14 @@ void Freighter::enqueue(Freighter_commands *csc){
 // unload containers at port.
 bool Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
 {
-    weak_ptr<Port> dest=Civil_ship::get_destination();
-    
-    //in case trying to disembark on diffrent port than destination, add a new docking command.
-    if (dest.lock()!=port.lock())
-    {
-        Dock_at *newDest=new Dock_at{dest};
-        Civil_ship::pritorityCommand(newDest); //must add as first.
-        return false;
-    }
-    
     // cant disambark without DOCKED stated.
-    if (Ship::get_state()==State::DOCKED)
+    if (Civil_ship::dock(port))
     {
         if (amount>current_containers){
             cerr<<"cant unload: "<<amount<<" containers. unloading: "<<current_containers<<endl;
             amount=current_containers;
         }
-        port.lock()->add_containers(amount);
+        current_containers-=amount;
         return true;
     }
     return false;
@@ -57,20 +47,12 @@ bool Freighter::disembark(weak_ptr<Port> port, unsigned int amount)
 // load containers to ship.
 bool Freighter::embark(weak_ptr<Port> port)
 {
-    weak_ptr<Port> dest=Civil_ship::get_destination();
-    Command_Factory& cf=Command_Factory::getCommandFactory();
-    
-    //in case trying to embark on diffrent port than destination, add a new docking command.
-    if (dest.lock()!=port.lock())
-    {
-        Civil_Ships_Commands* newDockCMD=cf.get_Dock_at_Command(port);
-        Civil_ship::pritorityCommand(newDockCMD);  //must add as first.
-        return false;
-    }
-    
-    if (Ship::get_state()==State::DOCKED)
+    //Must dock before embark
+    if (Civil_ship::dock(port)){
         port.lock()->load_ship(*this);
-    return true;
+        return true;
+    }
+    return false;
 }
 
 //freighter revealing its type to attacking ship
@@ -98,14 +80,15 @@ void Freighter::status()const
     
     cout<<"Freighter "<<Marine_Element::getName()<<" at ";
     myPos.print();
+    cout.precision(7);
     cout<<", fuel: "<<Marine_Element::getCurrentFuel()<<" kl, resistence: "<<resistence;
     
     if (myStatus==Ship::State::MOVING)
     {
-        cout<<" Moving to "<<myDest.lock()->getName()<<"on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr, Containers: "<<current_containers<<", moving to loading destination."<<endl;
+        cout<<" Moving to "<<myDest.lock()->getName()<<" on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr, Containers: "<<current_containers<<", moving to loading destination."<<endl;
     }else if (myStatus==Ship::State::DOCKED)
     {
-        cout<<" Docking at, "<<myDest.lock()->getName()<<" Containers: "<<current_containers<<endl;
+        cout<<" Docking at "<<myDest.lock()->getName()<<", Containers: "<<current_containers<<endl;
     }else if (myStatus==Ship::State::STOPPED)
     {
         cout<<" Stopped, Containers: "<<current_containers<<endl;;

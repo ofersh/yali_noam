@@ -1,0 +1,11 @@
+create Emma Freighter (30.00, 30.00) 1000 8
+Emma load_at Acapulco
+Emma refuel
+go
+status
+go
+status
+go
+status
+go
+status

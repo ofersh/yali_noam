@@ -15,7 +15,7 @@ using namespace std;
 vector<weak_ptr<Port>> Port::ports_list{};
 
 //CTOR for port.
-Port::Port(string name, Point pos, double fuel, double fuel_generate):Marine_Element(name,pos,fuel),containers(0), fuel_generate_rate(fuel_generate)
+Port::Port(string name, Point pos, double fuel, double fuel_generate):Marine_Element(name,pos,fuel), fuel_generate_rate(fuel_generate)
 {
 }
 
@@ -29,21 +29,10 @@ shared_ptr<Port> Port::create_port(string name, Point pos, double fuel, double f
 }
 
 
-//rcieve amount of containers from ship.
-void Port::add_containers(unsigned int amount)
-{
-    containers+=amount;
-}
-
-
 //load given ship with cargo.
 void Port::load_ship(Freighter &fr)
 {
     unsigned int amount=fr.empty_space();
-    
-    if (containers<amount)
-        amount=containers;
-        
     fr.add_cargo(amount);
 }
 

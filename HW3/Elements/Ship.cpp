@@ -72,13 +72,6 @@ bool Ship::inRange(Point p,double range){
 	return true;
 }
 
-//set command to be first.
-void Ship::pritorityCommand(Ships_commands *sc)
-{
-    command_queue.push_front(shared_ptr<Ships_commands>{sc});
-}
-
-
 void Ship::advance(){
 	Point currentPos = Marine_Element::getPosition();
 	Point nextPos = scouter.calculateNextStep(currentPos);

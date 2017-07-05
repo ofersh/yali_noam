@@ -2,8 +2,9 @@
 #include "Cruise_Ship.h"
 #include "Port.h"
 #include "Cruiser.h"
-#include "../Utilities/CivilShipsCommands.h"
+#include "../Utilities/CommandFactory.h"
 #include <iostream>
+#include <limits>
 #include <algorithm>
 
 using namespace std;
@@ -79,6 +80,7 @@ void Cruise_Ship::status()const
 
 	cout<<"Cruise_ship "<<Marine_Element::getName()<<" at ";
 	mypos.print();
+    cout.precision(7);
 	cout<<" fuel: "<<Ship::getCurrentFuel()<<" kl ";
 	if (myState==Ship::State::MOVING)
 	{
@@ -102,7 +104,7 @@ void Cruise_Ship::findNextPort(){
 	// initialize closest port
 	Point shipPos = Marine_Element::getPosition();
 	itPort nearestDest;
-	double nearestDist = 999999999;
+    double nearestDist = numeric_limits<double>::max();
 
 	for (itPort it = remainingPorts.begin(); it != remainingPorts.end(); ++it) {
 		// get distance between a port and  the ship

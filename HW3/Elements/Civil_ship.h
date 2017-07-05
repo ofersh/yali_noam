@@ -45,7 +45,6 @@ public:
 
 
     void enqueue(Civil_Ships_Commands *csc ); //enqueue new command.
-    void pritorityCommand(Civil_Ships_Commands *csc ); //push command first.
     
     
 

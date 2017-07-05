@@ -10,13 +10,12 @@
 
 #include <utility>
 #include <vector>
-#include <map>
 #include "../Elements/MarineElement.h"
 #include <string>
 #include <memory>
 
 using std::pair;
-using std::map;
+using std::vector;
 using std::string;
 using std::weak_ptr;
 
@@ -26,19 +25,22 @@ private:
     // Default Values.
     const static int MIN_SIZE=6;
     const static int MAX_SIZE=30;
-    const static int DEFAULT_SIZE=25;
+    const static int DEFAULT_MAP_SIZE=25;
+    const static int DEFAULT_CELL_SIZE=2;
     
     Point origin;
     int cell_size;  //for scaling.
+    int map_size;
     int maxY;   //last visible y point.
     int maxX;   //last visible x point.
+    vector<vector<string>> map; //scaled map of elements.
     
-    
-    // Holding map, sorted pair by y, and then x. values needs to be size 2 string.
-    map<Point,string> Map;
     
     //calculate vertex.
     Point scale(Point cord)const;
+    
+    //init the View.
+    void init();
     
     //place new element in map.
     void place(weak_ptr<Marine_Element> elem);

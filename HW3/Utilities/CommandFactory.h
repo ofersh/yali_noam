@@ -21,8 +21,7 @@ class Model;
 class Command_Factory {
 public:
 
-	Command_Factory()=default;
-	~Command_Factory()=default;
+	static Command_Factory& getCommandFactory();
 
 	Ships_commands* getShipCommand(CommandInfo cmdInfo);
 
@@ -46,6 +45,9 @@ public:
 
 private:
 	weak_ptr<Port> getLegalPort(string name, Model& m);
+
+	Command_Factory()=default;
+	~Command_Factory()=default;
 };
 
 #endif /* UTILITIES_COMMANDFACTORY_H_ */

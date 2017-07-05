@@ -8,6 +8,7 @@
 #include "Controller.h"
 #include "Model.h"
 #include "../Utilities/BadInputException.h"
+#include "../Utilities/CommandFactory.h"
 
 #include <iostream>
 #include <sstream>
@@ -22,8 +23,6 @@ void Controller::initialize(string fileName) {
 		ifstream portFile{fileName};
 		if(!portFile.is_open())
 			throw OpenFileException(fileName);
-
-//		checkValidity(portFile);	// check file for legal input
 
 		// create all the ports
 		Model m = Model::getModel();
@@ -46,29 +45,24 @@ void Controller::initialize(string fileName) {
 	}
 }
 
-//void Controller::checkValidity(ifstream& file){
-//
-//	string name,line;
-//	double x,y;
-//	int maxFuel,fph;
-//
-//	while(getline(file,line)){
-//		getPortDetails(line,name,x,y,maxFuel,fph);
-//	}
-//}
-
 void Controller::getPortDetails(string line,string& name,double& x,double& y,int& maxFuel,int& fph){
 
 	stringstream ss(line);
 	string buffer;
+
+	// get the name
 	getline(ss,buffer,' ');
 	name = buffer;
+	// get x coordinate
 	getline(ss,buffer,' ');
 	CommandInfo::getXCoordinate(buffer,x);
+	// get y coordinate
 	getline(ss,buffer,' ');
 	CommandInfo::getYCoordinate(buffer,y);
+	// get maximum fuel capacity
 	getline(ss,buffer,' ');
 	CommandInfo::getInt(buffer,maxFuel);
+	// get amount of fuel fill per hour
 	getline(ss,buffer,' ');
 	CommandInfo::getInt(buffer,fph);
 
@@ -85,8 +79,10 @@ void Controller::run(){
 	bool running = true;
 
 	while(running){
+		cout << "enter command" << endl;
 		getline(cin,cmdLine);		// read the line from the prompt
 		try {
+
 			cmdI.breakCommand(cmdLine);
 
 			CommandInfo::CommandSection cmdType = cmdI.cmdSec;
@@ -107,7 +103,7 @@ void Controller::run(){
 				throw BadInputException("somethimg went wrong. needed to catch before");
 			}
 		} catch (BadInputException& e) {
-			e.what();
+			cout << e.err << endl;
 			continue;
 		}
 
@@ -171,30 +167,11 @@ void Controller::handle_view_cmd(CommandInfo& cmd){
 
 void Controller::handle_ship_cmd(CommandInfo& cmd){
 
-	//Model& m = Model::getModel();
+	Model& m = Model::getModel();
+	Command_Factory& cmdFactory = Command_Factory::getCommandFactory();
 
-
-	//HANDLE COURSE
-
-	//HANDLE POSITION
-
-	//HANDLE DESTINATION
-
-	//HANDLE LOAD_AT
-
-	//HANDLE UNLOAD_AT
-
-	//HANDLE DOCK_AT
-
-	//HANDLE ATTACK
-
-	//HANDLE REFUEL
-
-	//HANDLE STOP
-
-
-
-
+	Ships_commands* command = cmdFactory.getShipCommand(cmd);
+	m.addCommand(cmd.shipName,command);
 
 }
 

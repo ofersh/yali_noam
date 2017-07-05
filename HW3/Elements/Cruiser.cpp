@@ -15,10 +15,19 @@
 
 using namespace std;
 
-Cruiser::Cruiser(Type t, string name, Point pos , int force, double range):	\
-		Ship(t,name, pos, -1,-1),force(force),range(range) {}
+Cruiser::Cruiser(string name, Point pos , int force, double range):	\
+		Ship(Ship::Type::CRUISER,name, pos, -1,-1),force(force),range(range) {}
 
 Cruiser::~Cruiser() {}
+
+void Cruiser::go(){
+
+	if (Ship::get_state()==Ship::MOVING)
+			Ship::advance();
+
+	shared_ptr<Ships_commands> nextCMD=Ship::getNextCommand();     //get next command.
+}
+
 
 // invoke double dispatch chain, at end one of 2 attack method will perform.
 bool Cruiser::attack(weak_ptr<Civil_ship> target)
@@ -62,7 +71,7 @@ void Cruiser::status()const
 }
 
 
-Ship::Type Cruiser::getType(){
+Ship::Type Cruiser::getType()const{
 	return Ship::Type::CRUISER;
 }
 

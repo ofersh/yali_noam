@@ -20,6 +20,11 @@ void Model::addPort(string port_name, double x, double y, int maxFuel, int fph){
     cout<<"Model::addPort()"<<endl;
 }
 
+void Model::addCommand(string ship,Ships_commands* shipCmd){
+	cout << "asserting a command over " << ship << endl;
+}
+
+
 
 void Model::go()
 {

@@ -15,13 +15,16 @@
 
 class Shipyard {
 public:
-	Shipyard()=delete;
-	virtual ~Shipyard()=delete;
+	static Shipyard& get_ship_factory();
 
-	static Cruise_Ship* build_cruise_ship();
-	static Cruiser* build_cruiser();
-	static Freighter* build_freighter();
+	Cruise_Ship* build_cruise_ship(string ship_name,double x,double y);
+	Cruiser* build_cruiser(string ship_name,double x,double y,int force,int range);
+	Freighter* build_freighter(string ship_name,double x,double y,int container,int resistance);
 
+
+private:
+	Shipyard()=default;
+	~Shipyard()=default;
 };
 
 #endif /* SHIPYARD_H_ */

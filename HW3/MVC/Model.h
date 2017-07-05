@@ -38,6 +38,7 @@ public:
     void addPort(string port_name,double x,double y,int maxFuel,int fph);
     void go();  // one hour shift.
     void status()const; // invoke status on all elements.
+    void addCommand(string ship,Ships_commands* shipCmd);
     
     // Ship creation.
     bool create(string name, Ship::Type type, int x, int y, int resistence=0, int force=0);

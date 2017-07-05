@@ -25,7 +25,7 @@ private:
 
     
 public:
-    Freighter(unsigned int maxCont, int res,Ship::Type t, string name, Point pos, double fuel, weak_ptr<Port> dest_port);
+    Freighter(string name, Point pos,unsigned int maxCont, int res);
     ~Freighter();
     
     void enqueue (Freighter_commands *csc); //enqueue Freighter commands.
@@ -39,7 +39,7 @@ public:
     unsigned int containers_amount()const {return current_containers;};
     unsigned int empty_space()const{return maxCargo-current_containers;};
     void add_cargo(unsigned int amount){current_containers+=amount;};
-    Ship::Type getType();
+    Ship::Type getType()const;
     int getResistance()const{return resistence;};
     void status()const;
     void go();

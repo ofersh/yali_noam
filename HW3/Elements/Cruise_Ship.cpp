@@ -10,7 +10,7 @@ using namespace std;
 
 using itPort = vector<weak_ptr<Port>>::iterator;
 
-Cruise_Ship::Cruise_Ship(Type t, string name, Point pos):Civil_ship(t, name ,pos ,MAXFUEL, LPM),waiting_for_action(true)
+Cruise_Ship::Cruise_Ship(string name, Point pos):Civil_ship(Ship::Type::CRUISE_SHIP, name ,pos ,MAXFUEL, LPM),waiting_for_action(true)
 {
 	remainingPorts=Port::get_port_list();
 }
@@ -89,7 +89,8 @@ void Cruise_Ship::status()const
 
 
 //return type of ship.
-Ship::Type Cruise_Ship::getType(){ return Ship::Type::CRUISE_SHIP; }
+Ship::Type Cruise_Ship::getType()const{ return Ship::Type::CRUISE_SHIP; }
+
 
 void Cruise_Ship::findNextPort(){
 	// initialize closest port

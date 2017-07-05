@@ -22,7 +22,7 @@ public:
 	shared_ptr<Cruiser> build_cruiser(string ship_name,double x,double y,int force,int range);
 	shared_ptr<Freighter> build_freighter(string ship_name,double x,double y,int container,int resistance);
 
-	weak_ptr<Ship>& findShip(string name);
+	weak_ptr<Ship> findShip(string name);
 
 private:
 

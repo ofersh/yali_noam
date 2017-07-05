@@ -121,7 +121,8 @@ void Controller::run(){
 
 void Controller::handle_model_cmd(CommandInfo& cmd){
 	Model& m = Model::getModel();
-	switch (static_cast<int>(cmd.cmd)) {
+
+    switch (static_cast<int>(cmd.cmd)) {
 		case static_cast<int>(CommandInfo::Commands::STATUS):
 			m.status();
 			break;

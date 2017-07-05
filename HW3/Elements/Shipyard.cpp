@@ -39,7 +39,7 @@ shared_ptr<Freighter> Shipyard::build_freighter(string ship_name,double x,double
 }
 
 
-weak_ptr<Ship>& Shipyard::findShip(string name){
+weak_ptr<Ship> Shipyard::findShip(string name){
 	for(weak_ptr<Ship> theShip : shipList){
 		if(theShip.expired())
 			continue;

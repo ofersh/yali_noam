@@ -10,7 +10,7 @@ using namespace std;
 
 using itPort = vector<weak_ptr<Port>>::iterator;
 
-Cruise_Ship::Cruise_Ship(string name, Point pos):Civil_ship(Ship::Type::CRUISE_SHIP, name ,pos ,MAXFUEL, LPM),waiting_for_action(true)
+Cruise_Ship::Cruise_Ship(string name, Point pos):Civil_ship(Ship::Type::CRUISE_SHIP, name ,pos ,MAXFUEL, LPM,MAXVELOCITY),waiting_for_action(true)
 {
 	remainingPorts=Port::get_port_list();
 }

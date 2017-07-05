@@ -16,7 +16,7 @@ using namespace std;
 
 
 Freighter::Freighter(string name, Point pos,unsigned int maxCont, int res):\
-		Civil_ship(Ship::Type::FREIGHTER,name, pos, MAXFUEL,LPM ), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
+		Civil_ship(Ship::Type::FREIGHTER,name, pos, MAXFUEL,LPM,MAXVELOCITY), current_containers(maxCont) , maxCargo(maxCont), resistence(res)
 {}
 
 Freighter::~Freighter() {}

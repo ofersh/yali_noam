@@ -16,7 +16,7 @@
 using namespace std;
 
 Cruiser::Cruiser(string name, Point pos , int force, double range):	\
-		Ship(Ship::Type::CRUISER,name, pos, -1),force(force),range(range) {}
+		Ship(Ship::Type::CRUISER,name, pos, -1,MAXVELOCITY),force(force),range(range) {}
 
 Cruiser::~Cruiser() {}
 

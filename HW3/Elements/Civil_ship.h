@@ -27,7 +27,7 @@ private:
     weak_ptr<Port> destination;
     
 public:
-    Civil_ship(Type t, string name, Point pos, double fuel, double lpm);
+    Civil_ship(Type t, string name, Point pos, double fuel, double lpm,double maxV);
     virtual bool under_attack(Cruiser * attacking)=0;
     virtual ~Civil_ship()=default;
     

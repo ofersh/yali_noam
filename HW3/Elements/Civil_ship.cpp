@@ -12,7 +12,7 @@
 #include "../Utilities/CommandFactory.h"
 
 
-Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm):Ship(t,name,pos,fuel), fuel_consumption(lpm),fuelling(false)
+Civil_ship::Civil_ship(Type t, string name, Point pos, double fuel,double lpm,double maxV):Ship(t,name,pos,fuel,maxV), fuel_consumption(lpm),fuelling(false)
 {
 }
 

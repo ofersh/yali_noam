@@ -11,7 +11,7 @@
 
 
 
-Ship::Ship(Type t, string name,Point pos, double fuel):Marine_Element(name,pos,fuel), state(STOPPED)
+Ship::Ship(Type t, string name,Point pos, double fuel,double maxV):Marine_Element(name,pos,fuel), state(STOPPED),maxVelocity(maxV)
 {}
 
 

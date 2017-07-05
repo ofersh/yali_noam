@@ -10,7 +10,7 @@
 
 
 Marine_Element::Marine_Element(string name, Point pos , double fuel):\
-				name(name),position(pos),fuel_tank_capacity(fuel),current_fuel(fuel),observer(nullptr)
+				name(name),position(pos),fuel_tank_capacity(fuel),current_fuel(fuel),observer()
 {}
 
 

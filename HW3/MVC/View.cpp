@@ -39,8 +39,6 @@ void View::init()
 }
 
 
-
-
 //map each elemnt of Model.
 void View::map_all_elements()
 {

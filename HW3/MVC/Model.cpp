@@ -7,6 +7,10 @@
 
 #include "Model.h"
 #include <iostream>
+#include "../Utilities/Freighter_commands.h"
+#include "../Utilities/CivilShipsCommands.h"
+#include "../Utilities/Cruiser_commands.h"
+
 
 using namespace std;
 Model::Model() {
@@ -20,26 +24,66 @@ void Model::addPort(string port_name, double x, double y, int maxFuel, int fph){
     cout<<"Model::addPort()"<<endl;
 }
 
-void Model::addCommand(string ship,Ships_commands* shipCmd){
-	cout << "asserting a command over " << ship << endl;
+void Model::addCommand(string ship,Ships_commands* shipCmd)
+{
+    shared_ptr<Ship> ship_on_duty= getShip(ship).lock();
+    
+    
+    // reveal shipCMD true id and invoke relvant enqueue command.
+    if (Freighter_commands *fc =dynamic_cast<Freighter_commands*>(shipCmd))
+    {
+        ship_on_duty->enqueue(fc);
+    }else if(Civil_Ships_Commands * csc= dynamic_cast<Civil_Ships_Commands *>(shipCmd))
+    {
+        ship_on_duty->enqueue(csc);
+    }else if(Cruiser_commands* cc=dynamic_cast<Cruiser_commands*>(shipCmd) )
+    {
+        ship_on_duty->enqueue(cc);
+    }
+
+    
 }
 
 
-
+// perform go step on all elemments.
 void Model::go()
 {
-    cout<<"Model::go()"<<endl;
+    for (shared_ptr<Marine_Element> wme : elements_list)
+    {
+        wme->go();
+    }
+
 }
 
+//perform status action on all elements.
 void Model::status()const
 {
-    cout<<"Model::status()"<<endl;
+    for (shared_ptr<Marine_Element> wme : elements_list)
+    {
+        wme->status();
+    }
 }
 
-bool Model::create(string name, Ship::Type type, int x, int y, int resistence, int force)
+//create ship by given type.
+void Model::create(string name, Ship::Type type, double x, double y, int cargo_capacity, int resistence, int force,int range)
 {
-    cout<<"Model::create()"<<endl;
-    return true;
+    Shipyard & shipyard =Shipyard::get_ship_factory();
+    
+    switch (static_cast<int>(type)) {
+        case static_cast<int> (Ship::Type::CRUISER) :
+            elements_list.push_back(shipyard.build_cruiser(name, x, y, force, range));
+            break;
+        case static_cast<int> (Ship::Type::CRUISE_SHIP) :
+            elements_list.push_back(shipyard.build_cruise_ship(name, x, y));
+            break;
+        case static_cast<int> (Ship::Type::FREIGHTER) :
+            elements_list.push_back(shipyard.build_freighter(name, x, y, cargo_capacity, resistence));
+            break;
+        default:
+            break;
+    }
+    
+    
 }
 
 
@@ -58,17 +102,10 @@ weak_ptr<Port> Model::getPort(string portName)
     return weak_ptr<Port>{};
 }
 
-
+//return ship by name.
 weak_ptr<Ship> Model::getShip(string shipName)
 {
-    for (shared_ptr<Marine_Element> sme: elements_list)
-    {
-        if (sme->getName()==shipName)
-            if (shared_ptr<Ship> sShip=dynamic_pointer_cast<Ship>(sme))
-            {
-                return sShip;
-            }
-    }
-    return weak_ptr<Ship>{};
+    Shipyard & shipyard =Shipyard::get_ship_factory();
+    return shipyard.findShip(shipName);
 }
 

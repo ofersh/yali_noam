@@ -11,6 +11,7 @@
 #include <vector>
 #include "../Elements/Ship.h"
 #include "../Elements/Port.h"
+#include "../Elements/Shipyard.h"
 #include <memory>
 
 
@@ -22,6 +23,8 @@ class Model {
 private:
     
     Model();
+    
+    
     vector<shared_ptr<Marine_Element>> elements_list;
     
     
@@ -33,6 +36,8 @@ public:
         return model;
     };
     
+
+    
     virtual ~Model()=default;
 
     void addPort(string port_name,double x,double y,int maxFuel,int fph);
@@ -41,7 +46,7 @@ public:
     void addCommand(string ship,Ships_commands* shipCmd);
     
     // Ship creation.
-    bool create(string name, Ship::Type type, int x, int y, int resistence=0, int force=0);
+    void create(string name, Ship::Type type, double x, double y, int cargo_capacity=0, int resistence=0, int force=0,int range=0);
 
     // getters from model
     weak_ptr<Port> getPort(string portName);
@@ -49,7 +54,6 @@ public:
     weak_ptr<Ship> getShip(string shipName);
 
     Ship::Type getShipType(string shipName);
-
 };
 
 #endif /* MODEL_H_ */

@@ -30,7 +30,7 @@ public:
     
     void setAzimuth(double a){azimuth = a;}
     void setAzimuth(Point source, Point dest);
-    double getAzimuth()const{return azimuth;}
+    double getAzimuth()const;
     
     void setDestination(Point dest);
     Point getDestCoordinates()const ;

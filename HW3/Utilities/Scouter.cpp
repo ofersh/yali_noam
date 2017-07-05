@@ -25,6 +25,10 @@ void Scouter::setDestination(Point dest){
 	destination = dest;
 }
 
+double Scouter::getAzimuth()const{
+	return to_degrees(azimuth);
+}
+
 // calculate the distance between two points
 double Scouter::calculate_distance(const Point & from, const Point & to){
 	Cartesian_vector cv;

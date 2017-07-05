@@ -18,6 +18,7 @@ shared_ptr<Cruise_Ship> Shipyard::build_cruise_ship(string ship_name,double x,do
 	p.x = x;
 	p.y = y;
 	shared_ptr<Cruise_Ship> newShip(new Cruise_Ship(ship_name,p));
+	shipList.push_back(newShip);
 	return newShip;
 }
 
@@ -26,6 +27,7 @@ shared_ptr<Cruiser> Shipyard::build_cruiser(string ship_name,double x,double y,i
 	p.x = x;
 	p.y = y;
 	shared_ptr<Cruiser> newShip(new Cruiser(ship_name,p,force,range));
+	shipList.push_back(newShip);
 	return newShip;
 }
 

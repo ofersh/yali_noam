@@ -38,7 +38,7 @@ double Scouter::calculate_distance(const Point & from, const Point & to){
 }
 
 
-
+// calculate the next movement of the ship
 Point Scouter::calculateNextStep(const Point current){
 	Point newPoint;
 	Cartesian_vector cv;

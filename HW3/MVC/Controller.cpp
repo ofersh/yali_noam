@@ -87,20 +87,20 @@ void Controller::run(){
 
 			CommandInfo::CommandSection cmdType = cmdI.cmdSec;
 			switch (static_cast<int>(cmdType)) {
-			case static_cast<int>(CommandInfo::CommandSection::MODEL):
-									handle_model_cmd(cmdI);
-			break;
-			case static_cast<int>(CommandInfo::CommandSection::VIEW):
-									handle_view_cmd(cmdI);
-			break;
-			case static_cast<int>(CommandInfo::CommandSection::SHIP):
-									handle_ship_cmd(cmdI);
-			break;
-			case static_cast<int>(CommandInfo::CommandSection::QUIT):
-									running = false;
-			break;
-			default:
-				throw BadInputException("somethimg went wrong. needed to catch before");
+				case static_cast<int>(CommandInfo::CommandSection::MODEL):
+					handle_model_cmd(cmdI);
+					break;
+				case static_cast<int>(CommandInfo::CommandSection::VIEW):
+					handle_view_cmd(cmdI);
+					break;
+				case static_cast<int>(CommandInfo::CommandSection::SHIP):
+					handle_ship_cmd(cmdI);
+					break;
+				case static_cast<int>(CommandInfo::CommandSection::QUIT):
+					running = false;
+					break;
+				default:
+					throw BadInputException("somethimg went wrong. needed to catch before");
 			}
 		} catch (BadInputException& e) {
 			cout << e.err << endl;
@@ -123,18 +123,21 @@ void Controller::handle_model_cmd(CommandInfo& cmd){
 	Model& m = Model::getModel();
 	int x,y,res,force;
 	switch (static_cast<int>(cmd.cmd)) {
-	case static_cast<int>(CommandInfo::Commands::STATUS):
-						m.status();
-	break;
-	case static_cast<int>(CommandInfo::Commands::GO):
-						m.go();
-	break;
-	case static_cast<int>(CommandInfo::Commands::CREATE):
-						x = cmd.arg1; y = cmd.arg2; res = cmd.arg3; force = cmd.arg4;
-	m.create(cmd.shipName,cmd.type,x,y,res,force);
-	break;
-	default:
-		throw BadInputException("command has not been properly handled");
+		case static_cast<int>(CommandInfo::Commands::STATUS):
+			m.status();
+			break;
+		case static_cast<int>(CommandInfo::Commands::GO):
+			m.go();
+			break;
+		case static_cast<int>(CommandInfo::Commands::CREATE):
+			if(!(m.getShip(cmd.shipName).expired())) 	// check if ship already exists
+				throw BadInputException("ship already exists");
+
+			//x = cmd.arg1; y = cmd.arg2; res = cmd.arg3; force = cmd.arg4
+			m.create(cmd.shipName,cmd.type,cmd.arg1,cmd.arg2,cmd.arg3,cmd.arg4);
+			break;
+		default:
+			throw BadInputException("command has not been properly handled");
 	}
 }
 
@@ -142,22 +145,22 @@ void Controller::handle_view_cmd(CommandInfo& cmd){
 	unsigned int size,ratio,x,y;
 	switch (static_cast<int>(cmd.cmd)) {
 	case static_cast<int>(CommandInfo::Commands::DEFAULT):
-							view._default();
+									view._default();
 	break;
 	case static_cast<int>(CommandInfo::Commands::SIZE):
-							size = cmd.arg1;
+									size = cmd.arg1;
 	view.size(size);
 	break;
 	case static_cast<int>(CommandInfo::Commands::ZOOM):
-							ratio = cmd.arg1;
+									ratio = cmd.arg1;
 	view.zoom(ratio);
 	break;
 	case static_cast<int>(CommandInfo::Commands::PAN):
-							x = cmd.arg1; y = cmd.arg2;
+									x = cmd.arg1; y = cmd.arg2;
 	view.pan(x,y);
 	break;
 	case static_cast<int>(CommandInfo::Commands::SHOW):
-							view.show();
+									view.show();
 	break;
 	default:
 		throw BadInputException("command has not been properly handled");

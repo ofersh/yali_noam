@@ -11,6 +11,7 @@ Point Scouter::getDestCoordinates()const {
 	return destination;
 }
 
+// calculate the azimuth from a given source and destination
 void Scouter::setAzimuth(Point source, Point dest){
 	Cartesian_vector cv;
 	cv.delta_x = dest.x - source.x;
@@ -19,17 +20,18 @@ void Scouter::setAzimuth(Point source, Point dest){
 	setAzimuth(pv.theta);
 }
 
+
 void Scouter::setDestination(Point dest){
 	destination = dest;
 }
 
+// calculate the distance between two points
 double Scouter::calculate_distance(const Point & from, const Point & to){
 	Cartesian_vector cv;
 	Polar_vector pv;
 
 	cv.delta_x = to.x-from.x;
 	cv.delta_y = to.y-from.y;
-
 	pv = cv;
 
 	return pv.r;
@@ -46,10 +48,12 @@ Point Scouter::calculateNextStep(const Point current){
 	if(calculate_distance(current,destination) < velocity)
 		return destination;
 
+	// set the size of the step
 	pv.r = velocity;
 	pv.theta = azimuth;
-
 	cv = pv;
+
+	// add the step to the current position
 	newPoint.x = current.x + cv.delta_x;
 	newPoint.y = current.y + cv.delta_y;
 

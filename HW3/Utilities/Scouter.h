@@ -1,9 +1,4 @@
-/*
- * Scouter.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #ifndef Utilities_SCOUTER_H_
 #define Utilities_SCOUTER_H_
@@ -11,6 +6,8 @@
 
 
 
+//hold information of ship location and current route.
+//including speed.
 class Scouter {
     
 private:
@@ -18,6 +15,8 @@ private:
     double velocity;
     double azimuth;
     Point destination;
+    
+
     
 public:
 	Scouter()=default;
@@ -35,6 +34,8 @@ public:
     void setDestination(Point dest);
     Point getDestCoordinates()const ;
     
+    //Main functionality. set course and calculate next step.
+    void setCourse();
     Point calculateNextStep(const Point current);
 
 

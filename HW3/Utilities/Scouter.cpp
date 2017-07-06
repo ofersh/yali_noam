@@ -1,11 +1,8 @@
-/*
- * Scouter.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #include "Scouter.h"
+#include <limits>
+
 
 Point Scouter::getDestCoordinates()const {
 	return destination;
@@ -24,6 +21,12 @@ void Scouter::setAzimuth(Point source, Point dest){
 void Scouter::setDestination(Point dest){
 	destination = dest;
 }
+
+void Scouter::setCourse(){
+    double NoDestination = numeric_limits<double>::max();
+    destination = Point{NoDestination,NoDestination};
+}
+
 
 double Scouter::getAzimuth()const{
 	return to_degrees(azimuth);

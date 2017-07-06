@@ -1,9 +1,4 @@
-/*
- * CommandInfo.cpp
- *
- *  Created on: 1 Jul 2017
- *      Author: noam
- */
+
 
 #include "CommandInfo.h"
 #include "BadInputException.h"

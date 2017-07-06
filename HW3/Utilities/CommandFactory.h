@@ -1,9 +1,3 @@
-/*
- * CommandFactory.h
- *
- *  Created on: 1 Jul 2017
- *      Author: noam
- */
 
 #ifndef UTILITIES_COMMANDFACTORY_H_
 #define UTILITIES_COMMANDFACTORY_H_

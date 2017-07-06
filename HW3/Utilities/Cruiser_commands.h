@@ -1,10 +1,4 @@
-//
-//  Cruiser_commands.hpp
-//  hw3
-//
-//  Created by Noam Stolero on 01/07/2017.
-//  Copyright © 2017 Noam Stolero. All rights reserved.
-//
+
 
 #ifndef Utilities_Cruiser_commands_h
 #define Utilities_Cruiser_commands_h

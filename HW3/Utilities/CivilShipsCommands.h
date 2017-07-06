@@ -1,9 +1,3 @@
-/*
- * CivilShipsCommands.h
- *
- *  Created on: 1 Jul 2017
- *      Author: noam
- */
 
 #ifndef UTILITIES_CIVILSHIPSCOMMANDS_H_
 #define UTILITIES_CIVILSHIPSCOMMANDS_H_

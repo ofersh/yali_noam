@@ -1,9 +1,4 @@
-/*
- * Port.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #include "Port.h"
 #include "Freighter.h"

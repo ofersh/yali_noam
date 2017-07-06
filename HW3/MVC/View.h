@@ -1,9 +1,4 @@
-/*
- * View.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #ifndef MVC_VIEW_H_
 #define MVC_VIEW_H_
@@ -61,7 +56,7 @@ public:
     void _default();
     void size(unsigned int size);
     void zoom(double ratio);
-    void pan(unsigned int x, unsigned int y);
+    void pan(double x, double y);
     void show()const;
     void refresh(){init();};
     

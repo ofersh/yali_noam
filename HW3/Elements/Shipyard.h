@@ -1,9 +1,4 @@
-/*
- * Shipyard.h
- *
- *  Created on: Jun 30, 2017
- *      Author: yali
- */
+
 
 #ifndef ELEMENTS_SHIPYARD_H_
 #define ELEMENTS_SHIPYARD_H_
@@ -12,6 +7,8 @@
 #include "Cruiser.h"
 #include "Freighter.h"
 
+
+//factory class for all the ships.
 
 class Shipyard {
 public:

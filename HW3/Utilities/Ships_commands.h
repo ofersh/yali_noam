@@ -1,10 +1,4 @@
-//
-//  ships_commands.hpp
-//  hw3
-//
-//  Created by Noam Stolero on 01/07/2017.
-//  Copyright © 2017 Noam Stolero. All rights reserved.
-//
+
 
 #ifndef Utilities_Ships_commands_h
 #define Utilities_Ships_commands_h
@@ -39,6 +33,8 @@ public:
     bool operator()(Ship * s){
         s->set_direction(arg);
         s->set_velocity(velocity);
+        s->set_no_destination();
+        s->set_state(Ship::State::MOVING);
         return true; //allways succseed
     };
 };

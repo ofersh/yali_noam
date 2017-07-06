@@ -1,14 +1,10 @@
-/*
- * PirateShip.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #include "Cruiser.h"
 #include "Civil_ship.h"
 #include "Freighter.h"
 #include "Cruise_Ship.h"
+#include "../Utilities/Ships_commands.h"
 
 
 #include <iostream>
@@ -26,6 +22,9 @@ void Cruiser::go(){
 			Ship::advance();
 
 	shared_ptr<Ships_commands> nextCMD=Ship::getNextCommand();     //get next command.
+    if (nextCMD!=nullptr)
+        if (nextCMD->operator()(this))
+            dequeue_command();
 }
 
 

@@ -1,9 +1,3 @@
-/*
- * Controller.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
 
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
@@ -24,7 +18,7 @@ using std::string;
 
 class Controller {
 public:
-	Controller();
+	Controller(string file_name);
 	~Controller() = default;
 
 	void initialize(string fileName);
@@ -36,11 +30,11 @@ public:
 	// nested classes
 	class OpenFileException: public std::runtime_error{
 	public:
-		OpenFileException(const std::string& arg):runtime_error(arg){}
+		OpenFileException(const std::string arg):runtime_error(arg){}
 	};
 	class InputException: public std::runtime_error{
 	public:
-		InputException(const std::string& arg):runtime_error(arg){}
+		InputException(const std::string arg):runtime_error(arg){}
 	};
 
 

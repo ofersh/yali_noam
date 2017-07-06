@@ -31,6 +31,8 @@ bool Cruise_Ship::under_attack(Cruiser *attacking){
 //cruise ship go command.
 void Cruise_Ship::go()
 {
+    
+    
 	// if the ship has finished its route
 	if(remainingPorts.empty() && Ship::get_state() != Ship::State::STOPPED)
 		Ship::set_state(Ship::State::STOPPED);
@@ -51,6 +53,7 @@ void Cruise_Ship::go()
 		return;
 	}
 
+    
 	//ship is doing nothing. move to next destination.
 	findNextPort();
 	weak_ptr<Port> new_dest=Civil_ship::get_destination();
@@ -101,6 +104,9 @@ Ship::Type Cruise_Ship::getType()const{ return Ship::Type::CRUISE_SHIP; }
 
 
 void Cruise_Ship::findNextPort(){
+    // wait for first command
+    if(get_destination().expired())
+        return;
 	// initialize closest port
 	Point shipPos = Marine_Element::getPosition();
 	itPort nearestDest;

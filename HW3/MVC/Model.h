@@ -1,9 +1,4 @@
-/*
- * Model.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #ifndef MVC_MODEL_H_
 #define MVC_MODEL_H_

@@ -1,9 +1,3 @@
-/*
- * CommandFactory.cpp
- *
- *  Created on: 1 Jul 2017
- *      Author: noam
- */
 
 #include "CommandFactory.h"
 #include "Cruiser_commands.h"

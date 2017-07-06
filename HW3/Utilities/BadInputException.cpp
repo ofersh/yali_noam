@@ -1,9 +1,3 @@
-/*
- * BadInputException.cpp
- *
- *  Created on: Jul 2, 2017
- *      Author: yali
- */
 
 #include "BadInputException.h"
 

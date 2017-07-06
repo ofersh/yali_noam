@@ -1,10 +1,3 @@
-/*
- * Freighter.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
-
 #include "Freighter.h"
 #include <iostream>
 #include "Cruiser.h"

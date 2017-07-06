@@ -1,11 +1,12 @@
 create Ajax Cruiser (15.00, 15.00) 6 1
 create Emma Freighter (30.00, 30.00) 1000 8
 create Xerxes Cruiser (25.00, 25.00) 6 2
-create Xerxes Cruiser (25.00, 25.00) 6 2
 create Colombo Freighter (-5.0 20.0) 1000 8
 create LoveBoat Cruise_ship (0.0 0.0)
 Colombo destination Yokohama 10
 Emma load_at PearlHarbor
+Emma load_at Acapulco
+
 Emma unload_at Valdez 100
 Emma destination PearlHarbor 10
 Ajax course 180 20
@@ -14,3 +15,6 @@ LoveBoat destination Acapulco 10
 go
 status
 quit
+
+create Ajax Cruiser (15.00, 15.00) 6 1
+Ajax course 180 20

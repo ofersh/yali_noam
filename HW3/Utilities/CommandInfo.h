@@ -1,9 +1,3 @@
-/*
- * CommandInfo.h
- *
- *  Created on: 1 Jul 2017
- *      Author: noam
- */
 
 #ifndef UTILITIES_COMMANDINFO_H_
 #define UTILITIES_COMMANDINFO_H_

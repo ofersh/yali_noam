@@ -1,9 +1,4 @@
-/*
- * BadInputException.h
- *
- *  Created on: Jul 2, 2017
- *      Author: yali
- */
+
 
 #ifndef UTILITIES_BADINPUTEXCEPTION_H_
 #define UTILITIES_BADINPUTEXCEPTION_H_

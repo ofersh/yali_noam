@@ -1,9 +1,3 @@
-/*
- * CruiseShip.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
 
 #ifndef ELEMENTS_CRUISE_SHIP_H_
 #define ELEMENTS_CRUISE_SHIP_H_

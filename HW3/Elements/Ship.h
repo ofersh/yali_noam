@@ -1,9 +1,4 @@
-/*
- * Ship.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #ifndef ELEMENTS_SHIP_H_
 #define ELEMENTS_SHIP_H_
@@ -64,6 +59,7 @@ public:
     double getAzimuth()const{return scouter.getAzimuth();};
     double getVelocity()const{return scouter.getVelocity();};
     double getMaxVelocity()const{return maxVelocity;};
+    void set_no_destination(){scouter.setCourse();}
     Point getDestCoordinates(){return scouter.getDestCoordinates();};
 
     

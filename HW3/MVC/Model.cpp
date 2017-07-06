@@ -1,9 +1,3 @@
-/*
- * Model.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
 
 #include "Model.h"
 #include "View.h"
@@ -21,6 +15,7 @@ void Model::addPort(string port_name, double x, double y, int maxFuel, int fph)
 	shared_ptr<Port> newPort = Port::create_port(port_name, Point(x,y), maxFuel,fph);
     elements_list.push_back(newPort);
     newPort->setObsetrver(view);
+    view.lock()->refresh();
 }
 
 
@@ -38,6 +33,8 @@ void Model::addCommand(string ship,Ships_commands* shipCmd)
     }else if(Cruiser_commands* cc=dynamic_cast<Cruiser_commands*>(shipCmd) )
     {
         ship_on_duty->enqueue(cc);
+    }else{
+        ship_on_duty->enqueue(shipCmd);
     }
 }
 
@@ -84,6 +81,7 @@ void Model::create(string name, Ship::Type type, double x, double y, int arg1, i
             break;
     }
     newShip->setObsetrver(view);
+    view.lock()->refresh();
 }
 
 

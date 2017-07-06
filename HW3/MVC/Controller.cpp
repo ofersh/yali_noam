@@ -1,9 +1,4 @@
-/*
- * Controller.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #include "Controller.h"
 #include "Model.h"
@@ -16,11 +11,12 @@
 
 using namespace std;
 
-Controller::Controller():view(new View()){
+Controller::Controller(string file_name):view(new View()){
     Model& m = Model::getModel();
-    m.addPort("Acapulco", 50, 5, 1000000, 1000);
     m.setView(view);
-
+    m.addPort("Acapulco", 50, 5, 1000000, 1000);
+    initialize(file_name);
+   
 }
 
 
@@ -30,10 +26,10 @@ void Controller::initialize(string fileName) {
 		// open file
 		ifstream portFile{fileName};
 		if(!portFile.is_open())
-			throw OpenFileException(fileName);
+			throw OpenFileException("feiled to open fild: " + fileName);
 
 		// create all the ports
-		Model m = Model::getModel();
+		Model& m = Model::getModel();
 		// needed variables to create a port
 		string name,line;
 		double x,y;
@@ -45,10 +41,10 @@ void Controller::initialize(string fileName) {
 		}
 
 	}catch (OpenFileException& e) {
-		e.what();
+		cerr<<e.what()<<endl;
 		exit(1);
 	}catch (BadInputException& e) {
-		e.what();
+		cerr<<e.what()<<endl;
 		exit(1);
 	}
 }

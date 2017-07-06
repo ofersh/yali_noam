@@ -1,9 +1,4 @@
-/*
- * PirateShip.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #ifndef ELEMENTS_CRUISER_H_
 #define ELEMENTS_CRUISER_H_

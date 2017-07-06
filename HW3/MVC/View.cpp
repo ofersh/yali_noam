@@ -1,9 +1,3 @@
-/*
- * View.cpp
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
 
 #include "View.h"
 #include "Model.h"
@@ -31,8 +25,8 @@ void View::init()
     {
         row.resize(map_size); //make a row of empty vectors.
     }
-    maxY=cell_size*map_size+origin.y;
-    maxX=cell_size*map_size+origin.x;
+    maxY= cell_size*map_size+origin.y-1;
+    maxX=cell_size*map_size+origin.x-1;
     
     map_all_elements();
 }
@@ -55,10 +49,13 @@ void View::map_all_elements()
 void View::place(Point real_pos, string name)
 {
     
+    
     //prepare new point and string.
     Point scaledPos=scale(real_pos);
-    if (scaledPos.x> map_size-1 || scaledPos.y>map_size-1)
+    //check if object is in map.
+    if (scaledPos.x>map_size-1 || scaledPos.x<0|| scaledPos.y>map_size-1 || scaledPos.y<0)
         return;
+
     name.resize(2);
     
     elements_row &er =map.at(scaledPos.y);
@@ -69,7 +66,9 @@ void View::place(Point real_pos, string name)
 // return scaled postition of enterd point.
 Point View::scale(Point cord)const
 {
-    return Point(static_cast<int>(cord.x/cell_size),static_cast<int>(cord.y/cell_size));
+    Point fromOrigin= Point(cord.x-origin.x, cord.y-origin.y);
+    Point scaled=Point(fromOrigin.x/cell_size,fromOrigin.y/cell_size);
+    return Point(static_cast<int>(scaled.x),static_cast<int>(scaled.y));
 }
 
 
@@ -104,12 +103,13 @@ void View::zoom(double ratio)
 }
 
 //change the origin of the map.
-void View::pan(unsigned int x, unsigned int y)
+void View::pan(double x, double y)
 {
     if (origin.x==x && origin.y == y)
         return;
     origin.x=x;
     origin.y=y;
+    init();
 }
 
 
@@ -136,12 +136,13 @@ void View::show()const
 }
 
 
+// update
 void View::updatePosition(string name,Point oldElemPos,Point newElemPos){
 
 	Point oldPosOnMap = scale(oldElemPos);
 	int oldX = oldPosOnMap.x,oldY = oldPosOnMap.y;
 
-	elements_cell cell = map[oldX][oldY];
+	elements_cell &cell = map[oldY][oldX];
 
 	cell.erase(find(cell.begin(),cell.end(),name));
 	place(newElemPos,name);

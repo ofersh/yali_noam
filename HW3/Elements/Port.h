@@ -1,9 +1,4 @@
-/*
- * Port.h
- *
- *  Created on: 27 Jun 2017
- *      Author: noam
- */
+
 
 #ifndef ELEMENTS_PORT_H_
 #define ELEMENTS_PORT_H_

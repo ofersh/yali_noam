@@ -73,6 +73,7 @@ void Port::status()const
     
     cout<<"Port "<<Marine_Element::getName()<<" at Position ";
     mypos.print();
+    cout.precision(1);
     cout<<", Fuel availble: "<<getCurrentFuel()<<" kl."<<endl;
     
     

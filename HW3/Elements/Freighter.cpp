@@ -73,9 +73,9 @@ void Freighter::status()const
     
     cout<<"Freighter "<<Marine_Element::getName()<<" at ";
     myPos.print();
-    cout.precision(7);
+    cout.precision(1);
     cout<<", fuel: "<<Marine_Element::getCurrentFuel()<<" kl, resistence: "<<resistence;
-    
+    cout.precision(1);
     if (myStatus==Ship::State::MOVING)
     {
         cout<<" Moving to "<<myDest.lock()->getName()<<" on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr, Containers: "<<current_containers<<", moving to loading destination."<<endl;

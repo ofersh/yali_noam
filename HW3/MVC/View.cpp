@@ -141,10 +141,13 @@ void View::updatePosition(string name,Point oldElemPos,Point newElemPos){
 
 	Point oldPosOnMap = scale(oldElemPos);
 	int oldX = oldPosOnMap.x,oldY = oldPosOnMap.y;
-
+    if (oldX<0 || oldY<0 )
+        return;
+    
 	elements_cell &cell = map[oldY][oldX];
 
-	cell.erase(find(cell.begin(),cell.end(),name));
+    if (!cell.empty())
+        cell.erase(find(cell.begin(),cell.end(),name));
 	place(newElemPos,name);
 }
 

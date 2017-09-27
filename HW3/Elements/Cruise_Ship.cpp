@@ -37,24 +37,28 @@ void Cruise_Ship::go()
 	if(remainingPorts.empty() && Ship::get_state() != Ship::State::STOPPED)
 		Ship::set_state(Ship::State::STOPPED);
 
-	//as long as ship is moving, keep on moving.
-	if (Ship::get_state()==Ship::MOVING)
-		Ship::advance();
+	
 
-	shared_ptr<Ships_commands> nextCMD=Ship::getNextCommand();     //get next command.
 
 	if (Civil_ship::isFuelling())    //check if waiting for fuel.
 		return;
-
+    shared_ptr<Ships_commands> nextCMD=Ship::getNextCommand();     //get next command.
 	if (nextCMD!=nullptr)    //first try to perform Command in queue.
 	{
-		if (nextCMD->operator()(this))
+        if (nextCMD->operator()(this)){
 			Ship::dequeue_command();    //upon success dequeue command.
-		return;
+            return;
+        }
 	}
 
+    //as long as ship is moving, keep on moving, and out.
+    if (Ship::get_state()==Ship::MOVING){
+        Ship::advance();
+        return;
+    }
     
-	//ship is doing nothing. move to next destination.
+    
+    //ship is doing nothing. move to next destination.
 	findNextPort();
 	weak_ptr<Port> new_dest=Civil_ship::get_destination();
 
@@ -83,11 +87,12 @@ void Cruise_Ship::status()const
 
 	cout<<"Cruise_ship "<<Marine_Element::getName()<<" at ";
 	mypos.print();
-    cout.precision(7);
+    cout.precision(1);
 	cout<<" fuel: "<<Ship::getCurrentFuel()<<" kl ";
+    cout.precision(1);
 	if (myState==Ship::State::MOVING)
 	{
-		cout<<"Moving to "<<myDest.lock()->getName()<<" on course "<<Ship::getAzimuth()<<"deg, speed "<<Ship::getVelocity()<<" nm/hr";
+		cout<<"Moving to "<<myDest.lock()->getName()<<" on course "<<Ship::getAzimuth()<<" deg, speed "<<Ship::getVelocity()<<" nm/hr";
 	}else if(myState== Ship::State::DOCKED){
 		cout<<"Docking at "<< myDest.lock()->getName();
 	}else if(myState==Ship::State::STOPPED)
@@ -107,6 +112,13 @@ void Cruise_Ship::findNextPort(){
     // wait for first command
     if(get_destination().expired())
         return;
+    
+    // if no more ports to go, return.
+    if (remainingPorts.empty()){
+        setDestination(weak_ptr<Port>());
+        return;
+    }
+    
 	// initialize closest port
 	Point shipPos = Marine_Element::getPosition();
 	itPort nearestDest;
@@ -116,6 +128,12 @@ void Cruise_Ship::findNextPort(){
 		// get distance between a port and  the ship
 		if((*it).expired())
 			continue;
+        if ((*it).lock()==Civil_ship::get_destination().lock())
+        {
+            remainingPorts.erase(it);	// if discover port already visited, remove it.
+            continue;
+        }
+        
 		shared_ptr<Port> currentP = (*it).lock();
 		Point portPos = currentP->getPosition();
 		double currentDist = distance_between_two_points(shipPos,portPos);
@@ -126,7 +144,13 @@ void Cruise_Ship::findNextPort(){
 			nearestDist = currentDist;
 		}
 	}
-
+    
+    
+    if (nearestDest==remainingPorts.end()) //if no destination found make destination null.
+    {
+        setDestination(weak_ptr<Port>());
+        return;
+    }
 	setDestination((*nearestDest));		// set course to closest port
 	remainingPorts.erase(nearestDest);	// remove the port from the list
 

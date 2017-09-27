@@ -26,7 +26,7 @@ void Ship::enqueue(Ships_commands *sc)
 
 //set the direction to head.
 void Ship::set_direction(double arg){
-    scouter.setAzimuth(arg);
+    scouter.setAzimuth(to_radians(arg));
 }
 
 

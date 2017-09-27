@@ -70,7 +70,8 @@ void Cruiser::status()const
     cout<<" force: "<<force;
     if (myStatus==Ship::State::MOVING)
     {
-        cout<< "Moving on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr "<<endl;
+        cout.precision(1);
+        cout<< " Moving on course "<<getAzimuth()<<" deg, speed "<<getVelocity()<<" nm/hr "<<endl;
     }else if (myStatus==Ship::State::STOPPED)
     {
         cout<<" Stopped."<<endl;

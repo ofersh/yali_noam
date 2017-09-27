@@ -11,7 +11,7 @@ int main (int argc,const char* argv[]) {
 
     if (argc!=2)
     {
-        cerr<<"need pne argument."<<endl;
+        cerr<<"Need initalization file name as argument."<<endl;
         exit(1);
     }
 	Controller controller(argv[1]);

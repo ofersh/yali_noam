@@ -8,12 +8,16 @@ Emma load_at PearlHarbor
 Emma load_at Acapulco
 
 Emma unload_at Valdez 100
+Emma unload_at Yokohama 1001
+
 Emma destination PearlHarbor 10
 Ajax course 180 20
 Xerxes course 270 20
 LoveBoat destination Acapulco 10
 go
+show
 status
+
 quit
 
 create Ajax Cruiser (15.00, 15.00) 6 1

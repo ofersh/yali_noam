@@ -1,15 +1,9 @@
 '''
-Created on Sep 23, 2017
-
 @author: yali
 '''
-from __future__ import division
+from __future__ import division,print_function
 import numpy as np
 import random as rnd
-from sklearn import datasets
-
-iris_data = None
-iris_target = None
 
 
 def calc_distance(a, b):
@@ -23,18 +17,16 @@ def calc_distance(a, b):
 
 
 class Centroid(object):
-    """
-        Add a point to the cluster with old_center as the center of the group
-        @param center: array
-        """
     def __init__(self, center):
         self._old_center = center
         self._current_center = None
         self._points = []
-        self._id = None
-        self.set_id()
 
     def add_point(self, point):
+        """
+        Add a point to the cluster with old_center as the center of the group
+        @param point: array
+        """
         self._points.append(point)
 
     def reset_points(self):
@@ -43,18 +35,11 @@ class Centroid(object):
     def set_center(self, center):
         self._old_center = center
 
-    def set_id(self):
-        i = iris_data.index(self._old_center.tolist())
-        self._id = iris_target[i]
-
     def get_center(self):
-        return self._old_center
+        return self._current_center
 
     def get_points(self):
         return self._points
-
-    def get_id(self):
-        return self._id
 
     def find_center(self):
         """
@@ -65,11 +50,12 @@ class Centroid(object):
         real_center = sum(self._points) / len(self._points)
 
         # Find the closest point
-        distances = [calc_distance(point, real_center) for point in self._points]
+        distances = [
+            calc_distance(point, real_center) for point in self._points
+        ]
         closest = distances.index(min(distances))
 
         self._current_center = self._points[closest]
-        self.set_id()
 
     def is_same_center(self):
         """
@@ -83,6 +69,7 @@ class Centroid(object):
         if (self._current_center == self._old_center).all():
             return True
         self._old_center = self._current_center
+        return False
 
     def calc_distance(self, point):
         """
@@ -146,20 +133,6 @@ def find_new_centers(centers):
     map(lambda c: c.find_center(), centers)
 
 
-def get_data():
-    """
-    Gather the data
-    @return: array of arrays
-    """
-    global iris_data
-    global iris_target
-
-    iris_database = datasets.load_iris()
-    iris_data = iris_database.data.tolist()
-    iris_target = iris_database.target.tolist()
-    return iris_database.data
-
-
 def k_means(data, k):
     """
     perform the k_means algorithm.
@@ -181,6 +154,7 @@ def k_means(data, k):
         for center in centers:
             center.reset_points()
 
+        map(print, centers)
         # For every group in the data, fin the right center
         for point in data:
             assign_to_centers(point, centers)
@@ -190,32 +164,3 @@ def k_means(data, k):
     return centers
 
 
-def present(clusters):
-    """
-    Presenting the output
-    @param clusters: Centroids
-    """
-    success_rate = 0
-    for cluster in clusters:
-        for point in cluster.get_points():
-            i = iris_data.index(point.tolist())
-            real = iris_target[i]
-            score = cluster.get_id()
-            if real == score:
-                success_rate += 1
-            print("{point} | {real} --> {score}".format(point=point, real=real, score=score))
-    print("the success rate  was: {}".format(success_rate/len(iris_data)))
-
-
-def test():
-    k = 3
-
-    data = get_data()
-
-    clusters = k_means(data, k)
-
-    present(clusters)
-
-
-if __name__ == '__main__':
-    test()

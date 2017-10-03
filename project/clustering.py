@@ -18,8 +18,8 @@ def calc_distance(a, b):
 
 class Centroid(object):
     def __init__(self, center):
-        self._old_center = center
-        self._current_center = None
+        self._current_center = center
+        self._new_center = None
         self._points = []
 
     def add_point(self, point):
@@ -33,10 +33,10 @@ class Centroid(object):
         self._points = []
 
     def set_center(self, center):
-        self._old_center = center
+        self._current_center = center
 
     def get_center(self):
-        return self._current_center
+        return self._new_center
 
     def get_points(self):
         return self._points
@@ -45,30 +45,32 @@ class Centroid(object):
         """
         Find the new center of the group.
         """
+        if len(self._points) == 0:
+            return
 
-        # find an imagenary point which is the center of the group
+        # find an imaginary point which is the center of the group
         real_center = sum(self._points) / len(self._points)
 
         # Find the closest point
         distances = [
             calc_distance(point, real_center) for point in self._points
         ]
-        closest = distances.index(min(distances))
+        closest_index = distances.index(min(distances))
 
-        self._current_center = self._points[closest]
+        self._new_center = self._points[closest_index]
 
     def is_same_center(self):
         """
         Check if the new point is the same as the old one
         """
         # For first iteration
-        if self._current_center is None:
+        if self._new_center is None:
             return False
 
         # Check if new point equals to the first point
-        if (self._current_center == self._old_center).all():
+        if (self._new_center == self._current_center).all():
             return True
-        self._old_center = self._current_center
+        self._current_center = self._new_center
         return False
 
     def calc_distance(self, point):
@@ -77,10 +79,10 @@ class Centroid(object):
         @param point: array
         @return: float
         """
-        return calc_distance(point, self._old_center)
+        return calc_distance(point, self._current_center)
 
     def __str__(self):
-        return "the center: {} | {}".format(self._old_center, self._points)
+        return "the center: {} | {}".format(self._current_center, self._points)
 
 
 def get_random_centers(data, k):
@@ -119,10 +121,15 @@ def assign_to_centers(point, centers):
     @param centers: list of Centroids
     @return: None
     """
-    distances = [center.calc_distance(point) for center in centers]
-    closest = distances.index(min(distances))
+    for center in centers:
+        if point is center.get_center():
+            center.add_point(point)
+            return
 
-    centers[closest].add_point(point)
+    distances = [center.calc_distance(point) for center in centers]
+    closest_index = distances.index(min(distances))
+
+    centers[closest_index].add_point(point)
 
 
 def find_new_centers(centers):
@@ -146,15 +153,13 @@ def k_means(data, k):
 
     while not same_centers(centers):
 
-        # Printing in just to follow the progress
-        i += 1
-        print("iteration number {}".format(i))
-
+        i+=1
+        if i > 300:
+            break
         # Clear the groups of the centers
         for center in centers:
             center.reset_points()
 
-        map(print, centers)
         # For every group in the data, fin the right center
         for point in data:
             assign_to_centers(point, centers)

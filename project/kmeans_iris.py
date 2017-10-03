@@ -6,6 +6,7 @@ Created on Sep 23, 2017
 from __future__ import print_function, division
 from sklearn import datasets
 import clustering
+import statistical_gap
 
 
 def find_index_of_array_in_array_of_arrays(data, target):
@@ -44,9 +45,11 @@ def accuracy (clusters, iris_data_set):
 
 def main():
     iris_data_set = datasets.load_iris()
-    clusters = clustering.k_means(iris_data_set.data, 3)
-    accuracy(clusters, iris_data_set)
-    map(print, clusters)
+    statistical_gap.gap_statistic(iris_data_set.data)
+    #clusters = clustering.k_means(iris_data_set.data, 3)
+    #accuracy(clusters, iris_data_set)
+    #map(print, clusters)
+
 
 if __name__ == '__main__':
     main()

@@ -1,13 +1,27 @@
+from __future__ import division
 import clustering
-
+import matplotlib.pyplot as plt
 
 def general_distance(clusters):
     """
     summarize the distance of each point from it's center
-    :param clusters: Centroid
+
+    dr = Sum of distances from center in cluster r.
+    nr = Number of elements in cluster r.
+    see page 2 gap.pdf
+    :param clusters: sequence of Centroids
     :return: float
     """
-    pass
+    weight = 0
+    for cluster in clusters:
+        dr = sum(cluster.calc_distance(element) for element in cluster.get_points())
+        nr = len(cluster.get_points())
+        if nr == 0:
+            pass
+        weight += (1/(2*nr))*dr
+
+    return weight
+
 
 
 def find_k(weights):
@@ -29,14 +43,19 @@ def gap_statistic(data):
     """
 
     n = len(data)
-    weights = {}
+    weights = []
 
-    for k in range(1, n):
+    for k in range(30, n):
+
+        print("\nnow creating {} clusters".format(k))
 
         clusters = clustering.k_means(data, k)
 
-        weights[k] = general_distance(clusters)
+        weights.append(general_distance(clusters))
 
+    print(weights)
+    plt.plot(range(30, n), weights)
+    plt.show()
     vitrack = find_k(weights)
 
     pass

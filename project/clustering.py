@@ -13,7 +13,8 @@ def calc_distance(a, b):
     @param b: array
     @return: float
     """
-    return np.linalg.norm(a - b, 2)
+    result = np.linalg.norm(a - b, 2)
+    return result
 
 
 class Centroid(object):
@@ -36,7 +37,19 @@ class Centroid(object):
         self._current_center = center
 
     def get_center(self):
+        """
+
+        :return: nd.array
+        """
         return self._new_center
+
+    def __eq__(self, other):
+        """
+
+        :param other: Centroid
+        :return: bool
+        """
+        return all(self._current_center == other._current_center)
 
     def get_points(self):
         return self._points
@@ -97,7 +110,7 @@ def get_random_centers(data, k):
 
     for point in real_points:
         random_group.append(Centroid(point))
-    return random_group
+    return np.unique(random_group)
 
 
 def same_centers(centers):

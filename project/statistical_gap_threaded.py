@@ -1,7 +1,8 @@
 from __future__ import division
 import clustering
 import matplotlib.pyplot as plt
-from math import sqrt, log10
+from math import log10
+import multiprocessing as mp
 
 
 def general_distance(clusters):
@@ -31,14 +32,16 @@ def general_distance(clusters):
     return weight
 
 
-def find_k(weights):
+def find_k(gaps):
     """
     find the recommended k
     TODO: find the way to get the right k
     :param weights: dictionary
     :return: int
     """
-    pass
+    min_gap = min(gaps)
+    min_gap_ind = gaps.index(min_gap)
+    return  min_gap_ind
 
 
 def calc_gap(weight, k, p, n, const=0):
@@ -68,6 +71,27 @@ def present(clusters, p):
         plt.show()
 
 
+def k_gap_calc(k, data, weights, gaps, expected, n, p):
+    """
+    Calculate weight, expected weight and gap for given k.
+
+    :param k: int
+    :param data: array of arrays
+    :param weights: list
+    :param gaps:    list
+    :param expected: list
+    :param n:   int
+    :param p:   int
+    :return:    None
+    """
+    clusters = clustering.k_means(data, k)
+    weight = general_distance(clusters)
+    weights[k-1] = (log10(weight))
+    gap, expect = calc_gap(weight, k, p, n, 1)
+    gaps[k-1] = gap
+    expected[k-1] = expect
+
+
 def gap_statistic(data):
     """
     find the recommended number of clusters in given data set
@@ -75,38 +99,34 @@ def gap_statistic(data):
     :param data: sequence of arrays
     :return: int
     """
-
+    mg = mp.Manager()
+    k_max = 20
     n = len(data)
     p = len(data[0])
-    weights = []
-    gaps = []
-    expected = []
-    rng = range(1, 20)
+    weights = mg.list([0] * (k_max-1))
+    gaps = mg.list([0] * (k_max-1))
+    expected = mg.list([0] * (k_max-1))
+    rng = range(1, k_max)
+
+    num_of_workers = mp.cpu_count()
+    print("number of workers is : {}".format(num_of_workers))
+    pool = mp.Pool(num_of_workers)
+
     for k in rng:
+        pool.apply_async(k_gap_calc, args=(k, data, weights, gaps, expected, n, p))
 
-        print("\nnow creating {} clusters".format(k))
+    pool.close()
+    pool.join()
 
-        clusters = clustering.k_means(data, k)
-
-        #present(clusters, p)
-
-        weight = general_distance(clusters)
-        weights.append(log10(weight))
-        gap, expect = calc_gap(weight, k, p, n, 1)
-        gaps.append(gap)
-        expected.append(expect)
-
-    print(weights)
-    print(expected)
-    print(gaps)
     plt.figure(1)
-    x = plt.plot(rng, weights, 'r', label="Weight")
-    plt.plot(rng, expected, 'g', label="Expected")
-    plt.plot(rng, gaps, 'b', label="Gaps")
+    plt.plot(rng, list(weights), 'r', label="Weight")
+    plt.plot(rng, list(expected), 'g', label="Expected")
+    plt.plot(rng, list(gaps), 'b', label="Gaps")
     plt.legend(loc='upper right')
     plt.show()
-    vitrack = find_k(weights)
+
+    print("the right k is: {}".format(find_k(list(gaps))))
+
+    #vitrack = find_k(weights)
 
 
-
-    pass

@@ -1,3 +1,4 @@
+#!/usr/local/bin/python2
 '''
 Created on Sep 23, 2017
 
@@ -7,7 +8,7 @@ from __future__ import print_function, division
 from sklearn import datasets
 import numpy as np
 import clustering
-import statistical_gap
+import statistical_gap_threaded
 
 
 def find_index_of_array_in_array_of_arrays(data, target):
@@ -50,7 +51,7 @@ def main():
 
     #iris_2 = [np.array([x[0], x[1]]) for x in data]
 
-    statistical_gap.gap_statistic(data)
+    statistical_gap_threaded.gap_statistic(data)
     #clusters = clustering.k_means(iris_data_set.data, 3)
     #accuracy(clusters, iris_data_set)
     #map(print, clusters)

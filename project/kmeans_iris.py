@@ -9,7 +9,7 @@ from sklearn import datasets
 import numpy as np
 import clustering
 import statistical_gap_threaded
-import time
+
 
 def find_index_of_array_in_array_of_arrays(data, target):
     i = 0
@@ -46,19 +46,17 @@ def accuracy (clusters, iris_data_set):
 
 
 def main():
-    start_time = time.time()
-
     iris_data_set = datasets.load_iris()
     data = iris_data_set.data
 
     #iris_2 = [np.array([x[0], x[1]]) for x in data]
 
-    #statistical_gap_threaded.gap_statistic(data)
-    clusters = clustering.k_means(iris_data_set.data, 3)
-    accuracy(clusters, iris_data_set)
+
+    statistical_gap_threaded.gap_statistic(data)
+    #clusters = clustering.k_means(iris_data_set.data, 3)
+    #accuracy(clusters, iris_data_set)
     #map(print, clusters)
 
-    print(time.time() - start_time)
 
 if __name__ == '__main__':
     main()

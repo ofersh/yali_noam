@@ -3,6 +3,7 @@ from __future__ import print_function
 import matplotlib.pyplot as plt
 import statistical_gap_threaded
 
+
 def generate_cloud():
     xs = []
     ys = []

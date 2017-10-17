@@ -1,6 +1,7 @@
 
 from __future__ import print_function
 import matplotlib.pyplot as plt
+import statistical_gap_threaded
 
 def generate_cloud():
     xs = []
@@ -12,10 +13,7 @@ def generate_cloud():
     return xs, ys
 
 if __name__ == "__main__":
-    generate_cloud()
-
-xs, ys = generate_cloud()
-plt.scatter(xs, ys)
-plt.show()
-
-
+    xs, ys = generate_cloud()
+    cloud = zip(xs,ys)
+    print(cloud)
+    statistical_gap_threaded.gap_statistic(cloud)

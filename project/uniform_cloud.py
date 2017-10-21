@@ -2,6 +2,7 @@
 from __future__ import print_function
 import matplotlib.pyplot as plt
 import statistical_gap_threaded
+import utils
 
 
 def generate_cloud():
@@ -16,5 +17,8 @@ def generate_cloud():
 if __name__ == "__main__":
     xs, ys = generate_cloud()
     cloud = zip(xs,ys)
+    utils.draw_2d(cloud, "uniform")
     print(cloud)
-    statistical_gap_threaded.gap_statistic(cloud)
+    k, plot_info = statistical_gap_threaded.gap_statistic(cloud)
+    print("k is {}".format(k))
+    utils.plot_info(plot_info)

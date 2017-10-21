@@ -1,42 +1,23 @@
-"""
-Planning to create class for Kmeans, Observation.
-kmeans is them manager. holding all the observations and managing centers.
-centers taking out of observation list.
-observations register themself at centers.
-"""
-
 from __future__ import division,print_function
 import numpy as np
-# only for debugging.
-from sklearn import datasets
-import time
 
-
-def euclidian_dist(seq1, seq2):
-    """
-
-    :param o1: Observation
-    :param o2: Observation
-    :return: float
-    """
-    arr1 = np.array(seq1)
-    arr2 = np.array(seq2)
-    d = np.linalg.norm(arr1 - arr2)
-    return d
+import utils
 
 
 class Kmeans(object):
     """
     Kmeans class. Holds sequence of Observation and list of centers.
-    """
-    def __init__(self, k, data, dist_func=euclidian_dist):
-        """
 
+
+    """
+    def __init__(self, k, data, dist_func=utils.euclidean_dist):
+        """
+        Init kmean object
         :param k: int
         :param data: seq of seq
         :param dist_func: function
         """
-        self.distance = dist_func
+        self._distance = dist_func
         self._k = None
         self._centers = []
         self._observations = []
@@ -56,7 +37,7 @@ class Kmeans(object):
         return self._observations
 
     def set_observations(self, obs_list):
-        self._observations = [Observation(features, self.distance)
+        self._observations = [Observation(features, self._distance)
                               for features in obs_list]
 
     def get_centers(self):
@@ -182,57 +163,3 @@ class Observation(object):
     is_center = property(get_is_center, set_is_center)
 
 
-##########################
-# Where actual datasets testing starts
-##########################
-
-def test_iris():
-    iris_dat = datasets.load_iris()
-    data = iris_dat.data
-    target = iris_dat.target
-    kk = Kmeans(3, data)
-    clusters = kk.clusterize()
-    dataset_accuracy(data, target, clusters)
-
-
-def test_digits():
-    digits_dat = datasets.load_digits()
-    data = digits_dat.data
-    target = digits_dat.target
-    kk = Kmeans(10, data)
-    clusters = kk.clusterize()
-    dataset_accuracy(data, target, clusters)
-
-
-def test_wine():
-    wine_dat = datasets.load_wine()
-    data = wine_dat.data
-    target = wine_dat.target
-    kk = Kmeans(3, data)
-    clusters = kk.clusterize()
-    dataset_accuracy(data, target, clusters)
-
-
-def dataset_accuracy(data, target, clusters):
-    dl = map(list, data)
-    dl = list(dl)
-    hits = 0
-    for center in clusters:
-        center_ind = dl.index(list(center.features))
-        center_target = target[center_ind]
-        print(center_target)
-
-        for obs in center.cluster:
-            obs_ind = dl.index(list(obs.features))
-            obs_target = target[obs_ind]
-            if obs_target == center_target:
-                hits += 1
-
-    print((hits / len(data)) * 100)
-
-if __name__ == "__main__":
-    start_time = time.time()
-    test_iris()
-    #test_digits()
-    #test_wine()
-    print(time.time() - start_time)

@@ -8,6 +8,7 @@ import numpy as np
 import random as rnd
 from math import sin, cos
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import time
 
 
@@ -30,14 +31,39 @@ def latency(func):
     return time_measurement
 
 
-def random_point(r):
-    t = rnd.randint(0,259)
-    x = r * sin(t)
-    y = r * cos(t)
-    return x, y
+def random_3d_point():
+    r = rnd.random()
+    phi = rnd.random() * 360
+    theta = rnd.random() * 360
+
+    x = r * sin(phi) * cos(theta)
+    y = r * sin(phi) * sin(theta)
+    z = r * cos(phi)
+
+    return np.array((x, y, z))
 
 
-def generate_groups(n, k):
+def random_2d_point():
+    r = rnd.random()
+    phi = rnd.random() * 259
+
+    x = r * sin(phi)
+    y = r * cos(phi)
+
+    return np.array((x, y))
+
+
+def choose_groupe(_, k, dim):
+    x = _ % k * 5
+    y = (_ % k % 2) * 5
+    z = 0
+    if dim == 3:
+        return np.array((x, y, z))
+    else:
+        return np.array((x, y))
+
+
+def generate_groups(n, k, rand_point):
     '''
     create k seperated groups of objects
     every group surround a random unit circle
@@ -47,14 +73,13 @@ def generate_groups(n, k):
     # Add n random points to the data
     for _ in range(n):
 
-        # Randomize the group the point belongs to
-        group = rnd.randint(0, k-1) * 7
-
         # create a random point
-        r = rnd.random() + 1
-        point = np.array(random_point(r))
+        sphere_point = rand_point()
 
-        data.append(point+group)
+        # Randomize the group the point belongs to
+        center_point = choose_groupe(_, k, len(sphere_point))
+
+        data.append(sphere_point+center_point)
 
     return data
 
@@ -91,6 +116,19 @@ def plot_info(plt_info):
     plt.plot(range(1,len(weights)-1), gaps_diff)
     plt.show()
 
+
+def draw_3d(data, title):
+    x, y, z = zip(*data)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    ax.scatter(x, y, z, c='r', marker='o')
+    ax.set_xlabel('X Label')
+    ax.set_ylabel('Y Label')
+    ax.set_zlabel('Z Label')
+
+    plt.show()
 
 
 def draw_2d(data, title):

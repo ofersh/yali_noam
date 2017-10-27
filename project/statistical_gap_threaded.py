@@ -5,6 +5,7 @@ from math import log10
 import multiprocessing as mp
 
 import k_means
+import utils
 
 
 def general_distance(clusters):
@@ -60,7 +61,7 @@ def calc_gap(weight, k, p, n, const=0):
     return expected_weight - log10(weight), expected_weight
 
 
-def k_gap_calc(kmean, weights, gaps, expected, n, p):
+def k_gap_calc(kmean, weights, gaps, expected, n, p, new_param):
     """
     Calculate weight, expected weight and gap for given k.
 
@@ -75,11 +76,37 @@ def k_gap_calc(kmean, weights, gaps, expected, n, p):
     clusters = kmean.clusterize()
     weight = general_distance(clusters)
     gap, expect = calc_gap(weight, kmean.k, p, n, 1)
-
+    
     weights[kmean.k] = (log10(weight))
     gaps[kmean.k] = gap
     expected[kmean.k] = expect
 
+
+def get_expected_weights(n, k, iterations):
+        
+    total_weights = {}
+       
+    for i in range(iterations):
+        print("starting the {} iterate in monte carlo".format(i))
+        data = utils.generate_random_data(n, utils.random_3d_point)
+            
+        for j in range(1,k):
+            print("finidng clusters with {}".format(j))
+            if i == 0:
+                # In order to initialize the dictionary
+                total_weights[str(j)] = 0
+                    
+            km = k_means.Kmeans(k, data)
+            clusters = km.clusterize()
+            weight = general_distance(clusters)
+                
+            total_weights[str(j)] += weight
+                
+        del data
+        
+    expected_weights = {str(key) : value/iterations for key, value in total_weights.items()}
+    return expected_weights
+    
 
 def gap_statistic(data):
     """
@@ -89,13 +116,15 @@ def gap_statistic(data):
     :return: int
     """
     mg = mp.Manager()
-    k_max = min([25, len(data)])
+    k_max = min([10, len(data)])
     n = len(data)
     p = len(data[0])
     weights = mg.list([0] * k_max)
     gaps = mg.list([0] * k_max)
     expected = mg.list([0] * k_max)
     rng = range(1, k_max)
+    expected_weights = get_expected_weights(n, k_max, 100)
+    utils.draw_2d_line(zip(range(1,k_max),expected_weights.values()), 'expected_weights')
 
     num_of_workers = mp.cpu_count()
     print("number of workers is : {}".format(num_of_workers))
@@ -103,7 +132,7 @@ def gap_statistic(data):
 
     for k in rng:
         km = k_means.Kmeans(k, data)
-        pool.apply_async(k_gap_calc, args=(km, weights, gaps, expected, n, p))
+        pool.apply_async(k_gap_calc, args=(km, weights, gaps, expected, n, p, expected_weights))
 
     pool.close()
     pool.join()

@@ -84,6 +84,35 @@ def generate_groups(n, k, rand_point):
     return data
 
 
+def generate_cloud():
+    xs = []
+    ys = []
+    for i in range(1, 15):
+        xs += [i] * 15
+    for i in range(1, 15):
+        ys += range(1, 16)
+    return xs, ys
+
+
+def generate_random_data(n, rand_point):
+    '''
+    create k seperated groups of objects
+    every group surround a random unit circle
+    '''
+    data = []
+
+    # Add n random points to the data
+    for _ in range(n):
+
+        # create a random point
+        sphere_point = rand_point()
+        
+        # Add point to data
+        data.append(sphere_point)
+
+    return data
+
+
 def euclidean_dist(seq1, seq2):
     """
     Simple euclidian distance function.
@@ -134,5 +163,12 @@ def draw_3d(data, title):
 def draw_2d(data, title):
     x, y = zip(*data)
     plt.plot(x, y, 'o')
+    plt.title(title)
+    plt.show()
+    
+    
+def draw_2d_line(data, title):
+    x, y = zip(*data)
+    plt.plot(x, y)
     plt.title(title)
     plt.show()

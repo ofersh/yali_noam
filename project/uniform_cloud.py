@@ -5,17 +5,8 @@ import statistical_gap_threaded
 import utils
 
 
-def generate_cloud():
-    xs = []
-    ys = []
-    for i in range(1, 15):
-        xs += [i] * 15
-    for i in range(1, 15):
-        ys += range(1, 16)
-    return xs, ys
-
 if __name__ == "__main__":
-    xs, ys = generate_cloud()
+    xs, ys = utils.generate_cloud()
     cloud = zip(xs,ys)
     utils.draw_2d(cloud, "uniform")
     print(cloud)

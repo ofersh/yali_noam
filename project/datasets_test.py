@@ -1,5 +1,5 @@
 from __future__ import division, print_function
-from sklearn import datasets
+#from sklearn import datasets
 
 from k_means import Kmeans
 from statistical_gap_threaded import gap_statistic as gs
@@ -75,5 +75,8 @@ if __name__ == "__main__":
     # utils.time_test(test_wine)
     # test_digits()
     # test_wine()
-    data = utils.generate_groups(1250, 5, utils.random_3d_point)
+    data = utils.generate_groups(250, 1, utils.random_3d_point)
+    k, plot_info = gs(data)
+    utils.plot_info(plot_info)
+    print("the best k is {}".format(k))
     utils.draw_3d(data, "3D trial")

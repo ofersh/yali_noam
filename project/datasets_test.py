@@ -1,5 +1,5 @@
 from __future__ import division, print_function
-#from sklearn import datasets
+from sklearn import datasets
 
 from k_means import Kmeans
 from statistical_gap_threaded import gap_statistic as gs
@@ -43,13 +43,12 @@ def test_wine():
 
 
 def sanity_test():
-    n = 160
-    exp_k = 10
-    data = utils.generate_groups(n, exp_k)
+    exp_k = 5
+    data = utils.generate_5_clusters(300)
     k, plot_info = gs(data)
     print("the expected number of k is: {}".format(exp_k))
     print("the returned k is : {}".format(k))
-    utils.draw_2d(data, "sanity")
+    utils.draw_3d(data)
     utils.plot_info(plot_info)
 
 
@@ -72,11 +71,10 @@ def dataset_accuracy(data, target, clusters):
 
 
 if __name__ == "__main__":
-    # utils.time_test(test_wine)
+    #utils.time_test(test_iris)
     # test_digits()
     # test_wine()
-    data = utils.generate_groups(250, 1, utils.random_3d_point)
-    k, plot_info = gs(data)
-    utils.plot_info(plot_info)
-    print("the best k is {}".format(k))
-    utils.draw_3d(data, "3D trial")
+    #data = utils.generate_groups(1250, 5, utils.random_3d_point)
+    #utils.draw_3d(data, "3D trial")
+    sanity_test()
+

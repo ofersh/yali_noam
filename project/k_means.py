@@ -13,8 +13,10 @@ class Kmeans(object):
     def __init__(self, k, data, dist_func=utils.euclidean_dist):
         """
         Init kmean object
-        :param k: int
-        :param data: seq of seq
+        :param k:
+        :type k: int
+        :param data:
+        :type data: seq[seq]
         :param dist_func: function
         """
         self._distance = dist_func
@@ -42,6 +44,9 @@ class Kmeans(object):
 
     def get_centers(self):
         return self._centers
+
+    def set_data(self, data):
+        self.observations = data
 
     k = property(get_k, set_k)
     observations = property(get_observations, set_observations)

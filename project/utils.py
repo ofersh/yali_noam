@@ -4,12 +4,14 @@ Created on Oct 12, 2017
 @author: yali
 '''
 
+from __future__ import division
 import numpy as np
 import random as rnd
 from math import sin, cos
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import time
+from collections import namedtuple
 
 
 def time_test(func):
@@ -31,16 +33,93 @@ def latency(func):
     return time_measurement
 
 
-def random_3d_point():
-    r = rnd.random()
-    phi = rnd.random() * 360
-    theta = rnd.random() * 360
+Square_prop = namedtuple('square_properties', ['pivot', 'length', 'height', 'width'])
+
+default_prop = Square_prop((0, 0, 0), 1, 1, 0.2)
+
+
+def random_point_in_square(square_prop=default_prop):
+    """
+    randomize a point with square considering margin.
+    :return:
+    """
+    max_length = square_prop.length
+    max_height = square_prop.height
+    max_width = square_prop.width
+    x = rnd.random() * max_width
+    y = rnd.random() * max_length
+    z = rnd.random() * max_height
+
+    return square_prop.pivot + np.array([x, y, z])
+
+
+def uniform_square(elements_number=600):
+    """
+    Generate uniform square of points.
+    :param elements_number: int
+    :return:
+    """
+    square = []
+    for n in range(elements_number):
+        point = random_point_in_square()
+        square += [point]
+
+    return square
+
+
+def generate_square_edges(square_prop=default_prop):
+    """
+    Create edges of square with given properties.
+    :param square_prop:
+    :return:
+    """
+    margin = default_prop.width/2
+    margin_arr = np.array([margin, margin, margin])
+    pivot = np.array(square_prop.pivot) + margin_arr
+    length = square_prop.length - (2 * margin)
+    height = square_prop.height - (2 * margin)
+
+    a = pivot
+    b = a + np.array([0, 0, height])
+    c = a + np.array([0, length/2, height/2])
+
+    d = a + np.array([0, length, 0])
+    e = d + np.array([0, 0, height])
+
+    return [a, b, c, d, e]
+
+
+def random_3d_point(r):
+    """
+    Generate 3d point within radius = r
+    :param r: float
+    :return:
+    """
+    r = rnd.random() * r
+    phi = rnd.random() * 2 * np.pi
+    theta = rnd.random() * 2 * np.pi
 
     x = r * sin(phi) * cos(theta)
     y = r * sin(phi) * sin(theta)
     z = r * cos(phi)
 
-    return np.array((x, y, z))
+    return np.array([x, y, z])
+
+
+def generate_5_clusters(square_prop=default_prop, max_points=100):
+    """
+    Create 5 distinctive clusters.
+    :param square_prop:
+    :param max_points:
+    :return:
+    """
+    square = generate_square_edges()
+    clusters = []
+    for edge in square:
+        for n in range(0, max_points):
+            point = random_3d_point(square_prop.width/2)
+            clusters += [edge + point]
+    return square + clusters
 
 
 def random_2d_point():
@@ -53,7 +132,7 @@ def random_2d_point():
     return np.array((x, y))
 
 
-def choose_groupe(_, k, dim):
+def choose_group(_, k, dim):
     x = _ % k * 5
     y = (_ % k % 2) * 5
     z = 0
@@ -77,21 +156,11 @@ def generate_groups(n, k, rand_point):
         sphere_point = rand_point()
 
         # Randomize the group the point belongs to
-        center_point = choose_groupe(_, k, len(sphere_point))
+        center_point = choose_group(_, k, len(sphere_point))
 
         data.append(sphere_point+center_point)
 
     return data
-
-
-def generate_cloud():
-    xs = []
-    ys = []
-    for i in range(1, 15):
-        xs += [i] * 15
-    for i in range(1, 15):
-        ys += range(1, 16)
-    return xs, ys
 
 
 def generate_random_data(n, rand_point):
@@ -156,7 +225,9 @@ def draw_3d(data, title):
     ax.set_xlabel('X Label')
     ax.set_ylabel('Y Label')
     ax.set_zlabel('Z Label')
-
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 
 

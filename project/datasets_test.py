@@ -71,7 +71,7 @@ def dataset_accuracy(data, target, clusters):
 
 
 if __name__ == "__main__":
-    #utils.time_test(test_iris)
+    # utils.time_test(test_wine)
     # test_digits()
     # test_wine()
     #data = utils.generate_groups(1250, 5, utils.random_3d_point)

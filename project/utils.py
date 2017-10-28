@@ -37,21 +37,6 @@ def latency(func):
     return time_measurement
 
 
-def random_point_in_square(square_prop=default_prop):
-    """
-    randomize a point with square considering margin.
-    :return:
-    """
-    max_length = square_prop.length
-    max_height = square_prop.height
-    max_width = square_prop.width
-    x = rnd.random() * max_width
-    y = rnd.random() * max_length
-    z = rnd.random() * max_height
-
-    return square_prop.pivot + np.array([x, y, z])
-
-
 def uniform_square(elements_number=700):
     """
     Generate uniform square of points.
@@ -59,11 +44,33 @@ def uniform_square(elements_number=700):
     :return:
     """
     square = []
+
     for n in range(elements_number):
-        point = random_point_in_square()
+        point = random_point_in_borders([0.2, 1, 1])
         square += [point]
 
     return square
+
+
+def random_point_in_borders(borders):
+    num_features = len(borders)
+    element = [0] * num_features
+
+    for i in range(num_features):
+        feature = rnd.random() * borders[i]
+        element[i] = feature
+
+    return element
+
+
+def generate_data_with_edges(elements_number, borders):
+    data = []
+
+    for _ in range(elements_number):
+        element = random_point_in_borders(borders)
+        data.append(np.array(element))
+
+    return data
 
 
 def generate_square_edges(square_prop=default_prop):
@@ -131,9 +138,9 @@ def random_2d_point():
     return np.array((x, y))
 
 
-def choose_group(_, k, dim):
-    x = _ % k * 5
-    y = (_ % k % 2) * 5
+def choose_group(index, k, dim):
+    x = index % k * 5
+    y = (index % k % 2) * 5
     z = 0
     if dim == 3:
         return np.array((x, y, z))
@@ -162,25 +169,6 @@ def generate_groups(n, k, rand_point):
     return data
 
 
-def generate_random_data(n, rand_point):
-    '''
-    create k seperated groups of objects
-    every group surround a random unit circle
-    '''
-    data = []
-
-    # Add n random points to the data
-    for _ in range(n):
-
-        # create a random point
-        sphere_point = rand_point()
-        
-        # Add point to data
-        data.append(sphere_point)
-
-    return data
-
-
 def euclidean_dist(seq1, seq2):
     """
     Simple euclidian distance function.
@@ -204,16 +192,29 @@ def plot_info(plt_info):
     print(gaps)
 
     plt.figure(2)
-    #plt.subplot(111)
 
     plt.plot(rng, list(weights)[1:], 'r', label="Weight")
     plt.plot(rng, list(expected)[1:], 'g', label="Expected")
     plt.plot(rng, list(gaps)[1:], 'b', label="Gaps")
     plt.legend(loc='upper right')
-    plt.show()
 
+    plt.figure(3)
     gaps_diff = np.array(gaps[2:]) - np.array(gaps[1:-1])
     plt.plot(range(1, len(weights)-1), gaps_diff)
+    plt.show()
+
+
+def plot_clusters(clusters):
+
+    #plt.figure()
+    plt.subplot(111, projection='3d')
+    for c in clusters:
+        x, y, z = zip(*([obs.features for obs in c.cluster]))
+        plt.scatter(x, y, z)
+
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 
 
@@ -230,7 +231,7 @@ def draw_3d(data):
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.gca().set_aspect('equal', adjustable='box')
-    #plt.show()
+    plt.show()
 
 
 def draw_2d(data, title):

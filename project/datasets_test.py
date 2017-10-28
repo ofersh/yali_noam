@@ -33,7 +33,7 @@ def test_digits():
 def test_wine():
     wine_dat = datasets.load_wine()
     data = wine_dat.data
-    k, plot_info = gs(data)
+    k, plot_info, clusters = gs(data)
     print("the returned k is : {}".format(k))
     utils.plot_info(plot_info)
     # target = wine_dat.target
@@ -44,8 +44,10 @@ def test_wine():
 
 def sanity_test():
     exp_k = 5
-    data = utils.generate_5_clusters(300)
-    k, plot_info = gs(data)
+    data = utils.uniform_square()
+    utils.draw_3d(data)
+    k, plot_info, clusters = gs(data)
+
     print("the expected number of k is: {}".format(exp_k))
     print("the returned k is : {}".format(k))
     utils.draw_3d(data)

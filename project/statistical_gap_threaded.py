@@ -49,7 +49,7 @@ def find_k(gaps):
     return max_gap_ind + 2
 
 
-def monte_carlo(k, iterations=15):
+def monte_carlo(k, iterations=40):
 
     weight = 0
     for i in range(1, iterations):
@@ -136,8 +136,10 @@ def gap_statistic(data):
 
     pool.close()
     pool.join()
-
+    k = find_k(gaps)
+    km = k_means.Kmeans(k,data)
+    clusters = km.clusterize()
     plot_info = (weights, expected, gaps)
-    return find_k(gaps), plot_info
+    return k, plot_info, clusters
 
 

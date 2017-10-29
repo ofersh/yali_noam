@@ -6,11 +6,14 @@ Created on Oct 27, 2017
 #import datasets_test as dst
 import utils
 from statistical_gap_threaded import gap_statistic as gs
+from statistical_gap_threaded import gap_statistic_yali as gsy
+
 
 
 def main():
-    data = utils.generate_square_with_equal_dist_3d()
-    k, plot_info, clusters = gs(data)
+    data = utils.generate_groups(500, 4, utils.random_3d_point)
+    #k, plot_info, clusters = gs(data)
+    k, plot_info, clusters = gsy(data)
     
     print("the returned k is : {}".format(k))
     utils.draw_3d(data)

@@ -46,7 +46,7 @@ def uniform_square(elements_number=700):
     square = []
 
     for n in range(elements_number):
-        point = random_point_in_borders([0.2, 1, 1])
+        point = random_point_in_borders([10, 6, 2])
         square += [point]
 
     return square
@@ -73,6 +73,44 @@ def generate_data_with_edges(elements_number, borders):
     return data
 
 
+def generate_square_with_equal_dist_3d(elements_number=40):
+    data = []
+    
+    max_x = elements_number/2
+    max_y = elements_number/2
+    
+    x = 0.05
+    y = 0.05
+    
+    return [np.array((x*i, y*j, 0)) for i in range(int(max_x)) for j in range(int(max_y))]
+    
+    
+    
+    dots = int((elements_number / 3) / 2)
+    x_array = np.linspace(0.0, 0.2, 3)
+    y_array = np.linspace(0.0, 1.0, dots)
+    z_array = np.linspace(0.0, 1.0, dots)
+    
+    y = 0
+    z = 0
+    
+    for i in range(elements_number):
+        
+        if (y % dots) == 0:
+            y = 0
+            z += 1
+                    
+        tmp_x = x_array[i % 3]
+        tmp_y = y_array[y]
+        tmp_z = z_array[z]
+        
+        data.append(np.array([tmp_x, tmp_y, tmp_z]))
+        
+        y += 1
+        
+    return data
+
+
 def generate_square_edges(square_prop=default_prop):
     """
     Create edges of square with given properties.
@@ -95,7 +133,7 @@ def generate_square_edges(square_prop=default_prop):
     return [a, b, c, d, e]
 
 
-def random_3d_point(r):
+def random_3d_point(r=1):
     """
     Generate 3d point within radius = r
     :param r: float
@@ -139,8 +177,8 @@ def random_2d_point():
 
 
 def choose_group(index, k, dim):
-    x = index % k * 5
-    y = (index % k % 2) * 5
+    x = index % k * 3
+    y = (index % k % 2) * 3
     z = 0
     if dim == 3:
         return np.array((x, y, z))
@@ -156,13 +194,13 @@ def generate_groups(n, k, rand_point):
     data = []
 
     # Add n random points to the data
-    for _ in range(n):
+    for i in range(n):
 
         # create a random point
         sphere_point = rand_point()
 
         # Randomize the group the point belongs to
-        center_point = choose_group(_, k, len(sphere_point))
+        center_point = choose_group(i, k, len(sphere_point))
 
         data.append(sphere_point+center_point)
 
@@ -228,8 +266,8 @@ def draw_3d(data):
     ax.set_xlabel('X Label')
     ax.set_ylabel('Y Label')
     ax.set_zlabel('Z Label')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.xlim(-1, 15)
+    plt.ylim(-1, 15)
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 

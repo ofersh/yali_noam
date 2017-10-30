@@ -21,15 +21,15 @@ def general_distance(clusters):
     """
     i = 1
     weight = 0
-    for cluster in clusters:
-        observations = cluster.cluster
+    for center in clusters:
+        observations = center.cluster
         nr = len(observations)
         dr = 0
         for i in range(nr):
             for j in range(i+1, nr):
                 dr += observations[i].distance_from(observations[j])
         if nr == 0:
-            print(cluster)
+            print(center)
             nr = 1
         cluster_weight = dr / (nr * 2)
         weight += cluster_weight
@@ -50,7 +50,7 @@ def find_k(gaps):
     return max_gap_ind + 2
 
 
-def monte_carlo(k, iterations=40):
+def monte_carlo(k, iterations=25):
 
     weight = 0
     for i in range(1, iterations):
@@ -140,8 +140,8 @@ def monte_carlo_iteration(k_max, expected, i):
     data = utils.uniform_square()
     for k in range(1, k_max):
         km = k_means.Kmeans(k, data)
-        clusters = km.clusterize()
-        weight = general_distance(clusters)
+        centers = km.clusterize()
+        weight = general_distance(centers)
         expected[k] += weight
         
     print('finished the {} iteration'.format(i))
@@ -188,15 +188,15 @@ def gap_statistic_yali(data):
     pool.join()
     
     pool = mp.Pool(num_of_workers)
-    expected_weights = calc_expected(k_max, pool, expected, 50)
+    expected_weights = calc_expected(k_max, pool, expected, 5)
     
     for i in rng:
         gaps[i] = expected[i] - weights[i]
 
     k = find_k(gaps)
-    km = k_means.Kmeans(k,data)
-    clusters = km.clusterize()
+    km = k_means.Kmeans(k, data)
+    centers = km.clusterize()
     plot_info = (weights, expected, gaps)
-    return k, plot_info, clusters
+    return k, plot_info, centers
 
 

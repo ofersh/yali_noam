@@ -9,9 +9,10 @@ import utils
 def test_iris():
     iris_dat = datasets.load_iris()
     data = iris_dat.data
-    k, plot_info = gs(data)
+    k, plot_info, clusters = gs(data)
     print("the returned k is : {}".format(k))
     utils.plot_info(plot_info)
+    utils.plot_clusters(clusters)
     #target = iris_dat.target
     #kk = Kmeans(k, data)
     #clusters = kk.clusterize()
@@ -44,8 +45,8 @@ def test_wine():
 
 def sanity_test():
     exp_k = 5
-    data = utils.uniform_square()
-    utils.draw_3d(data)
+    data = utils.generate_5_clusters()
+    # utils.draw_3d(data)
     k, plot_info, clusters = gs(data)
 
     print("the expected number of k is: {}".format(exp_k))

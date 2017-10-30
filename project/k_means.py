@@ -58,12 +58,28 @@ class Kmeans(object):
         else:
             self.find_new_centers()
         self.mark_centers()
+        #utils.plot_clusters(self.centers)
         self.scatter()
 
     def randomize_centers(self):
-        chosen_centers = list(np.random.choice(self.observations,
-                                               self.k,
-                                               replace=False))
+        """
+        Randomizing centers with a condition, to be at least `var/3` far from each other.
+        :return:
+        """
+        found = False
+        chosen_centers = []
+        while not found:
+            chosen_centers = list(np.random.choice(self.observations,
+                                                   self.k,
+                                                   replace=False))
+            distances = [center_from.distance_from(center_to)
+                         for center_from in chosen_centers
+                         for center_to in chosen_centers if center_from != center_to]
+            all_features = [obs.features for obs in self.observations]
+            var = np.var(all_features)
+            if self.k != 1 and all(d > var/(self.k + 1) for d in distances):
+                found = True
+
         self._centers = chosen_centers
 
     def mark_centers(self):

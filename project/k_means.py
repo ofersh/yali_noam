@@ -58,7 +58,6 @@ class Kmeans(object):
         else:
             self.find_new_centers()
         self.mark_centers()
-        #utils.plot_clusters(self.centers)
         self.scatter()
 
     def randomize_centers(self):

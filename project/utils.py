@@ -15,7 +15,7 @@ from collections import namedtuple
 
 
 Square_prop = namedtuple('square_properties', ['pivot', 'length', 'height', 'width'])
-default_prop = Square_prop((0, 0, 0), 1, 1, 0.2)
+default_prop = Square_prop((0, 0, 0), 10, 10, 2)
 
 
 def time_test(func):
@@ -230,28 +230,30 @@ def plot_info(plt_info):
     print(gaps)
 
     plt.figure(2)
-
+    plt.subplot(211)
     plt.plot(rng, list(weights)[1:], 'r', label="Weight")
     plt.plot(rng, list(expected)[1:], 'g', label="Expected")
     plt.plot(rng, list(gaps)[1:], 'b', label="Gaps")
     plt.legend(loc='upper right')
 
-    plt.figure(3)
+    plt.subplot(212)
     gaps_diff = np.array(gaps[2:]) - np.array(gaps[1:-1])
     plt.plot(range(1, len(weights)-1), gaps_diff)
     plt.show()
 
 
-def plot_clusters(clusters):
+def plot_clusters(centers):
 
-    #plt.figure()
-    plt.subplot(111, projection='3d')
-    for c in clusters:
-        x, y, z = zip(*([obs.features for obs in c.cluster]))
-        plt.scatter(x, y, z)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    for c in centers:
+        all_features = [obs.features for obs in c.cluster]
+        x, y, z = zip(*all_features)
+        ax.scatter(x, y, z)
+        ax.scatter(*c.features, marker='*', c='k')
 
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.xlim(0, 10)
+    plt.ylim(0, 10)
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 

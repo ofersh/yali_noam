@@ -37,7 +37,7 @@ def latency(func):
     return time_measurement
 
 
-def uniform_square(elements_number=700):
+def uniform_square(elements_number=2000):
     """
     Generate uniform square of points.
     :param elements_number: int
@@ -227,8 +227,6 @@ def plot_info(plt_info):
     gaps = plt_info[2]
     rng = range(1, len(weights))
 
-    print(gaps)
-
     plt.figure(2)
     plt.subplot(211)
     plt.plot(rng, list(weights)[1:], 'r', label="Weight")
@@ -238,7 +236,7 @@ def plot_info(plt_info):
 
     plt.subplot(212)
     gaps_diff = np.array(gaps[2:]) - np.array(gaps[1:-1])
-    plt.plot(range(1, len(weights)-1), gaps_diff)
+    plt.stem(range(2, len(weights)), gaps_diff)
     plt.show()
 
 

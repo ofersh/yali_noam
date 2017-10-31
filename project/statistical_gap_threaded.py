@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from math import log10
 import numpy as np
 import multiprocessing as mp
+import rpyc
+
 
 import k_means
 import utils
@@ -147,8 +149,18 @@ def monte_carlo_iteration(k_max, expected, i):
     print('finished the {} iteration'.format(i))
 
 
-def calc_expected(k_max, pool, expected, iterations=40):
-      
+def calc_expected(k_max, iterations=40):
+    """
+    change to be fully independent, might use it in rpyc
+    :param k_max:
+    :param iterations:
+    :return:
+    """
+    mg = mp.Manager()
+    expected = mg.list([0] * k_max)
+    num_of_workers = mp.cpu_count()
+    pool = mp.Pool(num_of_workers)
+
     for i in range(iterations):
         pool.apply_async(monte_carlo_iteration, args=(k_max, expected, i))
         
@@ -160,6 +172,8 @@ def calc_expected(k_max, pool, expected, iterations=40):
             expected[i] = 1
         expected[i] = log10(expected[i]/iterations)
 
+    return expected
+
 
 def gap_statistic_yali(data):
     """
@@ -170,15 +184,13 @@ def gap_statistic_yali(data):
     """
     mg = mp.Manager()
     k_max = min([10, len(data)])
-    n = len(data)
-    p = len(data[0])
     weights = mg.list([0] * k_max)
     gaps = mg.list([0] * k_max)
-    expected = mg.list([0] * k_max)
     rng = range(1, k_max)
 
+    expected = calc_expected(k_max)
+
     num_of_workers = mp.cpu_count()
-    print("number of workers is : {}".format(num_of_workers))
     pool = mp.Pool(num_of_workers)
     
     for k in rng:
@@ -186,17 +198,12 @@ def gap_statistic_yali(data):
 
     pool.close()
     pool.join()
-    
-    pool = mp.Pool(num_of_workers)
-    expected_weights = calc_expected(k_max, pool, expected, 5)
-    
+
     for i in rng:
-        gaps[i] = expected[i] - weights[i]
+        gaps[i] = np.abs(expected[i] - weights[i])
 
     k = find_k(gaps)
     km = k_means.Kmeans(k, data)
     centers = km.clusterize()
     plot_info = (weights, expected, gaps)
     return k, plot_info, centers
-
-

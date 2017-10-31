@@ -72,12 +72,3 @@ def dataset_accuracy(data, target, clusters):
 
     print("{:.2f}% success rate according to real groups.".format((hits / len(data)) * 100))
 
-
-if __name__ == "__main__":
-    # utils.time_test(test_wine)
-    # test_digits()
-    # test_wine()
-    #data = utils.generate_groups(1250, 5, utils.random_3d_point)
-    #utils.draw_3d(data, "3D trial")
-    sanity_test()
-

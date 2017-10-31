@@ -17,6 +17,9 @@ from collections import namedtuple
 Square_prop = namedtuple('square_properties', ['pivot', 'length', 'height', 'width'])
 default_prop = Square_prop((0, 0, 0), 10, 10, 2)
 
+#################-----------        UTILS        ------------##########
+
+
 
 def time_test(func):
     begin = time.time()
@@ -37,20 +40,44 @@ def latency(func):
     return time_measurement
 
 
-def uniform_square(elements_number=2000):
+def find_borders(data):
+    
+    num_features = len(data[0])
+    max_borders = np.array([0] * num_features)
+    min_borders = np.array([0] * num_features)
+    
+    features = list(zip(*data))
+    
+    for i in range(num_features):
+        max_borders[i] = max(features[i])
+        min_borders[i] = min(features[i])
+        
+    borders = max_borders - min_borders
+    
+    return borders
+
+
+def euclidean_dist(seq1, seq2):
     """
-    Generate uniform square of points.
-    :param elements_number: int
-    :return:
+    Simple euclidian distance function.
+
+    :param seq1: Observation or list
+    :param seq2: Observation or list
+    :return: float
     """
-    square = []
+    arr1 = np.array(seq1)
+    arr2 = np.array(seq2)
+    d = np.linalg.norm(arr1 - arr2)
+    return d
 
-    for n in range(elements_number):
-        point = random_point_in_borders([10, 6, 2])
-        square += [point]
+##############################################################################################################################
+##############################################################################################################################
+##############################################################################################################################
 
-    return square
 
+#################-----------        DATA CREATION        ------------##########
+
+# Points creation
 
 def random_point_in_borders(borders):
     num_features = len(borders)
@@ -63,29 +90,57 @@ def random_point_in_borders(borders):
     return element
 
 
-def generate_data_with_edges(elements_number, borders):
+def random_3d_point(r=1):
+    """
+    Generate 3d point within radius = r
+    :param r: float
+    :return:
+    """
+    r = rnd.random() * r
+    phi = rnd.random() * 2 * np.pi
+    theta = rnd.random() * 2 * np.pi
+
+    x = r * sin(phi) * cos(theta)
+    y = r * sin(phi) * sin(theta)
+    z = r * cos(phi)
+
+    return np.array([x, y, z])
+
+
+def random_2d_point():
+    r = rnd.random()
+    phi = rnd.random() * 259
+
+    x = r * sin(phi)
+    y = r * cos(phi)
+
+    return np.array((x, y))
+
+
+# Generating the whole data
+
+def uniform_square(elements_number=200, borders=[10, 6, 2]):
+    """
+    Generate uniform square of points.
+    :param elements_number: int
+    :return:
+    """
+    square = []
+
+    for n in range(elements_number):
+        point = random_point_in_borders(borders)
+        square += [point]
+
+    return square
+
+
+def generate_square_with_equal_dist_3d(elements_number=600):
+    """
+    Creating a data with equal distances between two neighbor points.
+    used mainly to see if the returned k would be 1 (if I'm not mistaking)
+    """
     data = []
 
-    for _ in range(elements_number):
-        element = random_point_in_borders(borders)
-        data.append(np.array(element))
-
-    return data
-
-
-def generate_square_with_equal_dist_3d(elements_number=40):
-    data = []
-    
-    max_x = elements_number/2
-    max_y = elements_number/2
-    
-    x = 0.05
-    y = 0.05
-    
-    return [np.array((x*i, y*j, 0)) for i in range(int(max_x)) for j in range(int(max_y))]
-    
-    
-    
     dots = int((elements_number / 3) / 2)
     x_array = np.linspace(0.0, 0.2, 3)
     y_array = np.linspace(0.0, 1.0, dots)
@@ -111,6 +166,15 @@ def generate_square_with_equal_dist_3d(elements_number=40):
     return data
 
 
+    max_x = elements_number/2
+    max_y = elements_number/2
+    
+    x = 0.05
+    y = 0.05
+    
+    return [np.array((x*i, y*j, 0)) for i in range(int(max_x)) for j in range(int(max_y))]
+
+
 def generate_square_edges(square_prop=default_prop):
     """
     Create edges of square with given properties.
@@ -133,23 +197,6 @@ def generate_square_edges(square_prop=default_prop):
     return [a, b, c, d, e]
 
 
-def random_3d_point(r=1):
-    """
-    Generate 3d point within radius = r
-    :param r: float
-    :return:
-    """
-    r = rnd.random() * r
-    phi = rnd.random() * 2 * np.pi
-    theta = rnd.random() * 2 * np.pi
-
-    x = r * sin(phi) * cos(theta)
-    y = r * sin(phi) * sin(theta)
-    z = r * cos(phi)
-
-    return np.array([x, y, z])
-
-
 def generate_5_clusters(max_points=100, square_prop=default_prop):
     """
     Create 5 distinctive clusters.
@@ -164,16 +211,6 @@ def generate_5_clusters(max_points=100, square_prop=default_prop):
             point = random_3d_point(square_prop.width/2)
             clusters += [edge + point]
     return square + clusters
-
-
-def random_2d_point():
-    r = rnd.random()
-    phi = rnd.random() * 259
-
-    x = r * sin(phi)
-    y = r * cos(phi)
-
-    return np.array((x, y))
 
 
 def choose_group(index, k, dim):
@@ -207,19 +244,11 @@ def generate_groups(n, k, rand_point):
     return data
 
 
-def euclidean_dist(seq1, seq2):
-    """
-    Simple euclidian distance function.
+##############################################################################################################################
+##############################################################################################################################
+##############################################################################################################################
 
-    :param seq1: Observation or list
-    :param seq2: Observation or list
-    :return: float
-    """
-    arr1 = np.array(seq1)
-    arr2 = np.array(seq2)
-    d = np.linalg.norm(arr1 - arr2)
-    return d
-
+#################-----------        PLOT        ------------##########
 
 def plot_info(plt_info):
     weights = plt_info[0]
@@ -250,8 +279,8 @@ def plot_clusters(centers):
         ax.scatter(x, y, z)
         ax.scatter(*c.features, marker='*', c='k')
 
-    plt.xlim(0, 10)
-    plt.ylim(0, 10)
+    plt.xlim(0, 0.3)
+    plt.ylim(0, 1)
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 
@@ -284,3 +313,8 @@ def draw_2d_line(data, title):
     plt.plot(x, y)
     plt.title(title)
     plt.show()
+    
+    
+
+    
+    

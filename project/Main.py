@@ -11,12 +11,21 @@ from statistical_gap_threaded import gap_statistic as gs
 from statistical_gap_threaded import gap_statistic_yali as gsy
 
 def main():
-    data = utils.uniform_square()
+    k = 1; n = k * 250
+    data = utils.generate_square_with_equal_dist_3d()
+    km = k_means.Kmeans(k, data)
+    centers = km.clusterize()
+    utils.plot_clusters(centers)
+    return
+    
     k, plot_info, centers = gsy(data)
     print("the returned k is : {}".format(k))
     utils.plot_clusters(centers)
     utils.plot_info(plot_info)
 
+    #km = k_means.Kmeans(k, data)
+    #centers = km.clusterize()
+    #utils.plot_clusters(centers)
 
 if __name__ == '__main__':
     main()

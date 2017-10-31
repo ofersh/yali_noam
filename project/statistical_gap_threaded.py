@@ -42,7 +42,6 @@ def general_distance(clusters):
 def find_k(gaps):
     """
     find the recommended k
-    TODO: find the way to get the right k
     :param gaps: list
     :return: int
     """
@@ -137,9 +136,9 @@ def k_gap_calc_yali(k, data, weights):
     weights[k] = log_weight
 
 
-def monte_carlo_iteration(k_max, expected, i):
+def monte_carlo_iteration(n, borders, k_max, expected, i):
     print("starting the {} iterate in monte carlo".format(i))
-    data = utils.uniform_square()
+    data = utils.uniform_square(n, borders)
     for k in range(1, k_max):
         km = k_means.Kmeans(k, data)
         centers = km.clusterize()
@@ -149,7 +148,7 @@ def monte_carlo_iteration(k_max, expected, i):
     print('finished the {} iteration'.format(i))
 
 
-def calc_expected(k_max, iterations=40):
+def calc_expected(n, borders, k_max, iterations=40):
     """
     change to be fully independent, might use it in rpyc
     :param k_max:
@@ -162,7 +161,7 @@ def calc_expected(k_max, iterations=40):
     pool = mp.Pool(num_of_workers)
 
     for i in range(iterations):
-        pool.apply_async(monte_carlo_iteration, args=(k_max, expected, i))
+        pool.apply_async(monte_carlo_iteration, args=(n, borders, k_max, expected, i))
         
     pool.close()
     pool.join()
@@ -183,12 +182,17 @@ def gap_statistic_yali(data):
     :return: int
     """
     mg = mp.Manager()
-    k_max = min([10, len(data)])
+    n = len(data)
+    k_max = min([10, n])
     weights = mg.list([0] * k_max)
     gaps = mg.list([0] * k_max)
     rng = range(1, k_max)
+    borders = utils.find_borders(data)
 
-    expected = calc_expected(k_max)
+    # Just for debbuging
+    print("the borders are {}".format(borders))
+    
+    expected = calc_expected(n, borders, k_max, 15)
 
     num_of_workers = mp.cpu_count()
     pool = mp.Pool(num_of_workers)
@@ -201,8 +205,10 @@ def gap_statistic_yali(data):
 
     for i in rng:
         gaps[i] = np.abs(expected[i] - weights[i])
+        gaps[i] = expected[i] - weights[i]
 
-    k = find_k(gaps)
+    #k = find_k(gaps)
+    k = gaps.index(max(gaps))
     km = k_means.Kmeans(k, data)
     centers = km.clusterize()
     plot_info = (weights, expected, gaps)

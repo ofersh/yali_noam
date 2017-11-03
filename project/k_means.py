@@ -26,6 +26,7 @@ class Kmeans(object):
         self._finished = False
         self.k = k
         self.observations = data
+        self.n = len(data)
 
     def set_k(self, k):
         if k < 0:
@@ -54,12 +55,38 @@ class Kmeans(object):
 
     def find_centers(self):
         if not any(self._centers):
-            self.randomize_centers()
+            self.new_randomize_centers()
         else:
             self.find_new_centers()
         self.mark_centers()
         self.scatter()
 
+    def new_randomize_centers(self):
+        """
+        Randomizing centers with a condition, to be at least `var/3` far from each other.
+        :return:
+        """
+        # Choose the first center to begin with
+        chosen_centers = [np.random.choice(self.observations)]
+        distance_list = [np.Infinity] * self.n
+        
+        # Find k centers
+        while len(chosen_centers) < self.k:
+            for i in range(self.n):
+                obs = self.observations[i]
+                # Find the distance from the nearest center
+                dist = min([self._distance(obs.features, center.features)**2 for center in chosen_centers])
+                distance_list[i] = dist
+                
+            # Normalizing the probabilities of the distances
+            normalizeing_num = sum(distance_list)
+            probabilities = list(map(lambda x: x/normalizeing_num , distance_list))
+            
+            # Choose the new center to add
+            chosen_centers += [np.random.choice(self.observations, p=probabiliteis)]
+            
+        self._centers = chosen_centers
+    
     def randomize_centers(self):
         """
         Randomizing centers with a condition, to be at least `var/3` far from each other.

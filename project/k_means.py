@@ -83,7 +83,7 @@ class Kmeans(object):
             probabilities = list(map(lambda x: x/normalizeing_num , distance_list))
             
             # Choose the new center to add
-            chosen_centers += [np.random.choice(self.observations, p=probabiliteis)]
+            chosen_centers += [np.random.choice(self.observations, p=probabilities)]
             
         self._centers = chosen_centers
     

@@ -2,17 +2,16 @@ from __future__ import division, print_function
 from sklearn import datasets
 
 from k_means import Kmeans
-from statistical_gap_threaded import gap_statistic as gs
+from statistical_gap import gap_statistic as gs
 import utils
 
 
 def test_iris():
     iris_dat = datasets.load_iris()
     data = iris_dat.data
-    k, plot_info, clusters = gs(data)
+    k, plot_info, centers = gs(data)
     print("the returned k is : {}".format(k))
     utils.plot_info(plot_info)
-    utils.plot_clusters(clusters)
     #target = iris_dat.target
     #kk = Kmeans(k, data)
     #clusters = kk.clusterize()
@@ -43,15 +42,27 @@ def test_wine():
     # dataset_accuracy(data, target, clusters)
 
 
-def sanity_test():
+def five_clusters():
     exp_k = 5
     data = utils.generate_5_clusters()
     # utils.draw_3d(data)
-    k, plot_info, clusters = gs(data)
+    k, plot_info, centers = gs(data)
 
     print("the expected number of k is: {}".format(exp_k))
     print("the returned k is : {}".format(k))
-    utils.plot_clusters(data)
+    utils.plot_clusters(centers)
+    utils.plot_info(plot_info)
+
+
+def k_clusters(k=2):
+    exp_k = k
+    n = k * 100
+    data = utils.generate_groups(n, k, utils.random_3d_point)
+    k, plot_info, centers = gs(data)
+
+    print("the expected number of k is: {}".format(exp_k))
+    print("the returned k is : {}".format(k))
+    utils.plot_clusters(centers)
     utils.plot_info(plot_info)
 
 

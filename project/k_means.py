@@ -55,61 +55,37 @@ class Kmeans(object):
 
     def find_centers(self):
         if not any(self._centers):
-            self.new_randomize_centers()
+            self.randomize_centers()
         else:
             self.find_new_centers()
         self.mark_centers()
         self.scatter()
 
-    def new_randomize_centers(self):
+    def randomize_centers(self):
         """
-        Randomizing centers with a condition, to be at least `var/3` far from each other.
+        Randomizing centers with a kmeans++ initialization.
+        probabilty = D(x)^2 where D(x) is distance from closest center.
         :return:
         """
         # Choose the first center to begin with
         chosen_centers = [np.random.choice(self.observations)]
-        distance_list = [np.Infinity] * self.n
+        distance_list = [0] * self.n
         
         # Find k centers
         while len(chosen_centers) < self.k:
             for i in range(self.n):
                 obs = self.observations[i]
                 # Find the distance from the nearest center
-                dist = min([self._distance(obs.features, center.features)**2 for center in chosen_centers])
+                dist = min([obs.distance_from(center)**2 for center in chosen_centers])
                 distance_list[i] = dist
                 
-            # Normalizing the probabilities of the distances
-            normalizeing_num = sum(distance_list)
-            probabilities = list(map(lambda x: x/normalizeing_num , distance_list))
+            # Normalizing the probabilities of the distances to [0,1]
+            sum_of_distances = sum(distance_list)
+            probabilities = list(map(lambda x: x/sum_of_distances, distance_list))
             
             # Choose the new center to add
             chosen_centers += [np.random.choice(self.observations, p=probabilities)]
             
-        self._centers = chosen_centers
-    
-    def randomize_centers(self):
-        """
-        Randomizing centers with a condition, to be at least `var/3` far from each other.
-        :return:
-        """
-        found = False
-        chosen_centers = []
-        impossible = 0
-        while not found:
-            chosen_centers = list(np.random.choice(self.observations,
-                                                   self.k,
-                                                   replace=False))
-            distances = [center_from.distance_from(center_to)
-                         for center_from in chosen_centers
-                         for center_to in chosen_centers if center_from != center_to]
-            all_features = [obs.features for obs in self.observations]
-            var = np.var(all_features)
-            if self.k == 1 or all(d > var/self.k for d in distances):
-                found = True
-            if impossible > len(all_features):
-                found = True
-            impossible += 1
-
         self._centers = chosen_centers
 
     def mark_centers(self):

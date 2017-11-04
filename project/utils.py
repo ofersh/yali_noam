@@ -11,14 +11,16 @@ from math import sin, cos
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import time
+import logging
 from collections import namedtuple
 
 
 Square_prop = namedtuple('square_properties', ['pivot', 'length', 'height', 'width'])
 default_prop = Square_prop((0, 0, 0), 10, 10, 2)
+data_borders = []
+utils_logger = logging.getLogger("utils_log")
 
 #################-----------        UTILS        ------------##########
-
 
 
 def time_test(func):
@@ -40,21 +42,31 @@ def latency(func):
     return time_measurement
 
 
-def find_borders(data):
-    
+def find_data_frame(data):
+    """
+    finds the max/min value of each feature.
+    returning a box shaped frame
+    :param data:
+    :return:
+    """
+    global data_borders
+
     num_features = len(data[0])
-    max_borders = np.array([0] * num_features)
-    min_borders = np.array([0] * num_features)
-    
-    features = list(zip(*data))
-    
+    max_values = np.array([0.0] * num_features)
+    min_values = np.array([0.0] * num_features)
+
+    features_list = list(zip(*data))
+
     for i in range(num_features):
-        max_borders[i] = max(features[i])
-        min_borders[i] = min(features[i])
-        
-    borders = max_borders - min_borders
-    
-    return borders
+        max_values[i] = max(features_list[i])
+        min_values[i] = min(features_list[i])
+
+    frame_size = max_values - min_values
+    data_borders = tuple(zip(min_values, max_values))
+
+    utils_logger.info("the data borders are {}".format(data_borders))
+
+    return frame_size
 
 
 def euclidean_dist(seq1, seq2):
@@ -119,16 +131,17 @@ def random_2d_point():
 
 # Generating the whole data
 
-def uniform_square(elements_number=200, borders=[10, 6, 2]):
+def uniform_square(frame_size, elements_number=200):
     """
-    Generate uniform square of points.
-    :param elements_number: int
+    Generate uniform data points in a frame.
+    :param frame_size:
+    :param elements_number:
     :return:
     """
     square = []
 
     for n in range(elements_number):
-        point = random_point_in_borders(borders)
+        point = random_point_in_borders(frame_size)
         square += [point]
 
     return square
@@ -264,13 +277,13 @@ def plot_info(plt_info):
     plt.legend(loc='upper right')
 
     plt.subplot(212)
-    gaps_diff = np.array(gaps[2:]) - np.array(gaps[1:-1])
-    plt.stem(range(2, len(weights)), gaps_diff)
+    plt.stem(rng, gaps[1:])
     plt.show()
 
 
 def plot_clusters(centers):
 
+    global data_borders
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     for c in centers:
@@ -278,9 +291,11 @@ def plot_clusters(centers):
         x, y, z = zip(*all_features)
         ax.scatter(x, y, z)
         ax.scatter(*c.features, marker='*', c='k')
-
-    plt.xlim(0, 0.3)
-    plt.ylim(0, 1)
+    x, y, z = data_borders
+    max_axis = max([x[1],y[1],z[1]])
+    min_axis = min([x[0],y[0],z[0]])
+    plt.xlim(min_axis, max_axis)
+    plt.ylim(min_axis, max_axis)
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 

@@ -6,8 +6,9 @@ import logging
 
 import k_means
 import utils
+import data_generator as dg
 
-sg_logger = logging.getLogger("statistic_gap")
+sg_logger = logging.getLogger("stats_gap")
 
 
 def general_distance(clusters):
@@ -55,7 +56,7 @@ def inner_weights(k, data, weights):
 
 def monte_carlo_iteration(n, frame, k_max, expected, i):
     sg_logger.info("starting the {} iterate in monte carlo".format(i))
-    data = utils.uniform_square(frame, n)
+    data = dg.uniform_square(frame, n)
     for k in range(1, k_max):
         inner_weights(k, data, expected)
 

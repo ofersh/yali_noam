@@ -6,7 +6,6 @@ Created on Oct 27, 2017
 from __future__ import print_function
 import datasets_test as dst
 import logging
-
 logging.basicConfig(level=logging.INFO)
 
 

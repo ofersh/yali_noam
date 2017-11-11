@@ -8,18 +8,26 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <string.h>
 
 #include "dn_protocol.h"
 
 using namespace std;
 
-
 int main(int argc, const char * argv[]) {
-    string filename;
-    Dn_protocol dn{};
+	Dn_protocol dn;
+	string input = "C:/Users/stell/git/yali_noam/fast_networks/hw1/hw1/shtil.jpg";
+	string destination = "C:/Users/stell/git/yali_noam/fast_networks/hw1/hw1/out.bin";
+	dn.file_to_ip_packets(input, destination, 1, 2);
     
-    dn.prepare_file(filename);
-    
-    
-    return 0;
+//	fstream check{ destination, ios_base::in | ios::binary };
+//	char temp[20];
+//	check.read(temp, 20);
+//	for (int i = 0; i < 20; i++) {
+//		unsigned int p = temp[i];
+//		cout << p;
+//	}
+	
+	return 0;
 }

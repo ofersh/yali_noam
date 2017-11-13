@@ -51,6 +51,10 @@ private:
 
 	static const void calculate_checksum(IP_HEADER &iph);
 	static const void write_packet(IP_HEADER, char packet[PACKET_LENGTH], char* target);
+	static void endian_conversion(IP_HEADER&);
+	static void endian_conversion(unsigned short* s);
+	static void endian_conversion(unsigned int*);
+
 
 	
 

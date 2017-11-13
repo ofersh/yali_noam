@@ -64,4 +64,31 @@ const void Dn_protocol::calculate_checksum(IP_HEADER &iph)
 const void Dn_protocol::write_packet(IP_HEADER, char packet[PACKET_LENGTH], char * target)
 {
 	
+
 }
+
+void Dn_protocol::endian_conversion(unsigned int* num) {
+	unsigned short* tmp = reinterpret_cast<unsigned short*>(num);
+	endian_conversion(tmp);
+	endian_conversion(tmp + 1);
+}
+
+void Dn_protocol::endian_conversion(unsigned short* s) {
+	char tmp;
+	char* tmp_short = reinterpret_cast<char*>(s);
+	tmp = tmp_short[0];
+	tmp_short[1] = tmp_short[0];
+	tmp_short[0] = tmp;
+}
+
+void Dn_protocol::endian_conversion(IP_HEADER& iph) {
+
+	endian_conversion(&iph.total_length);
+	endian_conversion(&iph.id);
+	endian_conversion(&iph.header_checksum);
+	endian_conversion(&iph.source);
+	endian_conversion(&iph.destination);
+
+
+}
+

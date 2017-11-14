@@ -27,12 +27,15 @@ private:
 			version = 4;
 			header_len = 5;	//header length in 32bits. (32*5)
 			tos = 0;
+			total_length = 0;
 			id = 0;
 			flags = 0;
 			fragment_offset = 0;
 			ttl = TTL;
 			protocol = DN_PROTOCOL;	//protocol number of DN
 			header_checksum = 0;
+			source_ip = 0;
+			destination_ip = 0;
 		}
 		unsigned char  version : 4;
 		unsigned char  header_len : 4;
@@ -54,11 +57,10 @@ private:
 	static const int TTL = 240;
 
 
-	static void calculate_checksum(IP_HEADER &iph);
 	static bool validate_header(IP_HEADER& iph , unsigned int source_ip, unsigned int destination_ip);
-	static const void calculate_checksum(IP_HEADER &iph);
-	static const void write_packet(IP_HEADER, char packet[PACKET_LENGTH], char* target);
-	static void endian_conversion(IP_HEADER&);
+	static void calculate_checksum(IP_HEADER &iph);
+	static void write_packet(IP_HEADER, char packet[PACKET_LENGTH], char* target);
+	static IP_HEADER endian_conversion(IP_HEADER&);
 	static void endian_conversion(unsigned short* s);
 	static void endian_conversion(unsigned int*);
 };

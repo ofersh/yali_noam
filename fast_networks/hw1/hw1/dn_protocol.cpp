@@ -11,12 +11,10 @@ bool Dn_protocol::file_to_ip_packets(string input_file_name, string output_file_
 	fstream fout{ output_file_name, ios_base::out | ios_base::binary };
 
 	char packet[PACKET_LENGTH] = {0};
-	char packet_with_iph[PACKET_LENGTH + HEADER_LENGTH] = {0};
 	long read_size = 0;
 
-	int read_bytes = 0;
 
-	IP_HEADER iph;
+	IP_HEADER iph, iph_for_writting;
 	iph.source_ip = source_ip;
 	iph.destination_ip = destination_ip;
 
@@ -27,15 +25,14 @@ bool Dn_protocol::file_to_ip_packets(string input_file_name, string output_file_
 		if (read_size == 0)
 			 read_size = PACKET_LENGTH;
 
-		read_bytes += read_size;
 		iph.total_length = (unsigned short) read_size + HEADER_LENGTH;
 		iph.header_checksum = 0;
 		calculate_checksum(iph);
-		fout.write(reinterpret_cast<char*>(&iph), HEADER_LENGTH);
+		iph_for_writting = endian_conversion(iph);
+		fout.write(reinterpret_cast<char*>(&iph_for_writting), HEADER_LENGTH);
 		fout.write(packet, read_size);
     }
 
-	cout << "the program read " << read_bytes << " bytes" << endl;
 	return true;
 }
 
@@ -46,24 +43,22 @@ bool Dn_protocol::ip_packets_to_file(string input_file_name, string output_file_
 
 	 char packet[PACKET_LENGTH] = {0};
 	 IP_HEADER iph;
-	 long read_size = 0;
-
-	 int read_bytes = 0;
-
+	 int i=0;
 	 while (fin.read(reinterpret_cast<char*>(&iph) , HEADER_LENGTH))
 	 {
+		 iph = endian_conversion(iph);
+		 i++;
 		 if (!validate_header(iph, source_ip, destination_ip)){
+			 cout << "the " << i << " package head is invalid" << endl;
 			 return false;
 		 }
 		 long packet_size= iph.total_length - HEADER_LENGTH;
-		 cout<<"packet size is:" << packet_size << endl;
 		 fin.read(packet, packet_size);
 		 fout.write(packet, packet_size);
 	 }
 
-	return false;
+	return true;
 }
-
 
 void Dn_protocol::calculate_checksum(IP_HEADER &iph)
 {
@@ -104,17 +99,18 @@ void Dn_protocol::endian_conversion(unsigned int* num) {
 void Dn_protocol::endian_conversion(unsigned short* s) {
 	char tmp;
 	char* tmp_short = reinterpret_cast<char*>(s);
-	tmp = tmp_short[0];
+	tmp = tmp_short[1];
 	tmp_short[1] = tmp_short[0];
 	tmp_short[0] = tmp;
 }
 
-void Dn_protocol::endian_conversion(IP_HEADER& iph) {
-
-	endian_conversion(&iph.total_length);
-	endian_conversion(&iph.id);
-	endian_conversion(&iph.header_checksum);
-	endian_conversion(&iph.source);
-	endian_conversion(&iph.destination);
+Dn_protocol::IP_HEADER Dn_protocol::endian_conversion(IP_HEADER& iph) {
+	IP_HEADER res = iph;
+	endian_conversion(&res.total_length);
+	endian_conversion(&res.id);
+	endian_conversion(&res.header_checksum);
+	endian_conversion(&res.source_ip);
+	endian_conversion(&res.destination_ip);
+	return res;
 }
 

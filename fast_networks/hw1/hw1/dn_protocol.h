@@ -53,8 +53,20 @@ private:
 	static const int DN_PROTOCOL = 143;
 	static const int TTL = 240;
 
+<<<<<<< HEAD
 	static void calculate_checksum(IP_HEADER &iph);
 	static bool validate_header(IP_HEADER& iph , unsigned int source_ip, unsigned int destination_ip);
+=======
+	static const void calculate_checksum(IP_HEADER &iph);
+	static const void write_packet(IP_HEADER, char packet[PACKET_LENGTH], char* target);
+	static void endian_conversion(IP_HEADER&);
+	static void endian_conversion(unsigned short* s);
+	static void endian_conversion(unsigned int*);
+
+
+	
+
+>>>>>>> 69f96e924ad206644faa3b1c92cb87826ee9531e
 };
 
 #endif /* dn_protocol_hpp */

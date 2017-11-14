@@ -56,7 +56,7 @@ bool Dn_protocol::ip_packets_to_file(string input_file_name, string output_file_
 			 return false;
 		 }
 		 long packet_size= iph.total_length - HEADER_LENGTH;
-		 cout<<"packet size is:"<<packet_size<<endl;
+		 cout<<"packet size is:" << packet_size << endl;
 		 fin.read(packet, packet_size);
 		 fout.write(packet, packet_size);
 	 }
@@ -84,14 +84,13 @@ void Dn_protocol::calculate_checksum(IP_HEADER &iph)
 
 bool Dn_protocol::validate_header(IP_HEADER& iph , unsigned int source_ip, unsigned int destination_ip)
 {
-<<<<<<< HEAD
 	if (iph.source_ip != source_ip || iph.destination_ip != destination_ip || iph.protocol != DN_PROTOCOL)
 		return false;
 
 	calculate_checksum(iph);
 
 	return !iph.header_checksum;
-=======
+
 	
 
 }
@@ -100,7 +99,6 @@ void Dn_protocol::endian_conversion(unsigned int* num) {
 	unsigned short* tmp = reinterpret_cast<unsigned short*>(num);
 	endian_conversion(tmp);
 	endian_conversion(tmp + 1);
->>>>>>> 69f96e924ad206644faa3b1c92cb87826ee9531e
 }
 
 void Dn_protocol::endian_conversion(unsigned short* s) {
@@ -118,7 +116,5 @@ void Dn_protocol::endian_conversion(IP_HEADER& iph) {
 	endian_conversion(&iph.header_checksum);
 	endian_conversion(&iph.source);
 	endian_conversion(&iph.destination);
-
-
 }
 

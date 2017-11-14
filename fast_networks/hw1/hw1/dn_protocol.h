@@ -63,6 +63,7 @@ private:
 	static IP_HEADER endian_conversion(IP_HEADER&);
 	static void endian_conversion(unsigned short* s);
 	static void endian_conversion(unsigned int*);
+	static IP_HEADER endian_conversion_changing_all(IP_HEADER);
 };
 
 #endif /* dn_protocol_hpp */

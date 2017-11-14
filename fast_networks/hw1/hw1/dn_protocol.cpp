@@ -28,7 +28,7 @@ bool Dn_protocol::file_to_ip_packets(string input_file_name, string output_file_
 		iph.total_length = (unsigned short) read_size + HEADER_LENGTH;
 		iph.header_checksum = 0;
 		calculate_checksum(iph);
-		iph_for_writting = endian_conversion(iph);
+		iph_for_writting = endian_conversion_changing_all(iph);
 		fout.write(reinterpret_cast<char*>(&iph_for_writting), HEADER_LENGTH);
 		fout.write(packet, read_size);
     }
@@ -46,7 +46,7 @@ bool Dn_protocol::ip_packets_to_file(string input_file_name, string output_file_
 	 int i=0;
 	 while (fin.read(reinterpret_cast<char*>(&iph) , HEADER_LENGTH))
 	 {
-		 iph = endian_conversion(iph);
+		 iph = endian_conversion_changing_all(iph);
 		 i++;
 		 if (!validate_header(iph, source_ip, destination_ip)){
 			 cout << "the " << i << " package head is invalid" << endl;
@@ -112,5 +112,19 @@ Dn_protocol::IP_HEADER Dn_protocol::endian_conversion(IP_HEADER& iph) {
 	endian_conversion(&res.source_ip);
 	endian_conversion(&res.destination_ip);
 	return res;
+}
+
+Dn_protocol::IP_HEADER Dn_protocol::endian_conversion_changing_all(IP_HEADER iph) {
+
+	int len = sizeof(iph);
+	char* bytes = reinterpret_cast<char*>(&iph);
+
+	for(int i=0; i<len; i+=2){
+		char tmp = bytes[i];
+		bytes[i] = bytes[i+1];
+		bytes[i+1] = tmp;
+	}
+
+	return iph;
 }
 

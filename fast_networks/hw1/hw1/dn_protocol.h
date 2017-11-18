@@ -20,17 +20,22 @@ public:
     static bool ip_packets_to_file(string input_file_name, string output_file_name, unsigned int source_ip, unsigned int destination_ip);
     
 private:
+
 	struct IP_HEADER
 	{
 		IP_HEADER() {
 			version = 4;
 			header_len = 5;	//header length in 32bits. (32*5)
 			tos = 0;
+			total_length = 0;
 			id = 0;
 			flags = 0;
 			fragment_offset = 0;
-			ttl = 240;
-			protocol = 143;	//protocol number of DN
+			ttl = TTL;
+			protocol = DN_PROTOCOL;	//protocol number of DN
+			header_checksum = 0;
+			source_ip = 0;
+			destination_ip = 0;
 		}
 		unsigned char  version : 4;
 		unsigned char  header_len : 4;
@@ -39,25 +44,26 @@ private:
 		unsigned short id = 0;
 		unsigned short  flags : 3;
 		unsigned short  fragment_offset : 13;
-		unsigned char  ttl = 240;
+		unsigned char  ttl;
 		unsigned char  protocol;
 		unsigned short header_checksum;
-		unsigned int source;
-		unsigned int destination;
+		unsigned int source_ip;
+		unsigned int destination_ip;
 	};
 
 	static const int PACKET_LENGTH = 256;
 	static const int HEADER_LENGTH = 20;
+	static const int DN_PROTOCOL = 143;
+	static const int TTL = 240;
 
-	static const void calculate_checksum(IP_HEADER &iph);
-	static const void write_packet(IP_HEADER, char packet[PACKET_LENGTH], char* target);
-	static void endian_conversion(IP_HEADER&);
+
+	static bool validate_header(IP_HEADER& iph , unsigned int source_ip, unsigned int destination_ip);
+	static void calculate_checksum(IP_HEADER &iph);
+	static void write_packet(IP_HEADER, char packet[PACKET_LENGTH], char* target);
+	static IP_HEADER endian_conversion(IP_HEADER&);
 	static void endian_conversion(unsigned short* s);
 	static void endian_conversion(unsigned int*);
-
-
-	
-
+	static IP_HEADER endian_conversion_changing_all(IP_HEADER);
 };
 
 #endif /* dn_protocol_hpp */

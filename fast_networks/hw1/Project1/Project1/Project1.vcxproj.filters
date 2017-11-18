@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\hw1\dn_protocol.cpp">
+    <ClCompile Include="..\..\hw1\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\hw1\main.cpp">
+    <ClCompile Include="..\..\hw1\ip_file_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\hw1\dn_protocol.h">
+    <ClInclude Include="..\..\hw1\ip_file_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

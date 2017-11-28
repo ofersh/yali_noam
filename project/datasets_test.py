@@ -2,9 +2,16 @@ from __future__ import division, print_function
 from sklearn import datasets
 
 from statistical_gap import gap_statistic as gs
-import utils
+import xlrd
 import view
 import data_generator as dg
+
+
+
+def verified_data_set():
+    wb = xlrd.open_workbook("./datasets_example/s-originals/s1-groundtruth-plot.xls")
+    sheet = wb.sheet_by_index(0)
+    
 
 
 def test_iris():
@@ -53,14 +60,13 @@ def five_clusters():
 
 def k_clusters(k=2):
     exp_k = k
-    n = k * 100
+    n = k * 150
     data = dg.generate_groups(n, k, dg.random_3d_point)
     k, plot_info, centers = gs(data)
 
     print("the expected number of k is: {}".format(exp_k))
     print("the returned k is : {}".format(k))
-    view.plot_clusters(centers)
-    view.plot_info(plot_info)
+    view.view_result(data, centers, plot_info)
 
 
 def dataset_accuracy(data, target, clusters):

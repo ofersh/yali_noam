@@ -7,11 +7,20 @@ import view
 import data_generator as dg
 
 
-
 def verified_data_set():
     wb = xlrd.open_workbook("./datasets_example/s-originals/s1-groundtruth-plot.xls")
     sheet = wb.sheet_by_index(0)
-    
+    x = sheet.col_slice(colx=1, start_rowx=15)
+    y = sheet.col_slice(colx=2, start_rowx=15)
+    obs_x = (val.value for val in x)
+    obs_y = (val.value for val in y)
+    obs_x = map(int, obs_x)
+    obs_y = map(int, obs_y)
+
+    data = zip(obs_x, obs_y)
+    k, plot_info, centers = gs(data)
+    print("the returned k is : {}".format(k))
+    view.view_result(data, centers, plot_info)
 
 
 def test_iris():

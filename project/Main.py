@@ -12,8 +12,9 @@ logging.basicConfig(level=logging.INFO)
 
 
 def main():
-
+    # dst.verified_data_set()
     dst.k_clusters(5)
+
 
 
 if __name__ == '__main__':

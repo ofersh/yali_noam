@@ -1,7 +1,7 @@
 /*
  * Main.cpp
  *
- *  Created on: 25 áãöî× 2017
+ *  Created on: 25 ï¿½ï¿½ï¿½ï¿½ï¿½ 2017
  *      Author: stell
  */
 
@@ -10,6 +10,17 @@
 
 #define SIZE 5
 using namespace std;
+
+void print_pointers(unsigned int* pters, unsigned int size, string type )
+{
+	for (unsigned int i = 0; i < size; ++i) {
+		cout << i << " "<< type<< pters[i];
+	}
+	cout<<endl;
+}
+
+
+
 
 void matrix_run(){
 	int input[] = {1,0,1,0,0,

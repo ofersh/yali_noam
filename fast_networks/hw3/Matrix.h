@@ -15,9 +15,10 @@ using namespace std;
 
 class Matrix {
 public:
-	Matrix(int N);
-	Matrix(int N, int* input);
+	Matrix(unsigned int N);
+	Matrix(unsigned int N, int* input);
 	bool get_index(int i, int j);
+	void clean_mat();
 	void clean_row(int i);
 	void clean_col(int i);
 	bool is_empty();
@@ -29,7 +30,7 @@ public:
 
 private:
 	vector<bool*> mat;
-	int n;
+	unsigned int n;
 };
 
 #endif /* MATRIX_H_ */

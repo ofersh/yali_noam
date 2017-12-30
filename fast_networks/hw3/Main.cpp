@@ -76,9 +76,37 @@ int find_match_matrix(bool** Sin, unsigned int* pIn, unsigned int* pOut, bool** 
 	return curr_iter;
 }
 
+void print_pointers(unsigned int * p, int n, string name){
+	cout << name << endl;
+	for(int i=0; i<n; i++)
+		cout << p[i] << " ";
+	cout << endl;
+}
+
+void matrix_run(){
+	int input[] = {1,0,1,0,0,
+				   0,1,1,0,1,
+				   0,0,0,0,1,
+				   1,0,1,1,0,
+				   0,1,0,1,0};
+	Matrix sIn(SIZE, input);
+	unsigned int pIn[SIZE] = {0,2,2,1,4};
+	unsigned int pOut[SIZE] = {1,2,2,0,0};
+	print_pointers(pIn, SIZE, "pIn: ");
+	print_pointers(pOut, SIZE, "pOut: ");
+	sIn.print();
 
 
-int main(){
+	Matrix sOut = sIn.find_match_matrix(pIn, pOut, 5);
+
+	print_pointers(pIn, SIZE, "pIn: ");
+	print_pointers(pOut, SIZE, "pOut: ");
+	sOut.print();
+
+
+}
+
+int old_way(){
 	bool mat[SIZE][SIZE] = {true,false,true,false,false,
 							false,true,true,false,true,
 							false,false,false,false,true,
@@ -104,6 +132,11 @@ int main(){
 
 
 
+	return 0;
+}
+
+int main(){
+	matrix_run();
 	return 0;
 }
 

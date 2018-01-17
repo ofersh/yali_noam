@@ -18,12 +18,12 @@ public:
 	void write_packet(int from);
 	void send_packet();
 	bool availble(int i);
-	int* get_buffers();
+	vector<int> get_buffers();
 	int pending_packets();
-	virtual ~Mux();
+	virtual ~Mux()=default;
 
 private:
-	int *buffers;
+	vector<int> buffers;
 	int K;
 	int last_sent_ind;
 

@@ -14,9 +14,11 @@
 
 class Router {
 public:
+	const unsigned int iterations=10e6;
+
 	Router(int N, int K);
 	void run(int s, double p);
-	unsigned int pending_packets();
+	double pending_packets();
 	virtual ~Router();
 
 private:

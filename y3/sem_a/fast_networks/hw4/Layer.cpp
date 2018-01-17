@@ -10,7 +10,7 @@
 
 
 
-Layer::Layer(): destination(nullptr), queues(nullptr), writing(nullptr), N(0) {
+Layer::Layer(): destination(nullptr), N(0) {
 }
 
 void Layer::write_packet(int dest) {
@@ -34,10 +34,6 @@ int Layer::pending_packets() {
 
 }
 
-Layer::~Layer() {
-	delete[] queues;
-	delete[] writing;
-}
 
 void Layer::scatter(int layerID) {
 
@@ -56,6 +52,6 @@ void Layer::setMux(vector<Mux>* dest)
 {
 	destination = dest;
 	N = dest->size();
-	queues = new int[N]();
-	writing = new bool[N]();
+	queues.assign(N,0);
+	writing.assign(N,0);
 }

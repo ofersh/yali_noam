@@ -18,12 +18,12 @@ public:
 	void add_packet(int dest);
 	void scatter();
 	int pending_packets();
-	virtual ~Demux();
+	virtual ~Demux() = default;
 
 private:
 	vector<Layer>* layers;
-	int* layers_q;
-	int* destination;
+	vector<int> layers_q;
+	vector<int> destination;
 	int curr_index;
 	int K;
 };

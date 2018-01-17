@@ -41,7 +41,7 @@ int generate_packet(double p, int N){
 	return -1;
 }
 
-unsigned int Router::pending_packets() {
+double Router::pending_packets() {
 	unsigned int all_packets = 0;
 
 	for(Demux& d: input){
@@ -62,7 +62,7 @@ void Router::pull(int muxID){
 
 	int best_fit = 0;
 	int best_fit_ind = -1;
-	int* buffers = output[muxID].get_buffers();
+	vector<int> buffers = output[muxID].get_buffers();
 
 	// Find the layer to start pulling from
 	for (int i = 0; i < K; ++i) {
@@ -84,9 +84,7 @@ void Router::pull(int muxID){
 
 void Router::run(int s, double p) {
 
-	int iterations = 100;
-
-	for (int iter = 0; iter < iterations; ++iter) {
+	for (unsigned int iter = 0; iter < iterations; ++iter) {
 
 
 		// Receive new packets from network and scatter

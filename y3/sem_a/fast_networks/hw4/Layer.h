@@ -20,12 +20,12 @@ public:
 	int get_load(int muxID);
 	void open_lane(int muxID);
 	int pending_packets();
-	virtual ~Layer();
+	virtual ~Layer()=default;
 
 private:
 	vector<Mux>* destination;
-	int *queues;
-	bool *writing;
+	vector<int> queues;
+	vector<bool> writing;
 	int N;
 };
 

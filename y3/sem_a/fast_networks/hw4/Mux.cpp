@@ -9,11 +9,8 @@
 #include <iostream>
 
 
-Mux::Mux(): buffers(nullptr), K(0), last_sent_ind(0) {}
+Mux::Mux(): K(0), last_sent_ind(0) {}
 
-Mux::~Mux() {
-	delete[] buffers;
-}
 
 void Mux::write_packet(int from) {
 	buffers[from]++;
@@ -21,7 +18,7 @@ void Mux::write_packet(int from) {
 
 void Mux::init_buffers(int k) {
 	K=k;
-	buffers = new int[K]();
+	buffers.assign(K,0);
 }
 
 void Mux::send_packet() {
@@ -40,7 +37,7 @@ bool Mux::availble(int i) {
 	return buffers[i]!=K;
 }
 
-int* Mux::get_buffers() {
+vector<int> Mux::get_buffers() {
 	return buffers;
 }
 

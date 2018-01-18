@@ -20,6 +20,7 @@ public:
 	int get_load(int muxID);
 	void open_lane(int muxID);
 	int pending_packets();
+	void reset();
 	virtual ~Layer()=default;
 
 private:

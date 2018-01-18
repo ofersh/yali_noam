@@ -13,8 +13,7 @@ Demux::Demux(): layers(nullptr), curr_index(0), K(0) {}
 void Demux::add_layers(vector<Layer>* layers, int i) {
 	this->layers = layers;
 	K = layers->size();
-	layers_q.assign(K,0);
-	destination.assign(K,0);
+	reset();
 	curr_index = i%K;
 }
 
@@ -44,4 +43,7 @@ int Demux::pending_packets() {
 	return all_packets;
 }
 
-
+void Demux::reset() {
+	layers_q.assign(K,0);
+	destination.assign(K,0);
+}

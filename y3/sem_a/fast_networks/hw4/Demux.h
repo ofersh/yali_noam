@@ -18,6 +18,7 @@ public:
 	void add_packet(int dest);
 	void scatter();
 	int pending_packets();
+	void reset();
 	virtual ~Demux() = default;
 
 private:

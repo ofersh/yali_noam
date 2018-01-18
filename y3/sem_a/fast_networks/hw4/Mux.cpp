@@ -18,7 +18,7 @@ void Mux::write_packet(int from) {
 
 void Mux::init_buffers(int k) {
 	K=k;
-	buffers.assign(K,0);
+	reset();
 }
 
 void Mux::send_packet() {
@@ -47,5 +47,10 @@ int Mux::pending_packets() {
 		all_packets += buffers[i];
 	}
 	return all_packets;
+
+}
+
+void Mux::reset() {
+	buffers.assign(K,0);
 
 }

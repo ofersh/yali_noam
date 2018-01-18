@@ -20,6 +20,7 @@ public:
 	bool availble(int i);
 	vector<int> get_buffers();
 	int pending_packets();
+	void reset();
 	virtual ~Mux()=default;
 
 private:

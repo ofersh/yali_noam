@@ -20,12 +20,10 @@ Router::Router(int N, int K): input(N),  output(N), layers(K), N(N), K(K) {
 	for(int i=0; i<N; i++){
 		input[i].add_layers(&layers, i);
 		output[i].init_buffers(K);
+		if(i < K){
+			layers[i].setMux(&output);
+		}
 	}
-
-	for(int i=0; i<K; i++){
-		layers[i].setMux(&output);
-	}
-
 }
 
 Router::~Router() {
@@ -82,7 +80,8 @@ void Router::pull(int muxID){
 
 
 
-void Router::run(int s, double p) {
+double Router::run(int s, double p) {
+	double total_packets = 0;
 
 	for (unsigned int iter = 0; iter < iterations; ++iter) {
 
@@ -110,8 +109,20 @@ void Router::run(int s, double p) {
 		// send packets to network
 		for (int i = 0; i < N; i++)
 			output[i].send_packet();
+
+		total_packets += pending_packets();
 	}
 
+	return total_packets;
+}
 
+void Router::reset_router() {
+	for(int i=0; i<N; i++){
+		input[i].reset();
+		output[i].reset();
+		if(i < K){
+			layers[i].reset();
+		}
+	}
 
 }

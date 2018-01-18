@@ -7,6 +7,7 @@
 
 #include "Router.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -17,18 +18,22 @@ int main(){
 	int N=8, K=6, s;
 	double p;
 
-
+	fstream output = fstream("result.csv", ios::out);
 
 	Router router = Router(N, K);
-	for (s = 1; s <= 3; ++s) {
-		cout<<"For s=1:"<<endl;
-		for (p = 0.5; p <= 0.95; p+=0.05) {
-			router.run(s, p);
-			cout<<p<<", "<<(router.pending_packets()/(double(K)/s))/router.iterations<<endl;
-
+	output << "P, S1, S2, S3" << endl;
+	for (p = 0.5; p <= 0.95; p+=0.05) {
+		output<<p;
+		for (s = 1; s <= 3; ++s) {
+			cout << "running s: " << s << endl;
+			router.reset_router();
+			double real_packets = router.run(s, p) / K;
+			double avg_pkt = real_packets/router.iterations;
+			double avg_delay = (avg_pkt * p) / N;
+			output<<", "<< avg_delay;
 		}
+		output << endl;
 	}
-	cout << "number of packets is:  " << router.pending_packets() << endl;
 
 	return 0;
 }

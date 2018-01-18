@@ -52,6 +52,10 @@ void Layer::setMux(vector<Mux>* dest)
 {
 	destination = dest;
 	N = dest->size();
+	reset();
+}
+
+void Layer::reset() {
 	queues.assign(N,0);
 	writing.assign(N,0);
 }

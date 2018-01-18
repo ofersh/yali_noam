@@ -14,11 +14,12 @@
 
 class Router {
 public:
-	const unsigned int iterations=10e6;
+	const unsigned int iterations=10e5;
 
 	Router(int N, int K);
-	void run(int s, double p);
+	double run(int s, double p);
 	double pending_packets();
+	void reset_router();
 	virtual ~Router();
 
 private:

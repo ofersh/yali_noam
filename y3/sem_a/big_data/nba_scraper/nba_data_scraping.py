@@ -8,6 +8,8 @@ import os
 from calendar import monthrange
 from nba_py import game, Scoreboard
 import pandas as p
+import argparse
+
 
 MONTHS_BEFORE_NEWYEAR = range(10,13)
 MONTHS_AFTER_NEWYEAR = range(1,5)
@@ -38,22 +40,21 @@ class Create_csv_files(object):
             print('season in not correct')
         self._season = season
         self.df = p.DataFrame()
+        self._current_teams = []
         
     def _create_directory(self, curr_dir):
         if not os.path.exists(curr_dir):
             os.makedirs(curr_dir)
-        
-    
+
     def season_name(self):
         return str(self._season[0]) + '-' + str(self._season[1])
     
     def scrape_season(self):
         
         season_dir = self._root_dir + '/' + self.season_name() + '/'
-        month_years =   [(self._season[0], month) for month in MONTHS_BEFORE_NEWYEAR] + \
-                        [(self._season[1], month) for month in MONTHS_AFTER_NEWYEAR]
-        
-        
+        month_years = [(self._season[0], month) for month in MONTHS_BEFORE_NEWYEAR] + \
+                      [(self._season[1], month) for month in MONTHS_AFTER_NEWYEAR]
+
         self._create_directory(season_dir)
         
         # Scrape the first part of the season
@@ -78,7 +79,12 @@ class Create_csv_files(object):
             print("currently scraping {day}/{month}/{year}".format(day=day, month=month, year=year))
             self.process_scoreboard(year, month, day, curr_dir)
                        
-        
+    def _fill_teams(self, sb):
+        es = sb.east_conf_standings_by_day()
+        ws = sb.west_conf_standings_by_day()
+
+        self._current_teams += list(ws['TEAM']) + list(es['TEAM'])
+
     def process_scoreboard(self, year, month, day, root_dir):
         '''
         Create csv files with game id inside a directory by day
@@ -86,7 +92,9 @@ class Create_csv_files(object):
         '''
         sb = Scoreboard(month=month, day=day, year=year)
         curr_dir = root_dir + str(day) + '/'
-        
+
+        if not self._current_teams:
+            self._fill_teams(sb)
         self._create_directory(curr_dir)
             
         for gid in sb.available().GAME_ID:
@@ -122,14 +130,24 @@ class Create_csv_files(object):
             ts = self.add_deficit_column(ts, c)
         
         return ts
-        
+
+    def irrelevent_data(self, ts):
+        if len(ts.index) == 0:
+            return True
+
+        if not all(team in self._current_teams for team in ts['TEAM_NAME']):
+            return True
+
+        return False
+
+
     # TODO: add manipulation over the data
     def manipulate_df(self, ts):
         '''
         Currently does nothing. Opening up in case of making some manuipulations
         on the teams box score
         '''
-        if len(ts.index) == 0:
+        if self.irrelevent_data(ts):
             return None
         
         ts = self.add_columns(ts)
@@ -142,7 +160,7 @@ class Create_csv_files(object):
         '''
         Create a csv file from a boxscore according to the game id
         '''
-        
+
         bs = game.Boxscore(gid)
         team_stats = bs.team_stats()
         team_stats = self.manipulate_df(team_stats)
@@ -163,21 +181,24 @@ def main():
     # Testing variables
     print("Testing Create csv files object")
     gid = '0041400122'
-    root_dir = r'C:/Users/yali/Desktop'
     season = [2014, 2015]
     year = season[1]
     month = 2
     start = 13
     day = 21
-    
-    reset_dir = os.getcwd()
-    print(reset_dir)
-    my_tool = Create_csv_files(root_dir, season)
-    
-    my_tool.boxscore_to_csv(gid, (root_dir + '/'))
-    #my_tool.scrape_season()     # Test scraping a whole season
-    os.chdir(reset_dir)
 
+
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument('--directory', dest='dir')
+    parser.add_argument('--season', dest='se', nargs='+', type=int)
+    args = parser.parse_args()
+
+    my_tool = Create_csv_files(args.dir, args.se)
+    #temp_dir = args.dir + '/'
+    
+    my_tool.scrape_season()     # Test scraping a whole season
+    #my_tool.scrape_month(root_dir=temp_dir, year=2015, month=3, first_day=1)
+    #my_tool.boxscore_to_csv(gid, '/Users/noamstolero/Documents/CS/yali_noam/y3/sem_a/big_data/nba_scraper/2014-2015/')
     
 if __name__ == "__main__":
     main()

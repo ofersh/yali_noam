@@ -49,20 +49,23 @@ class Create_csv_files(object):
     def season_name(self):
         return str(self._season[0]) + '-' + str(self._season[1])
     
-    def scrape_season(self):
+    def scrape_season(self, test=False):
         
         season_dir = self._root_dir + '/' + self.season_name() + '/'
         month_years = [(self._season[0], month) for month in MONTHS_BEFORE_NEWYEAR] + \
                       [(self._season[1], month) for month in MONTHS_AFTER_NEWYEAR]
 
         self._create_directory(season_dir)
-        
-        # Scrape the first part of the season
-        for year, month in month_years:
-            print('currently scraping: {}/{}'.format(year,month))
-            self.scrape_month(season_dir, year, month)
+
+        if test:
+            self.scrape_month(season_dir, 2014, 11, first_day=22,last_day=25)
+        else:
+            # Scrape the first part of the season
+            for year, month in month_years:
+                print('currently scraping: {}/{}'.format(year,month))
+                self.scrape_month(season_dir, year, month)
             
-        all_boxscores_file = season_dir + self.season_name() + '.csv'
+        all_boxscores_file = season_dir + 'all.csv'
         print("create a csv file with all the games named ", all_boxscores_file)
         self.df.to_csv(all_boxscores_file)
     
@@ -121,6 +124,7 @@ class Create_csv_files(object):
         ts['FG2_PCT'] = ts['FG2M'] / ts['FG2A']
 
         # 1 represents win 0 represents loss
+
         ts['OUTCOME'] = HOME_WIN if ts['PLUS_MINUS'][0] > 0 else AWAY_WIN
 
         # Add deficit 
@@ -131,11 +135,14 @@ class Create_csv_files(object):
         
         return ts
 
-    def irrelevent_data(self, ts):
+    def irrelevant_data(self, ts):
         if len(ts.index) == 0:
             return True
 
-        if not all(team in self._current_teams for team in ts['TEAM_NAME']):
+        if len(ts.dropna()) < 2:
+            return True
+
+        if not all(team in self._current_teams for team in ts['TEAM_CITY']):
             return True
 
         return False
@@ -147,7 +154,7 @@ class Create_csv_files(object):
         Currently does nothing. Opening up in case of making some manuipulations
         on the teams box score
         '''
-        if self.irrelevent_data(ts):
+        if self.irrelevant_data(ts):
             return None
         
         ts = self.add_columns(ts)
@@ -176,8 +183,9 @@ class Create_csv_files(object):
             team_stats.to_csv(csv_name)
             
         self.df = self.df.append(team_stats, ignore_index=True)
-        
-def main():
+
+
+def test():
     # Testing variables
     print("Testing Create csv files object")
     gid = '0041400122'
@@ -188,17 +196,31 @@ def main():
     day = 21
 
 
+    #parser = argparse.ArgumentParser(description="")
+    #parser.add_argument('--directory', dest='dir')
+    #parser.add_argument('--season', dest='se', nargs='+', type=int)
+    #args = parser.parse_args()
+
+    myDir = '/Users/noamstolero/Documents/CS/yali_noam/y3/sem_a/big_data/nba_scraper'
+    se = [2013, 2014]
+
+    my_tool = Create_csv_files(myDir, se)
+    #temp_dir = args.dir + '/'
+    
+    my_tool.scrape_season(test=True)     # Test scraping a whole season
+    #my_tool.scrape_month(root_dir=temp_dir, year=2015, month=3, first_day=1)
+    #my_tool.boxscore_to_csv(gid, '/Users/noamstolero/Documents/CS/yali_noam/y3/sem_a/big_data/nba_scraper/2014-2015/')
+
+
+def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument('--directory', dest='dir')
     parser.add_argument('--season', dest='se', nargs='+', type=int)
     args = parser.parse_args()
 
     my_tool = Create_csv_files(args.dir, args.se)
-    #temp_dir = args.dir + '/'
-    
-    my_tool.scrape_season()     # Test scraping a whole season
-    #my_tool.scrape_month(root_dir=temp_dir, year=2015, month=3, first_day=1)
-    #my_tool.boxscore_to_csv(gid, '/Users/noamstolero/Documents/CS/yali_noam/y3/sem_a/big_data/nba_scraper/2014-2015/')
-    
+    my_tool.scrape_season()
+
+
 if __name__ == "__main__":
     main()

@@ -2,6 +2,8 @@ library(data.table)
 library(dplyr)
 library(ggplot2)
 library(mclust)
+library(FactoMineR)
+
 
 match = fread("all.csv")
 
@@ -10,11 +12,11 @@ match = fread("all.csv")
 # deficty table - each row contains data of a team in a certain match.
 outcome=match$OUTCOME
 deficity_table = match[ ,(grepl('(?:DEFICIT|PCT).*(?<!M)$', names(match), perl = T)), with=F]
-deficity_table[,DEFICIT_PF:=1-DEFICIT_PF][, DEFICIT_TO:=1-DEFICIT_TO]
-
 
 # Plotting data in pairs, trying to find correlation between features.
 # plot(deficity_table, col=outcome+2
+pca = PCA(deficity_table[,OUTCOME := outcome], quanti.sup = ncol(deficity_table))
+print(dimdesc(pca, 1))
 
 # scale data.
 scaled_data = scale(deficity_table)
@@ -27,23 +29,35 @@ pair.correlation = function(tb, feature, thresh){
   len = ncol(tb)
   correlated = vector()
   correlated[1] = feature
-  i = 2
+  rand.index = vector()
+  i = 1
   for ( m in 1:len ) {
     if (m == feature ){
        next()
     }
     clust = kmeans(scaled_data[, c(feature, m)], 2)
-    rand.index = adjustedRandIndex(outcome, clust$cluster)
-    if( rand.index > thresh){
-      correlated[i] = m
+    rand.index[i] = adjustedRandIndex(outcome, clust$cluster)
+    if( rand.index[i] > thresh){
+      correlated[i+1] = m
       i = i + 1
     }
   }
-  return(correlated)
+  return(list(correlated, mean(rand.index)))
 }
 
-DREB.corr = pair.correlation(scaled_data, 8, 0.15)
-print(DREB.corr)
+# Checking that truly DREB is the most corrlated feature. 
+max.corr.feat = 0
+max.rand.index= -Inf
+for (i in c(1:ncol(scaled_data))){
+  pairs = pair.correlation(scaled_data, i, 0.15)
+  if ( max.rand.index < unlist(pairs[2]) ){
+    max.rand.index = pairs[2]
+    max.corr.feat = i
+    feat.group = unlist(pairs[1])
+  }
+}
+print(paste0("Correlated feature: ", max.corr.feat))
+print(feat.group)
 
 # Find the best combinations from picked features.
 
@@ -74,7 +88,7 @@ brute.force.F.S <- function(dt, true.lables, chosen_features)
 }
 
 
-selected_features = brute.force.F.S(scaled_data, outcome, DREB.corr)
+selected_features = brute.force.F.S(scaled_data, outcome, feat.group)
 
 
 outcome.to.featurs = function(dt, true.lables, chosen_features ){

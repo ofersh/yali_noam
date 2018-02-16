@@ -36,8 +36,7 @@ class Observation(object):
     def distance_from(self, obs):
         if isinstance(obs, Observation):
             return self.calc_distance(self.features, obs.features)
-        else:
-            return self.calc_distance(self.features, obs)
+        return self.calc_distance(self.features, obs)
 
     def find_center(self, centers):
         if self.is_center:

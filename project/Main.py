@@ -1,7 +1,7 @@
 '''
 Created on Oct 27, 2017
 
-@author: yali
+@author: Bali
 '''
 from __future__ import print_function
 import datasets_test as dst
@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.INFO)
 
 
 def main():
-    # dst.verified_data_set()
-    dst.k_clusters(5)
+    dst.verified_data_set()
+    # dst.k_clusters(5)
 
 
 

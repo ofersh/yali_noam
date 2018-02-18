@@ -1,9 +1,3 @@
-/*
- * Router.cpp
- *
- *  Created on: 16 Jan 2018
- *      Author: noam
- */
 
 #include "Router.h"
 #include <random>
@@ -16,7 +10,7 @@ Router::Router(int N, int K): input(N),  output(N), layers(K), N(N), K(K) {
 
 	srand(time(nullptr));
 
-	// add the layers to demux
+	// Add the layers to demux
 	for(int i=0; i<N; i++){
 		input[i].add_layers(&layers, i);
 		output[i].init_buffers(K);
@@ -29,6 +23,7 @@ Router::Router(int N, int K): input(N),  output(N), layers(K), N(N), K(K) {
 Router::~Router() {
 }
 
+// Receive a packet from the web. If no packet as been received return -1
 int generate_packet(double p, int N){
 
 	double r = ((double) rand() / (RAND_MAX));
@@ -39,6 +34,7 @@ int generate_packet(double p, int N){
 	return -1;
 }
 
+// Count all the packets in the router
 double Router::pending_packets() {
 	unsigned int all_packets = 0;
 
@@ -56,6 +52,7 @@ double Router::pending_packets() {
 	return all_packets;
 }
 
+// Check which layer to start sending to the output Mux
 void Router::pull(int muxID){
 
 	int best_fit = 0;
@@ -90,23 +87,23 @@ double Router::run(int s, double p) {
 		for (int i = 0; i < N; i++)
 			input[i].add_packet(generate_packet(p, N));
 
-		// emulate speed up s;
+		// Emulate speed up s;
 		for (int j = 0; j < s; ++j) {
 
-			// scatter to layers.
+			// Scatter to layers.
 			for (int i = 0; i < N; i++)
 				input[i].scatter();
 
-			// pull from layer
+			// Pull from layer
 			for (int i = 0; i < N; i++)
 				pull(i);
 
-			// scatter to mux.
+			// Scatter to mux.
 			for (int i = 0; i < K ; i++)
 				layers[i].scatter(i);
 		}
 
-		// send packets to network
+		// Send packets to network
 		for (int i = 0; i < N; i++)
 			output[i].send_packet();
 
@@ -116,6 +113,7 @@ double Router::run(int s, double p) {
 	return total_packets;
 }
 
+// Reset all the counters of the router
 void Router::reset_router() {
 	for(int i=0; i<N; i++){
 		input[i].reset();

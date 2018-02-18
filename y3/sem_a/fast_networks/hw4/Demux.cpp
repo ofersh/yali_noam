@@ -1,15 +1,10 @@
-/*
- * Demux.cpp
- *
- *  Created on: 16 Jan 2018
- *      Author: noam
- */
 
 #include "Demux.h"
 #include <iostream>
 
 Demux::Demux(): layers(nullptr), curr_index(0), K(0) {}
 
+// Assign layers to the demux
 void Demux::add_layers(vector<Layer>* layers, int i) {
 	this->layers = layers;
 	K = layers->size();
@@ -17,6 +12,7 @@ void Demux::add_layers(vector<Layer>* layers, int i) {
 	curr_index = i%K;
 }
 
+// Receive a packet from the web
 void Demux::add_packet(int dest) {
 	if(dest < 0)
 		return;
@@ -26,6 +22,7 @@ void Demux::add_packet(int dest) {
 	curr_index = (curr_index+1) % K;
 }
 
+// Write r/k packet to the layers
 void Demux::scatter() {
 	for(int i=0; i<K; i++){
 		if(layers_q[i] != 0){
@@ -35,6 +32,7 @@ void Demux::scatter() {
 	}
 }
 
+// Count all the packets that are currently in the Demux
 int Demux::pending_packets() {
 	int all_packets = 0;
 	for (int i = 0; i < K; ++i) {
@@ -43,6 +41,7 @@ int Demux::pending_packets() {
 	return all_packets;
 }
 
+// Reset counters
 void Demux::reset() {
 	layers_q.assign(K,0);
 	destination.assign(K,0);

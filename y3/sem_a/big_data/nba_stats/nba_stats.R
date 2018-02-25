@@ -6,7 +6,7 @@ library(FactoMineR)
 
 
 match = fread("all.csv")
-
+match = match[complete.cases(match)]
 # organize data
 # outcome - The outcome of a match
 # deficty table - each row contains data of a team in a certain match.

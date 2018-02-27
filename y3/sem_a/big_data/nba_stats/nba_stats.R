@@ -5,8 +5,17 @@ library(mclust)
 library(FactoMineR)
 
 
-match = fread("all.csv")
-match = match[complete.cases(match)]
+read.files <- function(){
+  files <- list.files(pattern = '\\.csv')
+  tables <- lapply(files, read.csv, header = TRUE)
+  combined.df <- do.call(rbind , tables)
+  return(data.table(combined.df))
+}
+
+
+match = read.files()
+match = data.table(match[complete.cases(match)])
+match[,DEFICIT_REB:=NULL]
 # organize data
 # outcome - The outcome of a match
 # deficty table - each row contains data of a team in a certain match.
@@ -15,8 +24,9 @@ deficity_table = match[ ,(grepl('(?:DEFICIT|PCT).*(?<!M)$', names(match), perl =
 
 # Plotting data in pairs, trying to find correlation between features.
 # plot(deficity_table, col=outcome+2
-pca = PCA(deficity_table[,OUTCOME := outcome], quanti.sup = ncol(deficity_table))
-print(dimdesc(pca, 1))
+pca = PCA(cbind(deficity_table, outcome), quanti.sup = ncol(deficity_table)+1)
+pca_desc = dimdesc(pca,1)
+print(pca_desc)
 
 # scale data.
 scaled_data = scale(deficity_table)
@@ -49,7 +59,7 @@ pair.correlation = function(tb, feature, thresh){
 max.corr.feat = 0
 max.rand.index= -Inf
 for (i in c(1:ncol(scaled_data))){
-  pairs = pair.correlation(scaled_data, i, 0.15)
+  pairs = pair.correlation(scaled_data, i, 0.20)
   if ( max.rand.index < unlist(pairs[2]) ){
     max.rand.index = pairs[2]
     max.corr.feat = i
@@ -84,6 +94,7 @@ brute.force.F.S <- function(dt, true.lables, chosen_features)
   print('for')
   print(selected.features)
   print(paste0("rand index: ", max.rand.index))
+  print('******************************************')
   return(selected.features) 
 }
 

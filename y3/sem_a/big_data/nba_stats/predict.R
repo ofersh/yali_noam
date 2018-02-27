@@ -2,10 +2,19 @@ library(dplyr)
 library(data.table)
 library(caret)
 library(rpart)
-data <- fread('all.csv')
+
+read.files <- function(){
+  files <- list.files(pattern = '\\.csv')
+  tables <- lapply(files, read.csv, header = TRUE)
+  combined.df <- do.call(rbind , tables)
+  return(data.table(combined.df))
+}
+
+data <- read.files()
 outcome=data$OUTCOME
 data = data[ ,(grepl('(?:DEFICIT|PCT|OUTCOME).*(?<!M)$', names(data), perl = T)), with=F]
 data = data[complete.cases(data)]
+data[,DEFICIT_REB:=NULL]
 
 data$OUTCOME = as.factor(data$OUTCOME)
 inTrain = createDataPartition(data$OUTCOME, p=0.7, list = FALSE)

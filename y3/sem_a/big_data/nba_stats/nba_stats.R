@@ -5,6 +5,7 @@ library(mclust)
 library(FactoMineR)
 
 
+# read all csv files into one data.table
 read.files <- function(){
   files <- list.files(pattern = '\\.csv')
   tables <- lapply(files, read.csv, header = TRUE)
@@ -69,7 +70,7 @@ for (i in c(1:ncol(scaled_data))){
 print(paste0("Correlated feature: ", max.corr.feat))
 print(feat.group)
 
-# Find the best combinations from picked features.
+# Find the best combinations from picked features, using kmeans clustering and rand index.
 
 brute.force.F.S <- function(dt, true.lables, chosen_features)
 {
@@ -101,7 +102,8 @@ brute.force.F.S <- function(dt, true.lables, chosen_features)
 
 selected_features = brute.force.F.S(scaled_data, outcome, feat.group)
 
-
+# find out how many teams whom have greater features actually won the game for each combination
+# of features.
 outcome.to.featurs = function(dt, true.lables, chosen_features ){
   num_feat = length(chosen_features)
   dt = dt[,chosen_features, with = F]

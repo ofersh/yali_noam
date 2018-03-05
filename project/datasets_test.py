@@ -1,5 +1,5 @@
 from __future__ import division, print_function
-from sklearn import datasets
+from sklearn import datasets, preprocessing
 
 from statistical_gap import gap_statistic as gs
 import xlrd
@@ -18,6 +18,9 @@ def verified_data_set():
     obs_y = map(int, obs_y)
 
     data = zip(obs_x, obs_y)
+    # print(data)
+    # scaled = preprocessing.scale(data)
+    # print(scaled)
     k, plot_info, centers = gs(data)
     print("the returned k is : {}".format(k))
     view.view_result(data, centers, plot_info)

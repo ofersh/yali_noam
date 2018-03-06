@@ -2,30 +2,114 @@ from Observation import Observation
 import numpy as np
 
 
+
+
 class FuzzyCMeans(object):
 
-    def find_c_means(self, data, c, m=2, epsilon=0.2):
-        n = len(data)
-        new_membership_matrix = np.matrix([[0.0] * c] * n) # Creating a matrix with size n X c
-        old_membership_matrix = np.matrix([[0.0] * c] * n)
+    def __init__(self, data):
+        self.data = data
+        self.n = len(data)
 
-        centers = choose_random_centers(data) # Need to choose the centers randomly, like we did in k_means
+    def find_c_means(self, num_centers, beta=1):
+        centers = self.choose_random_centers(num_centers) # Need to choose the centers randomly, like we did in k_means
 
-        fill_matrix(new_membership_matrix, centers, data)  # Need to update the matrix according to centers
+        membership_matrix = self.update_matrix(centers)  # Need to update the matrix according to centers
         
         while True:
 
-            old_membership_matrix = new_membership_matrix
+            centers = self.find_new_centers(membership_matrix, centers)
 
-            find_new_centers(old_membership_matrix, centers)
+            membership_matrix = self.update_matrix(centers)
 
-            new_membership_matrix = update_matrix(old_membership_matrix, old_membership_matrix)
-
-            if improvment(new_membership_matrix, old_membership_matrix) < epsilon :
+            if not self.improved():
                 break
 
-            pass
-
-        scatter_to_clusters(centers, new_membership_matrix, data)
+        scatter_to_clusters(centers, membership_matrix, self.data)
 
         return centers
+
+    def choose_random_centers(self, c):
+        """
+        Randomizing centers with a kmeans++ initialization.
+        probabilty = D(x)^2 where D(x) is distance from closest center.
+        :return:
+        """
+        # Choose the first center to begin with
+        chosen_centers = [np.random.choice(self.data)]
+        distance_list = [0] * self.n
+
+        # Find c centers
+        while len(chosen_centers) < c:
+            for i in range(self.n):
+                obs = self.data[i]
+                # Find the distance from the nearest center
+                dist = min([obs.distance_from(center) ** 2 for center in chosen_centers])
+                distance_list[i] = dist
+
+            # Normalizing the probabilities of the distances to [0,1]
+            sum_of_distances = sum(distance_list)
+            probabilities = list(map(lambda x: x / sum_of_distances, distance_list))
+
+            # Choose the new center to add
+            chosen_centers += [np.random.choice(self.data, p=probabilities)]
+
+        return chosen_centers
+
+    def find_new_centers(self, coef_mat):
+        new_centers = [self.calc_center(coef_mat[:, i]) for i in range(np.ma.size(coef_mat, 1))]
+
+        return new_centers
+
+    def update_matrix(self, centers):
+        '''
+        Update the coefficients matrix according to the current centers and the data
+        Args:
+            centers: np.array
+
+        Returns: A matrix of coefficients
+            np.matrix
+        '''
+        new_matrix = [self.calc_obs_coefficients(obs, centers) for obs in self.data]
+        return np.matrix(new_matrix)
+
+    def improved(self):
+        return True
+
+    def calc_obs_coefficients(self, obs, centers, beta=1.0):
+        '''
+        Calculating the coefficients for an observation, according to the current centers
+        Args:
+            obs: Observation
+            centers: list of np.arrays
+            beta: float
+
+        Returns: np.array
+            List of coefficients for an observation
+        '''
+        coefficients = np.array([np.exp(-beta * obs.distance_from(c)) for c in centers])
+        return coefficients/sum(coefficients)
+
+    def calc_center(self, coefficients):
+        '''
+        The new center is the weighted mean of the old center
+        According to the coefficients matrix
+        Args: array of the coefficients for the current center
+            coefficients: np.array
+
+        Returns: the new center
+            np.array
+        '''
+        # Debug purposes
+        if len(coefficients) != self.n:
+            self.print_error_and_exit('len(coefficients) != self.n')
+
+        return sum([coefficients[i] * self.data[i] for i in range(self.n)])/sum(coefficients)
+
+    def print_error_and_exit(self, message):
+        print('*' * 50)
+        print(' ' * 10 + message)
+        print('*' * 50)
+        exit()
+
+
+

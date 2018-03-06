@@ -4,7 +4,7 @@ class Observation(object):
     """
     Observation class. Holds a list of features.
     """
-    def __init__(self, features, dist_func):
+    def __init__(self, features, dist_func=lambda x, y: np.linalg.norm(x-y, 2)):
         self._features = np.array([])
         self._cluster = []
         self.features = features

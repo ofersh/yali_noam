@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.INFO)
 
 
 def main():
-    dst.verified_data_set()
-    # dst.k_clusters(5)
+    # dst.verified_data_set()
+    dst.c_clusters(5)
 
 
 

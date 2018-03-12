@@ -5,6 +5,8 @@ from statistical_gap import gap_statistic as gs
 import xlrd
 import view
 import data_generator as dg
+from fuzzy_c_means import FuzzyCMeans
+import numpy as np
 
 
 def verified_data_set():
@@ -79,6 +81,16 @@ def k_clusters(k=2):
     print("the expected number of k is: {}".format(exp_k))
     print("the returned k is : {}".format(k))
     view.view_result(data, centers, plot_info)
+
+
+def c_clusters(k=2):
+    exp_k = k
+    n = k * 150
+    data = dg.generate_groups(n, k, dg.random_3d_point)
+    fuzzyCMeans = FuzzyCMeans(data)
+    centers, matrix = fuzzyCMeans.find_c_means(k)
+    print(centers)
+    np.savetxt("cmeans.mat.csv", matrix, delimiter=',')
 
 
 def dataset_accuracy(data, target, clusters):

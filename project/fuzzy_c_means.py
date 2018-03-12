@@ -2,31 +2,39 @@ from Observation import Observation
 import numpy as np
 
 
-
-
 class FuzzyCMeans(object):
 
     def __init__(self, data):
-        self.data = data
+        self._data = None
         self.n = len(data)
+        self.data = data
 
-    def find_c_means(self, num_centers, beta=1):
+    @property
+    def data(self):
+        return self._data
+
+    @data.setter
+    def data(self, data):
+        self._data = [Observation(features)
+                      for features in data]
+
+    def find_c_means(self, num_centers, beta=1, epsilon=1e-4):
         centers = self.choose_random_centers(num_centers) # Need to choose the centers randomly, like we did in k_means
 
-        membership_matrix = self.update_matrix(centers)  # Need to update the matrix according to centers
-        
+        membership_matrix = self.update_matrix(centers, beta)  # Need to update the matrix according to centers
+        i = 0
         while True:
+            if not i % 10:
+                print("Iteration number: ", i)
+            old_centers = np.copy(centers)
+            centers = self.find_new_centers(membership_matrix)
 
-            centers = self.find_new_centers(membership_matrix, centers)
+            membership_matrix = self.update_matrix(centers, beta)
 
-            membership_matrix = self.update_matrix(centers)
-
-            if not self.improved():
+            if not self.improved(old_centers, centers, epsilon):
                 break
-
-        scatter_to_clusters(centers, membership_matrix, self.data)
-
-        return centers
+            i += 1
+        return centers, membership_matrix
 
     def choose_random_centers(self, c):
         """
@@ -35,7 +43,7 @@ class FuzzyCMeans(object):
         :return:
         """
         # Choose the first center to begin with
-        chosen_centers = [np.random.choice(self.data)]
+        chosen_centers = [np.random.choice(self.data).features]
         distance_list = [0] * self.n
 
         # Find c centers
@@ -51,16 +59,16 @@ class FuzzyCMeans(object):
             probabilities = list(map(lambda x: x / sum_of_distances, distance_list))
 
             # Choose the new center to add
-            chosen_centers += [np.random.choice(self.data, p=probabilities)]
+            chosen_centers += [np.random.choice(self.data, p=probabilities).features]
 
-        return chosen_centers
+        return np.matrix(chosen_centers)
 
     def find_new_centers(self, coef_mat):
         new_centers = [self.calc_center(coef_mat[:, i]) for i in range(np.ma.size(coef_mat, 1))]
 
         return new_centers
 
-    def update_matrix(self, centers):
+    def update_matrix(self, centers, beta):
         '''
         Update the coefficients matrix according to the current centers and the data
         Args:
@@ -69,13 +77,16 @@ class FuzzyCMeans(object):
         Returns: A matrix of coefficients
             np.matrix
         '''
-        new_matrix = [self.calc_obs_coefficients(obs, centers) for obs in self.data]
+        new_matrix = [self.calc_obs_coefficients(obs, centers, beta) for obs in self.data]
         return np.matrix(new_matrix)
 
-    def improved(self):
+    def improved(self, old_centers, centers, epsilon):
+        diffs = old_centers - centers
+        if any([np.linalg.norm(d, 2) for d in diffs]) > epsilon:
+            return False
         return True
 
-    def calc_obs_coefficients(self, obs, centers, beta=1.0):
+    def calc_obs_coefficients(self, obs, centers, beta):
         '''
         Calculating the coefficients for an observation, according to the current centers
         Args:
@@ -103,7 +114,7 @@ class FuzzyCMeans(object):
         if len(coefficients) != self.n:
             self.print_error_and_exit('len(coefficients) != self.n')
 
-        return sum([coefficients[i] * self.data[i] for i in range(self.n)])/sum(coefficients)
+        return sum([coefficients[i] * self.data[i].features for i in range(self.n)])/sum(coefficients)
 
     def print_error_and_exit(self, message):
         print('*' * 50)

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
 data_borders = []
@@ -80,6 +81,22 @@ def draw_2d_line(data, title):
     plt.plot(x, y)
     plt.title(title)
     plt.show()
+
+
+def draw_fuzzy(data, matrix, k=3):
+    ls = np.random.RandomState(None)
+    color_list = ls.rand(k, 3)
+    color_mat = np.matmul(matrix, color_list)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    x, y, z = zip(*data)
+
+    ax.scatter(x, y, z, c=color_mat)
+    plt.show()
+
+
 
 
 

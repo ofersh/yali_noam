@@ -9,12 +9,9 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-
-
 def main():
     # dst.verified_data_set()
-    dst.c_clusters(5)
-
+    dst.c_clusters(k=4, expected_clusters=5)
 
 
 if __name__ == '__main__':

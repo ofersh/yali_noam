@@ -83,13 +83,14 @@ def k_clusters(k=2):
     view.view_result(data, centers, plot_info)
 
 
-def c_clusters(k=2):
+def c_clusters(k=3, expected_clusters=3):
     exp_k = k
     n = k * 150
-    data = dg.generate_groups(n, k, dg.random_3d_point)
+    data = dg.generate_groups(n, expected_clusters, dg.random_3d_point)
+    #data = dg.uniform_square([3,4,5], 1000)
     fuzzyCMeans = FuzzyCMeans(data)
-    centers, matrix = fuzzyCMeans.find_c_means(k)
-    print(centers)
+    centers, matrix = fuzzyCMeans.find_c_means(k, epsilon=1e1)
+    view.draw_fuzzy(data, matrix, k)
     np.savetxt("cmeans.mat.csv", matrix, delimiter=',')
 
 

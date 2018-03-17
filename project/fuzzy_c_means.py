@@ -34,6 +34,8 @@ class FuzzyCMeans(object):
             if not self.improved(old_centers, centers, epsilon):
                 break
             i += 1
+
+        print("finished after ", i, " iterations")
         return centers, membership_matrix
 
     def choose_random_centers(self, c):
@@ -82,7 +84,7 @@ class FuzzyCMeans(object):
 
     def improved(self, old_centers, centers, epsilon):
         diffs = old_centers - centers
-        if any([np.linalg.norm(d, 2) for d in diffs]) > epsilon:
+        if all([np.linalg.norm(d, 2) for d in diffs]) < epsilon:
             return False
         return True
 
@@ -114,7 +116,13 @@ class FuzzyCMeans(object):
         if len(coefficients) != self.n:
             self.print_error_and_exit('len(coefficients) != self.n')
 
-        return sum([coefficients[i] * self.data[i].features for i in range(self.n)])/sum(coefficients)
+        nominator = sum([coefficients[i] * self.data[i].features for i in range(self.n)])
+
+        denominator = sum(coefficients)
+
+        new_center = nominator / denominator
+
+        return new_center
 
     def print_error_and_exit(self, message):
         print('*' * 50)

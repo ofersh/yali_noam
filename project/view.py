@@ -83,10 +83,19 @@ def draw_2d_line(data, title):
     plt.show()
 
 
+def calc_color(coef, colors):
+    temp = np.dot(coef, np.transpose(colors))
+    res_color = np.sum(np.dot(coef, np.transpose(colors)))
+    return res_color/len(coef)
+
+
+
+
 def draw_fuzzy(data, matrix, k=3):
     ls = np.random.RandomState(None)
     color_list = ls.rand(k, 3)
     color_mat = np.matmul(matrix, color_list)
+    # color_mat = [calc_color(coef, color_list) for coef in data]
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')

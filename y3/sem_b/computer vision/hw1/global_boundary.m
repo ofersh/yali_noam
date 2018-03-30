@@ -8,7 +8,7 @@ gaus_10 = imnoise(sq, 'gaussian', 0, sigma^2);
 figure(1), subplot(2,2,2), histogram(gaus_10), title('Gaussian sigma=10 histogram');
 fprintf('a. The global boundry can be found without error\n')
 
-sigma = 15/255;
+sigma = 70/255;
 gaus_15 = imnoise(sq, 'gaussian', 0, sigma^2);
 figure(1), subplot(2,2,3), histogram(gaus_10), title('max Gaussian noise');
 fprintf('b. The global error free boundry can be found with max sigma 15 gaussian noise\n')

@@ -1,0 +1,35 @@
+addpath(genpath('../q1'))
+addpath(genpath('../q2'))
+mor = csvread('transistor_counts.csv');
+
+X = mor(:,1);
+y = log(mor(:,2));
+
+% first we normalize the data.
+[norm_mor, sDev, means] = data_normalization([X y]);
+norm_X = norm_mor(:,1);
+norm_y = norm_mor(:,2);
+
+% A
+fprintf('\nq4.a\n')
+fprintf('The linear relation can be achived with this formula:\nln(y) = theat0 + theta1*x\n')
+%figure(1), scatter(norm_X, norm_y);
+
+norm_X = [ ones(size(norm_X)) norm_X ];
+[theta, J] = gradiant_descent(norm_X, norm_y, [0 0], 0.01, 1500);
+
+ln_hx = @(theta, x) theta(1) + theta(2) * x;
+year = 2017;
+year_norm = (year - means(1)) / sDev(1);
+trans_norm = ln_hx(theta, year_norm);
+ln_trans = (trans_norm * sDev(2)) + means(2);
+trans = exp(ln_trans)
+
+% X = [ ones(size(X)) X ];
+% theta = ((X'*X)^-1)*X'*y;
+% ln_trans = ln_hx(theta, year);
+% trans = exp(ln_trans)
+theta = ((X'*X)^-1)*X'*y;
+ln_trans = ln_hx(theta, year);
+trans = exp(ln_trans);
+fprintf('The number of transistos in 2017 will be: %.2g\n', trans)

@@ -1,4 +1,4 @@
-clear all;
+clc, clear all;
 addpath(genpath('../q1'))
 data = csvread('kleibers_law_data.csv',1);
 mass = data(:,1);
@@ -7,8 +7,8 @@ metabolism = data(:,2);
 % A
 mass_log = log(mass);
 metabolism_log = log(metabolism);
-figure(1), scatter(mass_log, metabolism_log, 'k.'), xlabel('log(mass)'),
-ylabel('log(metabolism)'), hold on;
+figure(1), scatter(mass_log, metabolism_log, 'k.'), xlabel('ln(mass)'),
+ylabel('ln(metabolism)'), hold on;
 
 % B
 % We will use a linear regrssion model on log of Mass and Metabolism.
@@ -26,12 +26,12 @@ fprintf('The formula for mass(x) and metabolism(y) is:\ny = exp(%.3g*ln(x) + %.3
 
 
 % D
-ln_hx = @(theta, x) theta(1) + theta(2) * x;
+ln_hx = @(theta, X) theta * X';
 ln_kjoul = ln_hx(theta, X);
-plot(X, ln_kjoul)
+plot(X(:,2), ln_kjoul)
 
 mass = 10;
-ln_mass = log(mass);
+ln_mass = [1 log(mass)];
 cal = 4.18;
 ln_metabo = ln_hx(theta, ln_mass);
 calories = exp(ln_metabo)/cal;

@@ -1,4 +1,4 @@
-clear all;
+clc, clear all;
 addpath(genpath('../q1'))
 addpath(genpath('../q2'))
 mor = csvread('transistor_counts.csv');

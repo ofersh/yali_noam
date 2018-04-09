@@ -14,7 +14,8 @@ function [] = plot_contour( X, y, theta )
     contour(theta0, theta1, J, logspace(-3, 4))
     xlabel('\theta_0'); ylabel('\theta_1');
     hold on;
-    plot(theta(1), theta(2), 'bx', 'MarkerSize', 5, 'LineWidth', 2);
+    plot(theta(:,1), theta(:,2), 'bx', 'MarkerSize', 5, 'LineWidth', 2);
+    
     % theta(1) and theta(2) are the values computed by gradient descent
 end
 

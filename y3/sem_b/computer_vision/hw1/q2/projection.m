@@ -1,4 +1,11 @@
-clear all;
+clear all, clc;
+
+header = ['Question 2\n'...
+          'Distinguishing objects by using vertical and horizontal projections\n\n\n'];
+      
+fprintf(header)
+
+
 pic =  imread('text.bmp');
 [nrows, ncols] = size(pic);
 figure; imshow(pic)

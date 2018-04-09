@@ -1,9 +1,14 @@
+clear all;
 addpath(genpath('../q1'))
 addpath(genpath('../q2'))
 mor = csvread('transistor_counts.csv');
 
 X = mor(:,1);
 y = log(mor(:,2));
+
+
+Xn = [ ones(size(X)) X ];
+theta = ((Xn'*Xn)^-1)*Xn'*y;
 
 % A
 fprintf('\nq4.a\n')
@@ -24,8 +29,7 @@ plot(X, exp(ln_hx(theta, X))),  title('q4.b: pre Transformed');
 % C
 fprintf('\nq4.c\n')
 year = 2017;
-X = [ ones(size(X)) X ];
-theta = ((X'*X)^-1)*X'*y;
+
 ln_trans = ln_hx(theta, year);
 trans = exp(ln_trans);
 

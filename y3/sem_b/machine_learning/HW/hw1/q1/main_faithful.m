@@ -6,9 +6,9 @@ y = faithful(:,2);
 figure(1), scatter(X(:,2), y)
 
 % B:
-max_iter = 400;
+max_iter = 2000;
 [theta, j] = gradiant_descent(X,y, [0 0], 0.03, max_iter);
-figure(2), plot(1:max_iter, J), xlabel('Iterations'), ylabel('J(\theta)');
+figure(2), plot(1:max_iter, j), xlabel('Iterations'), ylabel('J(\theta)');
 
 
 % C:

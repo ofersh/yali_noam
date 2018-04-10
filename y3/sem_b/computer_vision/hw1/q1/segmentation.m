@@ -20,7 +20,7 @@ for x = 2:ncols-1
 end
 
 figure(1); imshow(seg_pic); colormap('gray');
-figure(2); h = histogram(seg_pic);
+figure(2); h = histogram(seg_pic), title('Different brightness for each object.');
 num_of_object = sum(h.Values~=0)-1;
 fprintf('Our Calculation Result: Number of Objects is %d\n', num_of_object)
 [L, num] = bwlabel(double(~gray_pic));

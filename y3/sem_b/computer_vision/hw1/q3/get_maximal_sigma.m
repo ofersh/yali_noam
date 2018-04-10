@@ -13,7 +13,7 @@ function [ max_sig ] = get_maximal_sigma( sq )
     max_sig = (mean2(sq) - mean(sq(sq<mean2(sq)))) / 3 - 1;
     sigma = max_sig/255;
     gaus_max = imnoise(sq, 'gaussian', 0, sigma^2);
-    subplot(2,2,3), histogram(gaus_max, 255), title('max Gaussian noise');
+    subplot(2,2,3), histogram(gaus_max, 255), title(sprintf('max Gaussian sigma = %.3g', max_sig));
     fprintf('b. The global error free boundry can be found with max sigma %g gaussian noise\n', max_sig)
 
     % C

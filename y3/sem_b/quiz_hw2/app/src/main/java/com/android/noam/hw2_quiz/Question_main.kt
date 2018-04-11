@@ -12,24 +12,40 @@ import android.support.v4.view.ViewPager
 class Question_main : AppCompatActivity() {
 
     private lateinit var  q_pager: ViewPager
+    var questions : ArrayList<Question> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_main)
+
+        q_pager = findViewById<ViewPager>(R.id.q_pager)
+
+        set_questions()
+
+        var q_pager_adapter = ScreenSlidePagerAdapter(getSupportFragmentManager(), questions)
+        q_pager.adapter = q_pager_adapter
     }
 
-    fun setupViewPager(){
-        var adapter:
-        //adapter = PagerAdapter(supportFragmentManager.get)
+    fun set_questions(){
+        questions = ArrayList()
+
+        var opts = arrayListOf<String>()
+        opts.add("7")
+        opts.add("3")
+        opts.add("1")
+        opts.add("4")
+
+        questions.add(Question("3+4?", opts, 0))
+        questions.add(Question("This is the second quesiotn", opts, 0))
 
     }
 
 
-     class ScreenSlidePagerAdapter (fragmentManager: FragmentManager, private val questions:ArrayList<Object>)
+     class ScreenSlidePagerAdapter (fragmentManager: FragmentManager, private val questions:ArrayList<Question>)
          : FragmentPagerAdapter(fragmentManager) {
 
         override fun getItem(position: Int): Fragment {
-            return question_frag()
+            return Question_frag.newInstance(questions[position])
         }
 
 

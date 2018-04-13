@@ -1,14 +1,11 @@
 package com.android.noam.hw2_quiz
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.TextView
 
 
@@ -21,13 +18,13 @@ private const val RIGHTANSWER = "right_answer"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [question_frag.OnFragmentInteractionListener] interface
+ * [QuestionFrag.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [question_frag.newInstance] factory method to
+ * Use the [QuestionFrag.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class Question_frag : Fragment() {
+class QuestionFrag : Fragment() {
     // TODO: Rename and change types of parameters
     private var question: Question? = null
 //    private var listener: OnFragmentInteractionListener? = null
@@ -96,13 +93,13 @@ class Question_frag : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(question: Question): Question_frag {
+        fun newInstance(question: Question): QuestionFrag {
             val args = Bundle()
             args.putString(QUESTION, question.question)
             args.putStringArrayList(OPTIONS, question.options)
             args.putInt(RIGHTANSWER, question.right_answer)
 
-            val question_frag = Question_frag()
+            val question_frag = QuestionFrag()
             question_frag.arguments = args
 
             return question_frag

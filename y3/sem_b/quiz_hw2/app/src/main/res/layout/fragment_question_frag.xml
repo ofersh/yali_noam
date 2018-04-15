@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Question_frag"
+    tools:context=".QuestionFrag"
     android:orientation="vertical">
 
     <LinearLayout
@@ -55,7 +55,7 @@
                 android:textSize="20sp"
                 android:layout_margin="3dp"
                 android:id="@+id/opt3"
-                />י
+                />
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

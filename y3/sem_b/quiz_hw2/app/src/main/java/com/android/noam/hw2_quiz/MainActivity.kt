@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun start_quiz(view : View){
-        intent = Intent(this, Question_main::class.java)
+        intent = Intent(this, QuestionMain::class.java)
         startActivity(intent)
     }
 }

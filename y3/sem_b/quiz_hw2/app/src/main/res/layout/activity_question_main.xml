@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Question_main"
+    tools:context=".QuestionMain"
     android:orientation="vertical">
 
 
@@ -19,7 +18,17 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_weight="3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textDirection="rtl">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="אני לֹא זז!!!"
+            android:textDirection="rtl"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="35sp" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 

@@ -14,7 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_question_frag.*
 
-    private const val NUMBER_OF_QUESTIONS = 5
+    public val NUMBER_OF_QUESTIONS = 5
 class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionListener {
 
     private var user_answers : BooleanArray = BooleanArray(size = NUMBER_OF_QUESTIONS)
@@ -26,18 +26,18 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_main)
 
-        q_pager = findViewById<ViewPager>(R.id.q_pager)
-        answers_progress_text = findViewById<TextView>(R.id.answers_progress)
-        answers_progress_text?.setText(correct_answer_string())
+        q_pager = findViewById(R.id.q_pager)
+        answers_progress_text = findViewById(R.id.answers_progress)
+        answers_progress_text?.text = correct_answer_string()
 
-        QuestionCreator().set_questions(questions)
+        QuestionCreator().getOnlineQuestions()
 
         val qPagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager, questions)
         q_pager.adapter = qPagerAdapter
     }
 
     fun calc_correct_answers(): Int{
-        return user_answers?.count { it }
+        return user_answers.count { it }
     }
 
     fun correct_answer_string(): String {
@@ -61,7 +61,7 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
 
     override fun onFragmentInteraction(q_ind: Int, user_answer: Int) {
         user_answers[q_ind] = user_answer == questions[q_ind].right_answer
-        answers_progress_text?.setText(correct_answer_string())
+        answers_progress_text!!.text = correct_answer_string()
         q_pager.currentItem = q_ind+1 % NUMBER_OF_QUESTIONS
 
     }

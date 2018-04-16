@@ -1,9 +1,50 @@
 package com.android.noam.hw2_quiz
 
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.core.response
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
+import org.json.JSONArray
+import org.json.JSONObject
+
 
 data class Question(var question : String, var options : ArrayList<String> , var right_answer : Int)
 
-class QuestionCreator(){
+
+
+class QuestionCreator(var amount: Int = 5, var category : Int = 10, var level: String = "easy", var qType : String = "multiple"){
+
+    private val SITE_URL = "https://opentdb.com/api.php?"
+    private val AMOUNT = "amount="
+    private val CATEGORY = "category="
+    private val LEVEL = "difficulty="
+    private val TYPE = "type="
+    private val DELIM = '&'
+
+    fun getOnlineQuestions() : JSONArray{
+
+        var url = SITE_URL + AMOUNT + amount + DELIM + CATEGORY + category + DELIM + LEVEL + level + DELIM + TYPE + qType
+        lateinit var qArray : JSONArray
+
+
+        url.httpGet().responseJson { request, response, result ->
+            when(result){
+                is Result.Failure -> {
+                    val ex = result.getException()
+                }
+                is Result.Success -> {
+                    val data = result.get() as JSONObject
+                    qArray = data["results"] as JSONArray
+
+                }
+            }
+        }
+
+        return qArray
+    }
+
+
+
 
     fun set_questions(questions: ArrayList<Question>){
 

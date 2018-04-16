@@ -22,13 +22,27 @@ android {
     }
 }
 
+// For http + json support
+repositories {
+    jcenter()
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // Also for http + json
+    implementation 'com.github.kittinunf.fuel:fuel:1.12.1' //for JVM
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.12.1' //for Android
+    //implementation 'com.github.kittinunf.fuel:fuel-livedata:1.12.1' //for LiveData support
+    implementation 'com.github.kittinunf.fuel:fuel-rxjava:1.12.1' //for RxJava support
+    implementation 'com.github.kittinunf.fuel:fuel-gson:1.12.1' //for Gson support
+    implementation 'com.github.kittinunf.fuel:fuel-jackson:1.12.1' //for Jackson support
+    implementation 'com.github.kittinunf.fuel:fuel-moshi:1.12.1' //for Moshi support
 }

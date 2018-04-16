@@ -18,6 +18,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:onClick="start_quiz"
+        android:id="@+id/start_button"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:text="Stam mashu"
+        android:id="@+id/text_id"/>
 </android.support.constraint.ConstraintLayout>

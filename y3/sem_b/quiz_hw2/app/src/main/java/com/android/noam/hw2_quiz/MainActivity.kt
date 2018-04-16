@@ -12,11 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val t = findViewById<TextView>(R.id.text_id)
-        val t_id = t.id
-        val r_t_id = R.id.text_id
-        t.setText("ID from t.id: " + t_id.toString() + "\nID from R.id.text_id: " + r_t_id.toString())
-
     }
 
     fun start_quiz(view : View){

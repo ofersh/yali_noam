@@ -1,11 +1,13 @@
 package com.android.noam.hw2_quiz
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RadioGroup
 import android.widget.RadioButton
 import android.widget.TextView
 
@@ -105,13 +107,13 @@ class QuestionFrag : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(question_num: Int, user_answer: Int)
+        fun onFragmentInteraction(q_ind: Int, user_answer: Int)
     }
 
     companion object {
 
         @JvmStatic
-        fun newInstance(question: Question, question_number: Int): Question_frag {
+        fun newInstance(question: Question, question_number: Int): QuestionFrag {
             val args = Bundle()
             args.putString(QUESTION, question.question)
             args.putStringArrayList(OPTIONS, question.options)

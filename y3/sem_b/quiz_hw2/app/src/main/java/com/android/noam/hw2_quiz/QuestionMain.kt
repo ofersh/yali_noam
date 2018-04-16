@@ -15,7 +15,7 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_question_frag.*
 
     private const val NUMBER_OF_QUESTIONS = 5
-class Question_main : AppCompatActivity(), Question_frag.OnFragmentInteractionListener {
+class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionListener {
 
     private var user_answers : BooleanArray = BooleanArray(size = NUMBER_OF_QUESTIONS)
     private lateinit var  q_pager: ViewPager
@@ -30,18 +30,14 @@ class Question_main : AppCompatActivity(), Question_frag.OnFragmentInteractionLi
         answers_progress_text = findViewById<TextView>(R.id.answers_progress)
         answers_progress_text?.setText(correct_answer_string())
 
-        set_questions()
+        QuestionCreator().set_questions(questions)
 
         val qPagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager, questions)
         q_pager.adapter = qPagerAdapter
     }
 
     fun calc_correct_answers(): Int{
-        var c : Int = 0
-        for (a in user_answers)
-            if (a)
-                c++
-        return c
+        return user_answers?.count { it }
     }
 
     fun correct_answer_string(): String {
@@ -49,26 +45,12 @@ class Question_main : AppCompatActivity(), Question_frag.OnFragmentInteractionLi
         return correct_answers.toString() + '/' + NUMBER_OF_QUESTIONS.toString()
     }
 
-    fun set_questions(){
-        questions = ArrayList()
-
-        val opts = arrayListOf<String>()
-        opts.add("7")
-        opts.add("3")
-        opts.add("1")
-        opts.add("4")
-
-        questions.add(Question("3+4?", opts, 0))
-        questions.add(Question("This is the second question", opts, 0))
-
-    }
-
 
      class ScreenSlidePagerAdapter (fragmentManager: FragmentManager, private val questions:ArrayList<Question>)
          : FragmentPagerAdapter(fragmentManager) {
 
         override fun getItem(position: Int): Fragment {
-            return Question_frag.newInstance(questions[position], position)
+            return QuestionFrag.newInstance(questions[position], position)
         }
 
 
@@ -80,6 +62,8 @@ class Question_main : AppCompatActivity(), Question_frag.OnFragmentInteractionLi
     override fun onFragmentInteraction(q_ind: Int, user_answer: Int) {
         user_answers[q_ind] = user_answer == questions[q_ind].right_answer
         answers_progress_text?.setText(correct_answer_string())
+        q_pager.currentItem = q_ind+1 % NUMBER_OF_QUESTIONS
+
     }
 
 }

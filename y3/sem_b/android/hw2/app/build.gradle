@@ -22,6 +22,12 @@ android {
     }
 }
 
+
+repositories {
+    jcenter()
+}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -30,4 +36,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.12.1' //for Android
+    implementation 'com.github.kittinunf.fuel:fuel-gson:1.12.1' //for Gson support
+    implementation 'com.github.kittinunf.fuel:fuel:1.12.1' //for JVM
+    // implementation 'com.github.kittinunf.result:result-coroutines:0.22.5' //for kotlin's coroutine support
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+
+    // Java http
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+
 }

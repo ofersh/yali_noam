@@ -1,10 +1,13 @@
 package cs.yali.noam.hw2_quiz
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
 import android.view.View
 import android.widget.*
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
+import org.json.JSONObject
 
 private const val CORRECT = "That was easy"
 private const val MIDDLE = "Just a bit short"
@@ -24,12 +27,16 @@ class MainActivity : AppCompatActivity() {
     private var r_group: RadioGroup? = null
     private var r_buttons: ArrayList<RadioButton> = ArrayList()
 
+    private var async_running: Boolean = false
+    private var threadFunctionActivated: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Initialize Class Variables
+
         create_questions()
         user_answers = BooleanArray(size = NUMBER_OF_QUESTIONS)
 
@@ -108,54 +115,11 @@ class MainActivity : AppCompatActivity() {
         n_prompt.text = correct_answers.toString() + "/" + NUMBER_OF_QUESTIONS.toString()
     }
 
+
     // Initialization of Question functions
     fun create_questions(){
 
-        questions.add(create_question(
-                "What is the meaning of GOAT?",
-                "Getting Of A Train",
-                "Gliding On A Tomb",
-                "Greatest Of All Time",
-                "Giving Out All That",
-                2
-        ))
 
-        questions.add(create_question(
-                "Where is the annual Ginger Festival taking place?",
-                "Netherlands",
-                "Germany",
-                "United States",
-                "Guatemala",
-                0
-        ))
-
-        questions.add(create_question(
-                "When is the annual Ginger Festival happening?",
-                "Last weekend of August",
-                "First weekend of September",
-                "First weekend of January",
-                "Second weekend of July",
-                1
-        ))
-
-        questions.add(create_question(
-                "Some toilets have holes in the front part of the toilet seat. Why?",
-                "If a snake would come from the toilet, so he would have a place to go",
-                "For the male's testicals to have space",
-                "To watch the you're own feces",
-                "To make it easier for woman to wipe",
-                3
-        ))
-        questions.add(create_question(
-                SHOW_PICTURE,
-                "Lion",
-                "Koala",
-                "Kauka",
-                "Panda",
-                2
-        ))
-
-        NUMBER_OF_QUESTIONS = questions.size
     }
 
     fun create_question(q: String, opt1: String, opt2: String, opt3: String, opt4: String, right_answer: Int): Question{
@@ -167,8 +131,14 @@ class MainActivity : AppCompatActivity() {
         return Question(q, opts, right_answer)
     }
 
-}
+    public fun callBackRunning(str: String){
+        async_running = false
+        threadFunctionActivated = str
+    }
 
-data class Question(var question : String, var options : ArrayList<String> , var right_answer : Int) {
-}
+    public fun callBackTrue(){
+        async_running = true
 
+    }
+
+}

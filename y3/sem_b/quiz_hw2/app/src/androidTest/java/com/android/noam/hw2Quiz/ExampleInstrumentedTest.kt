@@ -1,4 +1,4 @@
-package com.android.noam.hw2_quiz
+package com.android.noam.hw2Quiz
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

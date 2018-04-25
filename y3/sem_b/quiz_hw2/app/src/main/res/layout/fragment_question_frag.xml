@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".QuestionFrag"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,9 +71,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="save answer"
+            android:textSize="28sp"
+            android:onClick="checkAnswer"
+            android:padding="10dp"
             android:layout_margin="3dp"
-            android:id="@+id/save_answer"
+            android:id="@+id/saveAnswer"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
    
 

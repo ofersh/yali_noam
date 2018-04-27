@@ -71,15 +71,10 @@ class QuestionFrag : Fragment() {
             questionNumber = args.getInt(QUESTION_NUMBER)
         }
 
-        radioGroup!!.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener() {group, checkId ->
-                    val chosenAnswer = countCheckedRadioButtons(checkId)
-                    listener?.onFragmentInteraction(questionNumber, chosenAnswer)
-        })
         return view
     }
 
-    private fun countCheckedRadioButtons(id: Int): Int{
+    private fun getCheckedRadioButtons(id: Int): Int{
         when(id){
             R.id.opt1 -> return 0
             R.id.opt2 -> return 1

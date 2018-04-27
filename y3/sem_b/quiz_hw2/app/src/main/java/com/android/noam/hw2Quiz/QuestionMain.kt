@@ -73,6 +73,8 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
 
     }
 
+
+
     fun setQuestions (qJArray: JSONArray ){
         for(i in 0..(qJArray.length() -1)){
             val qJson = qJArray[i] as JSONObject

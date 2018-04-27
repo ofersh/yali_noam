@@ -49,9 +49,13 @@ class QuestionFrag : Fragment() {
         val opt4 = view.findViewById<RadioButton>(R.id.opt4)
 
         button.setOnClickListener{
-            val chosenAnswer = countCheckedRadioButtons(radioGroup!!.checkedRadioButtonId)
+            val chosenAnswer = getCheckedRadioButtons(radioGroup!!.checkedRadioButtonId)
             listener?.onFragmentInteraction(questionNumber, chosenAnswer )
 
+        }
+
+        radioGroup!!.setOnCheckedChangeListener { group, checkedId ->
+            listener?.onFragmentInteraction(questionNumber, getCheckedRadioButtons(checkedId))
         }
 
         val args = arguments
@@ -70,13 +74,14 @@ class QuestionFrag : Fragment() {
         return view
     }
 
-    fun countCheckedRadioButtons(id: Int): Int{
-        when(id){
-            R.id.opt1 -> return 0
-            R.id.opt2 -> return 1
-            R.id.opt3 -> return 2
-            R.id.opt4 -> return 3
-            else -> return -1
+    fun getCheckedRadioButtons(id: Int): Int{
+
+        return when(id){
+            R.id.opt1 -> 0
+            R.id.opt2 -> 1
+            R.id.opt3 -> 2
+            R.id.opt4 -> 3
+            else -> -1
         }
     }
 

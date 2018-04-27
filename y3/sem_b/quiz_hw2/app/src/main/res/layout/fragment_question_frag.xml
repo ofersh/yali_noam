@@ -67,17 +67,6 @@
                 />
         </RadioGroup>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="save answer"
-            android:textSize="28sp"
-            android:onClick="checkAnswer"
-            android:padding="10dp"
-            android:layout_margin="3dp"
-            android:id="@+id/saveAnswer"
-            android:layout_gravity="center_horizontal" />
-
     </LinearLayout>
    
 

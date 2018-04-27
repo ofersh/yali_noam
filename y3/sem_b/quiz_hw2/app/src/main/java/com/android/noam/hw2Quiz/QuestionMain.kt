@@ -28,7 +28,6 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
     private lateinit var  qPager: ViewPager
     private var questions : ArrayList<Question> = ArrayList()
     private var numberOfQuestions = 5
-    private var currentFrag = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,26 +73,15 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
             return QuestionFrag.newInstance(questions[position], position)
         }
 
-
         override  fun getCount(): Int {
             return questions.size
         }
     }
 
-    // Played arround
-//    fun checkAnswer(view:View){
-//        if (view.id == R.id.saveAnswer) {
-//            val qFrag = qPager.currentItem as QuestionFrag
-//
-//        }
-//    }
 
     override fun onFragmentInteraction(q_ind: Int, user_answer: Int) {
         userAnswers[q_ind] = user_answer
-
     }
-
-
 
     fun setQuestions (qJArray: JSONArray ){
         for(i in 0..(qJArray.length() -1)){
@@ -116,12 +104,14 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
         qPager.adapter = qPagerAdapter
     }
 
-    fun moveToNextQuestion(view: View){
+    private fun moveToNextQuestion(view: View){
+
+        var currentFrag = qPager.currentItem
         if(currentFrag == numberOfQuestions-1){
             return
         }
-        currentFrag = currentFrag+1 % numberOfQuestions
-        qPager.currentItem = currentFrag
+
+        qPager.currentItem = currentFrag+1 % numberOfQuestions
 
     }
     // Saving the entered answer by the user and moving to the next question

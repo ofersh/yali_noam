@@ -7,63 +7,41 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutCompat
 import android.text.Html
-import android.text.Layout
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
-import com.android.noam.hw2Quiz.R.id.gone
-import kotlinx.android.synthetic.main.activity_question_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-
+const val NUMBER_OF_QUESTIONS = 5
 
 class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionListener {
 
-    private lateinit var userAnswers : IntArray
+    private var userAnswers : BooleanArray = BooleanArray(size = NUMBER_OF_QUESTIONS)
     private lateinit var  qPager: ViewPager
+    private var answersProgressText : TextView? = null
     private var questions : ArrayList<Question> = ArrayList()
-    private var numberOfQuestions = 5
-    private var currentFrag = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_main)
 
         qPager = findViewById(R.id.q_pager)
-
-        val finishButton = findViewById<Button>(R.id.finish)
-        val nextQuestionButton = findViewById<Button>(R.id.nextQuestion)
-
-        finishButton.setOnClickListener{
-            finishTheQuiz(finishButton)
-        }
-        nextQuestionButton.setOnClickListener{
-            moveToNextQuestion(nextQuestionButton)
-        }
+        answersProgressText = findViewById(R.id.answers_progress)
+        answersProgressText?.text = correctAnswerString()
 
         QuestionCreator().getOnlineQuestions(this)
+
     }
 
-    // Counting the amount of correct answers
     private fun calcCorrectAnswers(): Int{
-        var n_correctAnswers = 0
-        var arrLen = userAnswers.size - 1
-        for (i in 0..arrLen){
-            if(userAnswers[i] == questions[i].right_answer){
-                n_correctAnswers++
-            }
-        }
-        return n_correctAnswers
+        return userAnswers.count { it }
     }
 
     private fun correctAnswerString(): String {
         val correctAnswers = calcCorrectAnswers()
-        return correctAnswers.toString() + '/' + numberOfQuestions.toString()
+        return correctAnswers.toString() + '/' + NUMBER_OF_QUESTIONS.toString()
     }
 
 
@@ -89,7 +67,9 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
 //    }
 
     override fun onFragmentInteraction(q_ind: Int, user_answer: Int) {
-        userAnswers[q_ind] = user_answer
+        userAnswers[q_ind] = user_answer == questions[q_ind].right_answer
+        answersProgressText!!.text = correctAnswerString()
+        qPager.currentItem = q_ind+1 % NUMBER_OF_QUESTIONS
 
     }
 
@@ -107,36 +87,12 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
             }
             answersArr.add(correct)
 
-            questions.add(Question(question, answersArr, 3))
+                questions.add(Question(question, answersArr, 3))
         }
-
-        numberOfQuestions = questions.size
-        userAnswers = IntArray(size = numberOfQuestions)
         val qPagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager, questions)
         qPager.adapter = qPagerAdapter
     }
 
-    fun moveToNextQuestion(view: View){
-        if(currentFrag == numberOfQuestions-1){
-            return
-        }
-        currentFrag = currentFrag+1 % numberOfQuestions
-        qPager.currentItem = currentFrag
-
-    }
-    // Saving the entered answer by the user and moving to the next question
-    fun finishTheQuiz(view: View){
-        val outcomeLayout: LinearLayout = findViewById(R.id.outcome_layout)
-        val outcomeText: TextView = findViewById(R.id.outcome_text)
-        val outcomeNumber: TextView = findViewById(R.id.outcome_number)
-
-        outcomeText.text = getString(R.string.outcome_text)
-        outcomeNumber.text = correctAnswerString()
-
-        qPager.visibility = View.GONE
-        findViewById<RelativeLayout>(R.id.button_layout).visibility = View.GONE
-        outcomeLayout.visibility = View.VISIBLE
-    }
 }
 
 fun fromHtml(html: Any) : String{

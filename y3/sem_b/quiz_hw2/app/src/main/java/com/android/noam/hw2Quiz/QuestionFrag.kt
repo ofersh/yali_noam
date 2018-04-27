@@ -40,6 +40,7 @@ class QuestionFrag : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_question_frag, container, false)
 
+        val button = view.findViewById<Button>(R.id.saveAnswer)
         val qText = view.findViewById<TextView>(R.id.question)
         radioGroup = view.findViewById(R.id.options)
         val opt1 = view.findViewById<RadioButton>(R.id.opt1)
@@ -47,12 +48,11 @@ class QuestionFrag : Fragment() {
         val opt3 = view.findViewById<RadioButton>(R.id.opt3)
         val opt4 = view.findViewById<RadioButton>(R.id.opt4)
 
-//        val button = view.findViewById<Button>(R.id.saveAnswer)
-//        button.setOnClickListener{
-//            val chosenAnswer = countCheckedRadioButtons(radioGroup!!.checkedRadioButtonId)
-//            listener?.onFragmentInteraction(questionNumber, chosenAnswer )
-//
-//        }
+        button.setOnClickListener{
+            val chosenAnswer = getCheckedRadioButtons(radioGroup!!.checkedRadioButtonId)
+            listener?.onFragmentInteraction(questionNumber, chosenAnswer )
+
+        }
 
         radioGroup!!.setOnCheckedChangeListener { group, checkedId ->
             listener?.onFragmentInteraction(questionNumber, getCheckedRadioButtons(checkedId))
@@ -71,21 +71,17 @@ class QuestionFrag : Fragment() {
             questionNumber = args.getInt(QUESTION_NUMBER)
         }
 
-        radioGroup!!.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener() {group, checkId ->
-                    val chosenAnswer = countCheckedRadioButtons(checkId)
-                    listener?.onFragmentInteraction(questionNumber, chosenAnswer)
-        })
         return view
     }
 
-    private fun countCheckedRadioButtons(id: Int): Int{
-        when(id){
-            R.id.opt1 -> return 0
-            R.id.opt2 -> return 1
-            R.id.opt3 -> return 2
-            R.id.opt4 -> return 3
-            else -> return -1
+    fun getCheckedRadioButtons(id: Int): Int{
+
+        return when(id){
+            R.id.opt1 -> 0
+            R.id.opt2 -> 1
+            R.id.opt3 -> 2
+            R.id.opt4 -> 3
+            else -> -1
         }
     }
 

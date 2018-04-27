@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">hw2_quiz</string>
-    <string name="outcome_text">You have finished the test, see you next time</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

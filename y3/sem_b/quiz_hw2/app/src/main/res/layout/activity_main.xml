@@ -15,18 +15,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="50sp"
-            android:text="Welcome"
+            android:textAlignment="center"
+            android:textSize="28sp"
+            android:text="Welcome Please Enter\nNumber Of Questions\n(Min 2):"
+            android:textColor="@android:color/white"
+            />
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:hint="5"
             android:textColor="@android:color/white"
             android:textAlignment="center"
-            android:id="@+id/text_id"
-            android:layout_margin="30dp"/>
+            android:id="@+id/number_of_questions"
+            android:inputType="numberDecimal"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
@@ -53,8 +64,6 @@
             />
 
     </android.support.v7.widget.LinearLayoutCompat>
-
-
 
 
 </android.support.v7.widget.LinearLayoutCompat>

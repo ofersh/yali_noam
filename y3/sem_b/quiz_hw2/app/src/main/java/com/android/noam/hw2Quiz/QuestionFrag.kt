@@ -75,12 +75,12 @@ class QuestionFrag : Fragment() {
     }
 
     private fun getCheckedRadioButtons(id: Int): Int{
-        when(id){
-            R.id.opt1 -> return 0
-            R.id.opt2 -> return 1
-            R.id.opt3 -> return 2
-            R.id.opt4 -> return 3
-            else -> return -1
+        return when(id){
+            R.id.opt1 -> 0
+            R.id.opt2 -> 1
+            R.id.opt3 -> 2
+            R.id.opt4 -> 3
+            else -> -1
         }
     }
 

@@ -7,36 +7,32 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutCompat
 import android.text.Html
-import android.text.Layout
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import com.android.noam.hw2Quiz.R.id.gone
-import kotlinx.android.synthetic.main.activity_question_main.*
+import android.widget.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 
+class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
 
-class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionListener {
 
     private lateinit var userAnswers : IntArray
+    private var numOfQuestions : Int = 0
     private lateinit var  qPager: ViewPager
     private var questions : ArrayList<Question> = ArrayList()
-    private var numberOfQuestions = 5
+    private lateinit var finishButton : Button
+    private lateinit var nextQuestionButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_main)
 
         qPager = findViewById(R.id.q_pager)
-
-        val finishButton = findViewById<Button>(R.id.finish)
-        val nextQuestionButton = findViewById<Button>(R.id.nextQuestion)
+        qPager.addOnPageChangeListener(this)
+        finishButton = findViewById(R.id.finish)
+        nextQuestionButton = findViewById(R.id.nextQuestion)
 
         finishButton.setOnClickListener{
             finishTheQuiz(finishButton)
@@ -44,25 +40,25 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
         nextQuestionButton.setOnClickListener{
             moveToNextQuestion(nextQuestionButton)
         }
-
-        QuestionCreator().getOnlineQuestions(this)
+        numOfQuestions = intent.extras.getInt(NUM_QUESTION_STR)
+        QuestionCreator(amount = numOfQuestions).getOnlineQuestions(this)
     }
 
     // Counting the amount of correct answers
     private fun calcCorrectAnswers(): Int{
-        var n_correctAnswers = 0
-        var arrLen = userAnswers.size - 1
+        var correctAnswers = 0
+        val arrLen = userAnswers.size - 1
         for (i in 0..arrLen){
             if(userAnswers[i] == questions[i].right_answer){
-                n_correctAnswers++
+                correctAnswers++
             }
         }
-        return n_correctAnswers
+        return correctAnswers
     }
 
     private fun correctAnswerString(): String {
         val correctAnswers = calcCorrectAnswers()
-        return correctAnswers.toString() + '/' + numberOfQuestions.toString()
+        return correctAnswers.toString() + '/' + numOfQuestions.toString()
     }
 
 
@@ -81,6 +77,7 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
 
     override fun onFragmentInteraction(q_ind: Int, user_answer: Int) {
         userAnswers[q_ind] = user_answer
+
     }
 
     fun setQuestions (qJArray: JSONArray ){
@@ -93,29 +90,35 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
             for(j in 0..(answers.length() -1)) {
                 answersArr.add(fromHtml(answers[j]))
             }
-            answersArr.add(correct)
-
-            questions.add(Question(question, answersArr, 3))
+            val random = Random()
+            val rightIndex : Int = random.nextInt(numOfQuestions - 1)
+            answersArr.add(rightIndex, correct)
+            questions.add(Question(question, answersArr, rightIndex))
         }
 
-        numberOfQuestions = questions.size
-        userAnswers = IntArray(size = numberOfQuestions)
+        numOfQuestions = questions.size
+        userAnswers = IntArray(size = numOfQuestions)
         val qPagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager, questions)
         qPager.adapter = qPagerAdapter
     }
 
     private fun moveToNextQuestion(view: View){
 
-        var currentFrag = qPager.currentItem
-        if(currentFrag == numberOfQuestions-1){
+        val currentFrag = qPager.currentItem
+        if(currentFrag == numOfQuestions -1){
             return
         }
-
-        qPager.currentItem = currentFrag+1 % numberOfQuestions
+        if (currentFrag == numOfQuestions -1){
+            val finishButton = findViewById<Button>(R.id.finish)
+            val nextQuestionButton = findViewById<Button>(R.id.nextQuestion)
+            nextQuestionButton.visibility = View.GONE
+            finishButton.visibility = View.VISIBLE
+        }
+        qPager.currentItem = currentFrag+1 % numOfQuestions
 
     }
     // Saving the entered answer by the user and moving to the next question
-    fun finishTheQuiz(view: View){
+    private fun finishTheQuiz(view: View){
         val outcomeLayout: LinearLayout = findViewById(R.id.outcome_layout)
         val outcomeText: TextView = findViewById(R.id.outcome_text)
         val outcomeNumber: TextView = findViewById(R.id.outcome_number)
@@ -127,6 +130,23 @@ class QuestionMain : AppCompatActivity(), QuestionFrag.OnFragmentInteractionList
         findViewById<RelativeLayout>(R.id.button_layout).visibility = View.GONE
         outcomeLayout.visibility = View.VISIBLE
     }
+    override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+        if(position == numOfQuestions -1){
+            nextQuestionButton.visibility = View.GONE
+            finishButton.visibility = View.VISIBLE
+            return
+        }else
+        {
+            finishButton.visibility = View.GONE
+            nextQuestionButton.visibility = View.VISIBLE
+        }
+    }
 }
 
 fun fromHtml(html: Any) : String{
@@ -137,4 +157,6 @@ fun fromHtml(html: Any) : String{
         @Suppress("DEPRECATION")
         return Html.fromHtml(htmlStr).toString()
     }
+
+
 }

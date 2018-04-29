@@ -1,4 +1,5 @@
 function [J, grad] = costF_log(theta , X, y)
+% As requested 1.b.3
     m = length(y);
     theta = theta(:);
     z = theta' * X';

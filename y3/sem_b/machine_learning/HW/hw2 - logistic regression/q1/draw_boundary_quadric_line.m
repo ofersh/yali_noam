@@ -1,14 +1,14 @@
 function draw_boundary_quadric_line( X, theta )
 
-    minX2 = min(X(:,3));
-    maxX2 = max(X(:,3));
+    minX1 = min(X(:,2));
+    maxX1 = max(X(:,2));
 
-    drawX2 = linspace(minX2, maxX2, 1000);
+    Xaxis = linspace(minX1, maxX1, 10000);
     
-    X1 = @(x2) -(theta(1) + theta(3) * x2 + theta(4) * x2.^2) / theta(2);
+    x2 = @(x1) -(theta(1) + theta(2) * x1 + theta(4) * x1.^2) / theta(3);
     
-    drawX1 = X1(drawX2);
+    X2 = x2(Xaxis);
 
-    plot(drawX2, drawX1);
+    plot(Xaxis, X2);
 end
 

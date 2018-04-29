@@ -1,6 +1,6 @@
-%% e-mail anti spam using logistic regression
-clc; clear all;
-%load data
+% e-mail anti spam using logistic regression
+clc, clear all, close all;
+% load data
 load emaildata1
 % X is the feature matrix (each row represents one e-mail)
 % y - the corresponding label
@@ -13,23 +13,26 @@ scatter(X(pos_ind,2),X(pos_ind,1),'go', 'filled'), hold on
 scatter(X(neg_ind,2),X(neg_ind,1),'rd', 'filled')
 figure(1)
 
-%% Initialization
+% Initialization
 m=length(y);
-alpha=0.1;
-%X1=[ones(m,1) X X(:,2).^2]; % adding a first column of ones
+alpha=0.8;
+X_quad=[ones(m,1) X X(:,1).^2]; % adding a first column of ones
 X = [ones(m,1) X];
-theta=zeros(size(X,2),1);
 
-%% computing cost function and gradient
+theta = zeros(size(X,2),1);
+theta_quad = zeros(size(X_quad,2),1);
+
+% computing cost function and gradient
 [J, grad] = costF_log(theta,X,y);
 
-%% Applying gradient descent
+% Applying gradient descent
 num_iters=7000;
 [theta, J]=gd(X,y,theta,alpha,num_iters);
+[theta_quad, J]=gd(X_quad,y,theta_quad,alpha,num_iters);
 hold on
 
 draw_boundary_linear_line(X, theta);
-%draw_boundary_quadric_line(X1, theta);
+draw_boundary_quadric_line(X_quad, theta_quad);
 
 % figure(2), plot(1:num_iters,J), grid
 

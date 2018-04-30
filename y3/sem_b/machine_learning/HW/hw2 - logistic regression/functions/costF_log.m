@@ -3,9 +3,7 @@ function [J, grad] = costF_log(theta , X, y)
     m = length(y);
     theta = theta(:);
     z = theta' * X';
-    
-    sigmoid = @(z) 1./(1+exp(z));
-    
+        
     htheta = sigmoid(z);
     
     J = (-1/m) * (y'*log(htheta') + (1 - y') * log(1 - htheta'));

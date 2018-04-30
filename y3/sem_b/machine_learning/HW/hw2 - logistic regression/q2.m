@@ -59,26 +59,41 @@ end
 fprintf('Best lambda = %g\n', best_lambda);
 
 
-% F) 
+% F) Testing the model
 
-[theta, J] = gd_reg(X_poly, y, theta_poly, alpha, num_iters, best_lambda);
+[test_theta, J] = gd_reg(X_poly, y, theta_poly, alpha, num_iters, best_lambda);
 load emaildata3.mat
 
-X_poly = mapFeature(X(:,1), X(:,2));
-z = theta' * X_poly';
+testX_poly = mapFeature(X(:,1), X(:,2));
+z = test_theta' * testX_poly';
 predicted_y = sigmoid(z);
 
 predicted_y(predicted_y>0.5) = 1;
 predicted_y(predicted_y<=0.5) = 0;
+fprintf('Pause started\n')
 pause()
 close 1
-plotDecisionBoundary(theta, X_poly, y); hold on
+plotDecisionBoundary(test_theta, testX_poly, y); hold on
 
 difference = y(:) - predicted_y(:);
 wrong_predict = sum(difference ~= 0);
 fprintf('Wrong prediction results: %g\n', wrong_predict)
 
 
+% G) using fminunc to find the theta
+fprintf('Pause started\n')
+pause()
+close 1
+data = load('email_data.txt');
+fminunc_X_poly = data(:, [1, 2]); fminunc_y = data(:, 3);
 
+fminunc_X_poly = mapFeature(fminunc_X_poly(:,1), fminunc_X_poly(:,2));
+fminunc_theta =  zeros(1, size(fminunc_X_poly,2));
+
+costFunc = @(fminunc_theta)question2g(fminunc_theta, fminunc_X_poly, fminunc_y);
+
+[fminunc_theta,y]=fminunc(costFunc, fminunc_theta);
+fprintf('fminunc found theta:\n')
+plotDecisionBoundary(fminunc_theta(:), fminunc_X_poly, fminunc_y)
 
 

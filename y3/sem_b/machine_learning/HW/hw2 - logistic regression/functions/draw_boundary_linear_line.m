@@ -7,6 +7,6 @@ function draw_boundary_linear_line( X, theta )
     
     X2 = @(x1) -(theta(2)*x1 + theta(1)) / theta(3);
     
-    line([minX1 maxX1], [X2(minX1) X2(maxX1)]);
+    line([minX1 maxX1], [X2(minX1) X2(maxX1)], 'Color', 'black');
 end
 

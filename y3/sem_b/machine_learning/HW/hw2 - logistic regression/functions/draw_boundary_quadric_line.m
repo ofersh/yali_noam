@@ -9,6 +9,6 @@ function draw_boundary_quadric_line( X, theta )
     
     X2 = x2(Xaxis);
 
-    plot(Xaxis, X2);
+    plot(Xaxis, X2, 'k');
 end
 

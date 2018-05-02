@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuestionMain"
+    android:background="@drawable/riddler_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/outcome_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="4">
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/outcome_text"
+                android:layout_margin="7dp"
+                android:textAlignment="center"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="40sp"
+                android:text="this is \ntemporary text"/>
+
+            <TextView
+                android:id="@+id/outcome_number"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textSize="40sp"
+                android:text="0/5"
+                android:gravity="center"/>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/q_pager"
+        android:layout_weight="4"
+        android:visibility="visible">
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:visibility="visible"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Finish"
+            android:visibility="gone"
+            android:textSize="28sp"
+            android:padding="10dp"
+            android:layout_margin="3dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/finish"/>
+
+        <Button
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Answer"
+            android:textSize="28sp"
+            android:padding="10dp"
+            android:layout_margin="3dp"
+            android:id="@+id/nextQuestion"/>
+
+        <TextView
+            android:text=" SLIDE LEFT OR RIGHT "
+            android:textSize="28sp"
+            android:layout_margin="7dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.LinearLayoutCompat>

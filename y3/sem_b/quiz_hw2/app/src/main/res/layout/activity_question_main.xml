@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".QuestionMain"
     android:background="@drawable/riddler_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="ltr"
+    >
 
 
 

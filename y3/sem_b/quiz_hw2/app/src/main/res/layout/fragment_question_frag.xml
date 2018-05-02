@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".QuestionFrag"
     android:orientation="vertical"
+    android:layoutDirection="ltr"
     >
 
     <LinearLayout

@@ -8,7 +8,7 @@ NUMPEAKS=10 ;
 PEAKS = houghpeaks(acc,NUMPEAKS,'Threshold',40,'NHoodSize',[9 9]) ;
 [m,n]=size(PEAKS);
 for i=1:m    % marking peaks
-  PEAKS(i,3)=acc(PEAKS(i,1),PEAKS(i,2))
+  PEAKS(i,3) = acc(PEAKS(i,1),PEAKS(i,2));
   acc(PEAKS(i,1)-1:PEAKS(i,1)+1,PEAKS(i,2)-1:PEAKS(i,2)+1)=64 ;
 end
 figure, imshow(x)

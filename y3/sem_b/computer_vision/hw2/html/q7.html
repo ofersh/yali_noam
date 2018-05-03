@@ -1,0 +1,232 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>q7</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-05-03"><meta name="DC.source" content="q7.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clc,clear;
+
+fprintf(<span class="string">"Question 7:\n"</span>);
+<span class="comment">% create 3 shaped matrix.</span>
+three = zeros(7,5); three(1, 1:5) = 1; three(2, 4) = 1; three(3,3) = 1;
+three(4,4) = 1; three(5, 5) = 1; three(6, [1 5]) = 1; three(7,2:4) = 1;
+
+moments = [ 0,0; 0,1; 1,0; 1,1; 0,2; 2,0 ]';
+
+fprintf(<span class="string">"A)\n"</span>);
+<span class="comment">% calculate moments for 3</span>
+fprintf(<span class="string">"For 3 the moments are:\n"</span>);
+<span class="keyword">for</span> ij = moments
+        M = getMoment(three, ij(1), ij(2));
+        fprintf(<span class="string">"M(%g,%g) = %g\n"</span>, ij(1),ij(2),M);
+<span class="keyword">end</span>
+
+<span class="comment">% create 4 shape matrix</span>
+four = zeros(7,5); four(1,4) = 1; four(2,[3,4]) = 1; four(3,[2,4]) = 1;
+four(4,[1,4]) = 1; four(5,:) = 1; four([6,7],4) = 1;
+
+<span class="comment">% calculate moments for 4.</span>
+fprintf(<span class="string">"\nFor 4 the moments are:\n"</span>);
+<span class="keyword">for</span> ij = moments
+        M = getMoment(four, ij(1), ij(2));
+        fprintf(<span class="string">"M(%g,%g) = %g\n"</span>, ij(1),ij(2),M);
+<span class="keyword">end</span>
+
+
+<span class="comment">% B</span>
+fprintf(<span class="string">"\nB)\n"</span>);
+x3Center = getMoment(three, 1,0)/getMoment(three, 0,0);
+y3Center = getMoment(three, 0,1)/getMoment(three, 0,0);
+fprintf(<span class="string">"For 3 xCenter, yCenter are:\n"</span>)
+fprintf(<span class="string">"xCenter = %.3g, yCenter = %.3g\n"</span>, x3Center,y3Center);
+
+
+x4Center = getMoment(four, 1,0)/getMoment(four, 0,0);
+y4Center = getMoment(four, 0,1)/getMoment(four, 0,0);
+fprintf(<span class="string">"\nFor 4 xCenter, yCenter are:\n"</span>)
+fprintf(<span class="string">"xCenter = %.3g, yCenter = %.3g\n"</span>, x4Center,y4Center);
+
+<span class="comment">% C</span>
+fprintf(<span class="string">"\nC)\n"</span>);
+<span class="comment">% calculate moments for 3</span>
+fprintf(<span class="string">"For 3 the centralized moments are:\n"</span>);
+<span class="keyword">for</span> ij = moments
+        M = getMoment(three, ij(1), ij(2), <span class="string">'center'</span>);
+        fprintf(<span class="string">"M(%g,%g) = %.3g\n"</span>, ij(1),ij(2),M);
+<span class="keyword">end</span>
+
+
+<span class="comment">% calculate moments for 4.</span>
+fprintf(<span class="string">"\nFor 4 the centralized moments are:\n"</span>);
+<span class="keyword">for</span> ij = moments
+        M = getMoment(four, ij(1), ij(2), <span class="string">'center'</span>);
+        fprintf(<span class="string">"M(%g,%g) = %.3g\n"</span>, ij(1),ij(2),M);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Question 7:
+A)
+For 3 the moments are:
+M(0,0) = 14
+M(0,1) = -4
+M(1,0) = 4
+M(1,1) = 0
+M(0,2) = 86
+M(2,0) = 26
+
+For 4 the moments are:
+M(0,0) = 14
+M(0,1) = 1
+M(1,0) = 3
+M(1,1) = 0
+M(0,2) = 37
+M(2,0) = 21
+
+B)
+For 3 xCenter, yCenter are:
+xCenter = 0.286, yCenter = -0.286
+
+For 4 xCenter, yCenter are:
+xCenter = 0.214, yCenter = 0.0714
+
+C)
+For 3 the centralized moments are:
+M(0,0) = 14
+M(0,1) = -1.78e-15
+M(1,0) = 1.78e-15
+M(1,1) = 1.14
+M(0,2) = 84.9
+M(2,0) = 24.9
+
+For 4 the centralized moments are:
+M(0,0) = 14
+M(0,1) = 1.11e-15
+M(1,0) = -1.55e-15
+M(1,1) = -0.214
+M(0,2) = 36.9
+M(2,0) = 20.4
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc,clear;
+
+fprintf("Question 7:\n");
+% create 3 shaped matrix.
+three = zeros(7,5); three(1, 1:5) = 1; three(2, 4) = 1; three(3,3) = 1;
+three(4,4) = 1; three(5, 5) = 1; three(6, [1 5]) = 1; three(7,2:4) = 1;
+
+moments = [ 0,0; 0,1; 1,0; 1,1; 0,2; 2,0 ]';
+
+fprintf("A)\n");
+% calculate moments for 3
+fprintf("For 3 the moments are:\n");
+for ij = moments
+        M = getMoment(three, ij(1), ij(2));
+        fprintf("M(%g,%g) = %g\n", ij(1),ij(2),M);
+end
+
+% create 4 shape matrix
+four = zeros(7,5); four(1,4) = 1; four(2,[3,4]) = 1; four(3,[2,4]) = 1;
+four(4,[1,4]) = 1; four(5,:) = 1; four([6,7],4) = 1;
+
+% calculate moments for 4.
+fprintf("\nFor 4 the moments are:\n");
+for ij = moments
+        M = getMoment(four, ij(1), ij(2));
+        fprintf("M(%g,%g) = %g\n", ij(1),ij(2),M);
+end
+
+
+% B
+fprintf("\nB)\n");
+x3Center = getMoment(three, 1,0)/getMoment(three, 0,0);
+y3Center = getMoment(three, 0,1)/getMoment(three, 0,0);
+fprintf("For 3 xCenter, yCenter are:\n")
+fprintf("xCenter = %.3g, yCenter = %.3g\n", x3Center,y3Center);
+
+
+x4Center = getMoment(four, 1,0)/getMoment(four, 0,0);
+y4Center = getMoment(four, 0,1)/getMoment(four, 0,0);
+fprintf("\nFor 4 xCenter, yCenter are:\n")
+fprintf("xCenter = %.3g, yCenter = %.3g\n", x4Center,y4Center);
+
+% C
+fprintf("\nC)\n");
+% calculate moments for 3
+fprintf("For 3 the centralized moments are:\n");
+for ij = moments
+        M = getMoment(three, ij(1), ij(2), 'center');
+        fprintf("M(%g,%g) = %.3g\n", ij(1),ij(2),M);
+end
+
+
+% calculate moments for 4.
+fprintf("\nFor 4 the centralized moments are:\n");
+for ij = moments
+        M = getMoment(four, ij(1), ij(2), 'center');
+        fprintf("M(%g,%g) = %.3g\n", ij(1),ij(2),M);
+end
+
+
+
+##### SOURCE END #####
+--></body></html>

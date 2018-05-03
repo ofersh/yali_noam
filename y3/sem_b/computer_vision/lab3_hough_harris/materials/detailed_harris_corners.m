@@ -59,8 +59,8 @@ num_cols = size(img,2);
 H = zeros(num_rows, num_cols);
 
 % % get our matrix M for each pixel
-for y = 6:size(img,1)-6         % avoid edges
-    for x = 6:size(img,2)-6     % avoid edges  
+for y = 3:size(img,1)-2         % avoid edges
+    for x = 3:size(img,2)-2     % avoid edges  
         Ix2_matrix = Ix2(y-2:y+2,x-2:x+2);
         Ix2_mean = sum(Ix2_matrix(:));
         

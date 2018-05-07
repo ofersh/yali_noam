@@ -3,25 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".EditNote"
     android:layoutDirection="rtl"
-    android:padding="7dp">
+    android:padding="7dp"
+    android:fitsSystemWindows="true"
+    >
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textDirection="rtl">
-
-    </ListView>
+    <include layout="@layout/content_edit_note" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/newNote"
+        android:id="@+id/check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_white_24dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        />
+        android:src="@drawable/ic_check_white_32dp" />
 
 </android.support.design.widget.CoordinatorLayout>

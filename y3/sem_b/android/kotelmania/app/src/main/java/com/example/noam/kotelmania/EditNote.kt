@@ -8,16 +8,21 @@ import kotlinx.android.synthetic.main.content_edit_note.*
 
 class EditNote : AppCompatActivity() {
 
+    lateinit var oldTitle : String
+    lateinit var oldContent : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_note)
-        var bundle = intent.extras
+        val bundle = intent.extras
 
-        editTitle.setText(bundle.getString(TITLE))
-        editContent.setText(bundle.getString(CONTENT))
+        oldTitle = bundle.getString(TITLE)
+        oldContent = bundle.getString(CONTENT)
+        editTitle.setText(oldTitle)
+        editContent.setText(oldContent)
 
         check.setOnClickListener {
-            var result = Intent()
+            val result = Intent()
             result.putExtra(TITLE, editTitle.text.toString() )
             result.putExtra(CONTENT, editContent.text.toString())
             setResult(0, result)
@@ -25,4 +30,12 @@ class EditNote : AppCompatActivity() {
         }
     }
 
+    // No Change made.
+    override fun onBackPressed() {
+        val result = Intent()
+        result.putExtra(TITLE, oldTitle )
+        result.putExtra(CONTENT, oldContent)
+        setResult(0, result)
+        super.onBackPressed()
+    }
 }

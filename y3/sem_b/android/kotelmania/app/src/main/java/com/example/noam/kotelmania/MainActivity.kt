@@ -26,6 +26,7 @@ class MainActivity : Activity() {
     lateinit var listView: ListView
     private var notes: ArrayList<Note> = ArrayList()
     private var noteInProgress: Note? = null
+    private var noteInProgressInd = 0
     private var adapter: BaseAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +58,10 @@ class MainActivity : Activity() {
     private fun launchEditNote(index: Int) {
         val intent = Intent(this, EditNote::class.java)
         noteInProgress = if (index == NEW_NOTE) {
+            noteInProgressInd = NEW_NOTE
             Note("", "")
         } else {
+            noteInProgressInd = index
             notes.removeAt(index)
         }
 
@@ -74,8 +77,14 @@ class MainActivity : Activity() {
             if (title.isNotBlank() or content.isNotBlank()) {
                 noteInProgress!!.title = title
                 noteInProgress!!.content = content
-                notes.add(0, noteInProgress!!)
+                if (noteInProgressInd == NEW_NOTE){
+                    notes.add(0, noteInProgress!!)
+                }else{
+                    notes.add(noteInProgressInd, noteInProgress!!)
+                }
+
             }
+            adapter!!.notifyDataSetChanged()
         }
     }
 }

@@ -5,22 +5,23 @@
     android:layoutDirection="rtl"
     android:padding="10dp">
 
+
     <EditText
         android:id="@+id/editTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="כותרת"
+        android:textStyle="bold"
         android:textSize="26sp"
         android:layout_alignParentStart="true"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/editContent"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
-        android:hint="תוכן תוכן תוכן"
+        android:hint="ללא תוכן"
         android:layout_below="@+id/editTitle"
         android:textSize="26sp"
         android:inputType="textMultiLine"/>

@@ -3,23 +3,18 @@ package com.example.noam.kotelmania
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.support.annotation.IntegerRes
 import android.util.Log
-import junit.runner.Version
 
 const val NOTE_ID= "note_id"
-const val STATUS = "status"
 const val TITLE = "title"
 const val CONTENT = "content"
 const val DATE = "date"
 
 
-class NoteDBHelper(context: Context, name: String?,
-                   factory: SQLiteDatabase.CursorFactory?, version: Int):
+class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, version: Int):
                     SQLiteOpenHelper(context, DATABASE_NAME, factory, version){
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -35,9 +30,9 @@ class NoteDBHelper(context: Context, name: String?,
     fun addNote(note: Note){
         val values = ContentValues()
         values.put(COLUMN_CONTENT, note.content)
-        values.put(COLUMN_NOTE_ID, note.id.toString())
-        values.put(COLUMN_STATUS, note.status)
+        values.put(COLUMN_NOTE_ID, note.ID.toString())
         values.put(COLUMN_TITLE, note.title)
+        values.put(COLUMN_DATE, note.serializeCalendar())
 
         val db = this.writableDatabase
 
@@ -61,19 +56,18 @@ class NoteDBHelper(context: Context, name: String?,
         if(cursor.moveToFirst()){
             cursor.moveToFirst()
 
-            val id = Integer.parseInt(cursor.getString(0))
+            val id = cursor.getString(0).toInt()
             val title = cursor.getString(1)
             val content = cursor.getString(2)
-            val status = cursor.getString(3)
-
-            note = Note(title, content)
+            val dateInMillis = cursor.getString(3).toLong()
+            note = Note(title, content, id, dateInMillis)
             cursor.close()
         }
         db.close()
         return note
     }
 
-    fun deleteNote(note_id: String): Boolean{
+    fun  (note_id: String): Boolean{
         var result = false
         val query =
                 "SELECT * FROM $TABLE_NAME WHERE + $COLUMN_NOTE_ID +  = \"$note_id\""
@@ -107,7 +101,7 @@ class NoteDBHelper(context: Context, name: String?,
 
         val retVal = db.update(TABLE_NAME,
                 values,
-                "$COLUMN_NOTE_ID = ${note.id.toString()}",
+                "$COLUMN_NOTE_ID = ${note.ID.toString()}",
                 null)
 
         if (retVal >= 1) {
@@ -129,13 +123,17 @@ class NoteDBHelper(context: Context, name: String?,
             return ArrayList()
         }
 
+        var id: Int
         var title: String
         var content: String
+        var date: Long
         if(cursor!!.moveToFirst() ){
             while(!cursor.isAfterLast){
+                id = cursor.getString(cursor.getColumnIndex(COLUMN_NOTE_ID)).toInt()
                 title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))
                 content = cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT))
-                notes.add(Note(title, content))
+                date = cursor.getShort(cursor.getColumnIndex(COLUMN_DATE)).toLong()
+                notes.add(Note(title, content, id, date))
                 cursor.moveToNext()
             }
         }
@@ -150,17 +148,14 @@ class NoteDBHelper(context: Context, name: String?,
         const val COLUMN_NOTE_ID= "note_id"
         const val COLUMN_TITLE = "title"
         const val COLUMN_CONTENT = "content"
-        const val COLUMN_STATUS = "status"
         const val COLUMN_DATE = "date"
 
-        const val CREATE_NOTES_TABLE= ("CREATE TABLE " +
-                TABLE_NAME + "(" +
-                COLUMN_NOTE_ID + " INTEGER PRIMARY KEY, " +
-                COLUMN_TITLE + " TEXT," +
-                COLUMN_CONTENT + " TEXT," +
-                COLUMN_STATUS + " TEXT" +
-                ")")
-
+        const val CREATE_NOTES_TABLE=
+                "CREATE TABLE $TABLE_NAME (" +
+                "$COLUMN_NOTE_ID INTEGER PRIMARY KEY, " +
+                "$COLUMN_TITLE TEXT," +
+                "$COLUMN_CONTENT TEXT," +
+                "$COLUMN_DATE INTEGER)"
     }
 
 }

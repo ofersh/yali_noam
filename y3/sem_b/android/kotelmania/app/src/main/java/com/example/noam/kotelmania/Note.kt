@@ -2,17 +2,23 @@ package com.example.noam.kotelmania
 
 import java.util.*
 
-var ID : Int = 0
+var ID_COUNTER : Int = 0
 
-const val SENT = "נשלח"
-const val RECEIVED = "התקבל"
+const val SENT = " נשלח"
+const val RECEIVED = " התקבל"
 
 
-class Note (var title: String, var content: String)
+class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++, dateInMillis: Long? = null)
 {
     private val date: Calendar = Calendar.getInstance()
-    private val id: Int = ID++
     var status: String = SENT
+
+    init {
+        if (dateInMillis != null) {
+            date.timeInMillis = dateInMillis
+            updateStatus()
+        }
+    }
 
     fun updateStatus(){
         val dayBeforeYesterday = Calendar.getInstance()
@@ -29,9 +35,5 @@ class Note (var title: String, var content: String)
     fun serializeCalendar() : Long
     {
         return date.timeInMillis
-    }
-
-    fun setDate(timeInMillis: Long){
-        date.timeInMillis = timeInMillis
     }
 }

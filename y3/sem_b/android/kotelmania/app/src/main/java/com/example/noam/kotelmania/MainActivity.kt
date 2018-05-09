@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_item.*
 
 
 const val NEW_NOTE = -1
@@ -39,8 +38,6 @@ class MainActivity : Activity() {
         notes.map { note ->
             note.updateStatus()
         }
-
-
 
         listView = findViewById(R.id.listView)
         adapter = NotesAdapter(this, notes)

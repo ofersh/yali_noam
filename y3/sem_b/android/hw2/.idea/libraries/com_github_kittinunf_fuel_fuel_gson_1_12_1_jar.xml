@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="com.github.kittinunf.fuel:fuel-gson:1.12.1@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kittinunf.fuel/fuel-gson/1.12.1/1d84b163a8c87bc2f3e6d6ea660b613ea40ce1/fuel-gson-1.12.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kittinunf.fuel/fuel-gson/1.12.1/76724f3975abd10da19090e7e7bfde9b02684d47/fuel-gson-1.12.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

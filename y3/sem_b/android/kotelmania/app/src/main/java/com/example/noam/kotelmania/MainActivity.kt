@@ -16,14 +16,13 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-const val TITLE = "title"
-const val CONTENT = "content"
 const val NEW_NOTE = -1
 
 class MainActivity : Activity() {
 
 
-    lateinit var listView: ListView
+    lateinit private var listView: ListView
+    lateinit private var dbHandler: NoteDBHelper
     private var notes: ArrayList<Note> = ArrayList()
     private var noteInProgress: Note? = null
     private var noteInProgressInd = 0
@@ -33,15 +32,8 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        notes.add(Note("לעשות:", "1. לטפס על הקלימנג'רו\n2. להחזיר ליובל כסף."))
-        notes.add(Note("רשימת קניות", "1. בוטנים\n2. אפרסק"))
-        notes.add(Note("לעשות:", "1. לטפס על הקלימנג'רו\n2. להחזיר ליובל כסף."))
-        notes.add(Note("רשימת קניות", "1. בוטנים\n2. אפרסק"))
-        notes.add(Note("לעשות:", "1. לטפס על הקלימנג'רו\n2. להחזיר ליובל כסף."))
-        notes.add(Note("רשימת קניות", "1. בוטנים\n2. אפרסק"))
-        notes.add(Note("לעשות:", "1. לטפס על הקלימנג'רו\n2. להחזיר ליובל כסף."))
-        notes.add(Note("רשימת קניות", "1. בוטנים\n2. אפרסק"))
-
+        dbHandler = NoteDBHelper(this, null, null, 1)
+        notes = dbHandler.getAllNotes()
 
         listView = findViewById(R.id.listView)
         adapter = NotesAdapter(this, notes)
@@ -53,6 +45,11 @@ class MainActivity : Activity() {
         newNote.setOnClickListener {
             launchEditNote(NEW_NOTE)
         }
+    }
+
+    override fun onDestroy() {
+        dbHandler.close()
+        super.onDestroy()
     }
 
     private fun launchEditNote(index: Int) {
@@ -79,10 +76,11 @@ class MainActivity : Activity() {
                 noteInProgress!!.content = content
                 if (noteInProgressInd == NEW_NOTE){
                     notes.add(0, noteInProgress!!)
+                    dbHandler.addNote(noteInProgress!!)
                 }else{
                     notes.add(noteInProgressInd, noteInProgress!!)
+                    dbHandler.updateNote(noteInProgress!!)
                 }
-
             }
             adapter!!.notifyDataSetChanged()
         }

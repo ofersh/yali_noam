@@ -1,24 +1,24 @@
 package com.example.noam.kotelmania
 
-import android.app.ActionBar
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_item.*
 
 
 const val TITLE = "title"
 const val CONTENT = "content"
 const val NEW_NOTE = -1
+const val BLUEISH :String = "#03a9f4"
+const val GREENISH :String = "#8bc34a"
+
 
 class MainActivity : Activity() {
 
@@ -43,6 +43,13 @@ class MainActivity : Activity() {
         notes.add(Note("רשימת קניות", "1. בוטנים\n2. אפרסק"))
 
 
+        // Update status based on date.
+        notes.map { note ->
+            note.updateStatus()
+        }
+
+
+
         listView = findViewById(R.id.listView)
         adapter = NotesAdapter(this, notes)
         listView.adapter = adapter
@@ -60,7 +67,10 @@ class MainActivity : Activity() {
         noteInProgress = if (index == NEW_NOTE) {
             noteInProgressInd = NEW_NOTE
             Note("", "")
-        } else {
+        } else if (!notes[index].isEditable()){
+            Toast.makeText(this, "לא ניתן לערוך, הפתק התקבל.", Toast.LENGTH_SHORT).show()
+            return
+        }else{
             noteInProgressInd = index
             notes.removeAt(index)
         }
@@ -105,6 +115,14 @@ class NotesAdapter(private var activity: Activity, private var notes: ArrayList<
         title.text = note.title
         content.text = note.content
         status.text = note.status
+
+        // Update color base on status
+        if (note.isEditable()){
+            status.setBackgroundColor(Color.parseColor(BLUEISH))
+        }else{
+            status.setBackgroundColor(Color.parseColor(GREENISH))
+        }
+
         return listItem
     }
 

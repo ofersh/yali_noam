@@ -7,6 +7,7 @@
     android:layoutDirection="rtl"
     android:padding="7dp"
     android:fitsSystemWindows="true"
+    android:background="@drawable/note_bk"
     >
 
     <include layout="@layout/content_edit_note" />

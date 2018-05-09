@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:textSize="26sp"
         android:layout_alignParentStart="true"
-        android:inputType="text" />
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/editContent"

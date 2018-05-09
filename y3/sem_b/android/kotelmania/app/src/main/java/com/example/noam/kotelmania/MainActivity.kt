@@ -31,13 +31,14 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dbHandler = NoteDBHelper(this, null, null, 1)
+        dbHandler = NoteDBHelper(this, null, 1)
         notes = dbHandler.getAllNotes()
+        Note.ID_COUNTER = dbHandler.getNoteMaxID() + 1
 
-        // Update status based on date.
-        notes.map { note ->
-            note.updateStatus()
-        }
+//        // Update status based on date.
+//        notes.map { note ->
+//            note.updateStatus()
+//        }
 
         listView = findViewById(R.id.listView)
         adapter = NotesAdapter(this, notes)
@@ -45,7 +46,6 @@ class MainActivity : Activity() {
         listView.setOnItemClickListener { _, _, position, _ ->
             launchEditNote(position)
         }
-
         newNote.setOnClickListener {
             launchEditNote(NEW_NOTE)
         }
@@ -88,6 +88,9 @@ class MainActivity : Activity() {
                     notes.add(noteInProgressInd, noteInProgress!!)
                     dbHandler.updateNote(noteInProgress!!)
                 }
+            }else{
+                if (noteInProgressInd!=-1)
+                    dbHandler.delete(noteInProgress!!.ID.toString())
             }
             adapter!!.notifyDataSetChanged()
         }

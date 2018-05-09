@@ -2,7 +2,6 @@ package com.example.noam.kotelmania
 
 import java.util.*
 
-var ID_COUNTER : Int = 0
 
 const val SENT = " נשלח"
 const val RECEIVED = " התקבל"
@@ -20,7 +19,7 @@ class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++,
         }
     }
 
-    fun updateStatus(){
+    private fun updateStatus(){
         val dayBeforeYesterday = Calendar.getInstance()
         dayBeforeYesterday.add(Calendar.DAY_OF_MONTH, -2)
         if(date.before(dayBeforeYesterday)){
@@ -35,5 +34,9 @@ class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++,
     fun serializeCalendar() : Long
     {
         return date.timeInMillis
+    }
+
+    companion object {
+        @JvmStatic var ID_COUNTER : Int = 0
     }
 }

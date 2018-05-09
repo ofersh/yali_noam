@@ -8,10 +8,8 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
-const val NOTE_ID= "note_id"
 const val TITLE = "title"
 const val CONTENT = "content"
-const val DATE = "date"
 
 
 class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, version: Int):
@@ -25,7 +23,6 @@ class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, ver
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
-
 
     fun addNote(note: Note){
         val values = ContentValues()
@@ -67,10 +64,10 @@ class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, ver
         return note
     }
 
-    fun  (note_id: String): Boolean{
+    fun delete(note_id: String): Boolean{
         var result = false
         val query =
-                "SELECT * FROM $TABLE_NAME WHERE + $COLUMN_NOTE_ID +  = \"$note_id\""
+                "SELECT * FROM $TABLE_NAME WHERE $COLUMN_NOTE_ID = \"$note_id\""
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
 
@@ -132,12 +129,22 @@ class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, ver
                 id = cursor.getString(cursor.getColumnIndex(COLUMN_NOTE_ID)).toInt()
                 title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))
                 content = cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT))
-                date = cursor.getShort(cursor.getColumnIndex(COLUMN_DATE)).toLong()
+                date = cursor.getLong(cursor.getColumnIndex(COLUMN_DATE))
                 notes.add(Note(title, content, id, date))
                 cursor.moveToNext()
             }
         }
         return notes
+    }
+
+    fun getNoteMaxID() : Int{
+        val db = this.readableDatabase
+        val selectQuery = "SELECT  * FROM  $TABLE_NAME"
+        val cursor = db.rawQuery(selectQuery, null)
+        return if (cursor.moveToLast())
+            0
+        else
+            cursor.getInt(cursor.getColumnIndex(COLUMN_NOTE_ID))
     }
 
     companion object {

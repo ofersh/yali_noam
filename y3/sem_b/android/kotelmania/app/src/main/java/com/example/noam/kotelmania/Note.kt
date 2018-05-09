@@ -10,7 +10,6 @@ const val RECEIVED = "התקבל"
 
 class Note (var title: String, var content: String)
 {
-
     private val date: Calendar = Calendar.getInstance()
     private val id: Int = ID++
     var status: String = SENT

@@ -27,7 +27,7 @@ class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, ver
     fun addNote(note: Note){
         val values = ContentValues()
         values.put(COLUMN_CONTENT, note.content)
-        values.put(COLUMN_NOTE_ID, note.ID.toString())
+        values.put(COLUMN_NOTE_ID, note.ID)
         values.put(COLUMN_TITLE, note.title)
         values.put(COLUMN_DATE, note.serializeCalendar())
 
@@ -112,9 +112,9 @@ class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, ver
     fun getAllNotes(): ArrayList<Note>{
         val notes = ArrayList<Note>()
         val db = this.writableDatabase
-        var cursor: Cursor? = null
-        try {
-            cursor = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+        val cursor: Cursor?
+        cursor = try {
+            db.rawQuery("SELECT * FROM $TABLE_NAME", null)
         } catch (e: SQLiteException) {
             db.execSQL(CREATE_NOTES_TABLE)
             return ArrayList()
@@ -139,9 +139,10 @@ class NoteDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?, ver
 
     fun getNoteMaxID() : Int{
         val db = this.readableDatabase
-        val selectQuery = "SELECT  * FROM  $TABLE_NAME"
+        val selectQuery = "SELECT * FROM  $TABLE_NAME"
         val cursor = db.rawQuery(selectQuery, null)
-        return if (cursor.moveToLast())
+        cursor.moveToLast()
+        return if (cursor.position == -1)
             0
         else
             cursor.getInt(cursor.getColumnIndex(COLUMN_NOTE_ID))

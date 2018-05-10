@@ -3,10 +3,9 @@ function  houghTrans(x, y )
 %   Detailed explanation goes here
 
     theta = 0:180;
+    theta = deg2rad(theta);
     r =  x * cos(theta) + y * sin(theta);
-    
-    plot(theta, r);
-    
+    scatter(theta, r);
 
 end
 

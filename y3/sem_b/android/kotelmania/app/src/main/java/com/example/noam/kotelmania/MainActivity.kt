@@ -20,8 +20,8 @@ const val GREENISH :String = "#8bc34a"
 class MainActivity : Activity() {
 
 
-    lateinit private var listView: ListView
-    lateinit private var dbHandler: NoteDBHelper
+    private lateinit var listView: ListView
+    private lateinit var dbHandler: NoteDBHelper
     private var notes: ArrayList<Note> = ArrayList()
     private var noteInProgress: Note? = null
     private var noteInProgressInd = 0
@@ -34,11 +34,6 @@ class MainActivity : Activity() {
         dbHandler = NoteDBHelper(this, null, 1)
         notes = dbHandler.getAllNotes()
         Note.ID_COUNTER = dbHandler.getNoteMaxID() + 1
-
-//        // Update status based on date.
-//        notes.map { note ->
-//            note.updateStatus()
-//        }
 
         listView = findViewById(R.id.listView)
         adapter = NotesAdapter(this, notes)

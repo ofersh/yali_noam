@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:textDirection="firstStrongRtl">
 
 
     <EditText
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="כותרת"
         android:textStyle="bold"
+        android:textDirection="firstStrongRtl"
         android:textSize="26sp"
         android:layout_alignParentStart="true"
         android:inputType="text"/>
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
+        android:textDirection="firstStrongRtl"
         android:hint="ללא תוכן"
         android:layout_below="@+id/editTitle"
         android:textSize="26sp"

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:textDirection="firstStrongRtl"
     android:padding="7dp">
 
 <TextView
@@ -31,6 +32,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:hint="נשלח"
+    android:textDirection="firstStrongRtl"
     android:paddingStart="5dp"
     android:paddingEnd="5dp"
     android:background="@android:color/darker_gray"

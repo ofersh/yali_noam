@@ -1,4 +1,4 @@
-% A
+%% A: Covariance Matrix
 X = [2.5 2.4
      0.5 0.7
      2.2 2.9
@@ -10,28 +10,32 @@ X = [2.5 2.4
      1.5 1.6 
      1.1 0.9];
  
- S = covarianceMat(X);
+ S = covarianceMat(X)
  
- % B
- [eigVect, eigVals] = eig(S);
+ %% B: Covariance matrix Eigen values and vectors
+ [eigVect, eigVals] = eig(S)
  
  
- % C
+ %% C: Sorting Eigen Vectors by Eigen Values descending
  eigVectOrg = eigVect;
- d = diag(eigVals);diag(eigVals);
- [out, ind] = sort(d, 'descend');
- eigVect = eigVect(:,ind);
- [out, ind] = sort(d, 'descend');
- eigVect = eigVect(:,ind);
+ d = diag(eigVals);
+ [~, ind] = sort(d, 'descend');
+ eigVect = eigVect(:,ind)
  
+ %% D: Mapped Data using Covariance Eigen vectors
+ mappedX = (X * eigVectOrg)
  
- % D 
- mappedX = (eigVectOrg' * X')';
- mappedS = covarianceMat(mappedX);
+ %% E: Show the new Data is linear independent
+ % The covariance matrix is diagonal
  
- % E
- disp(mappedS)
+ mappedS = covarianceMat(mappedX)
  
+ %% F: Show original Data as linear combination of new Data and Eigen Vectors
  
- 
+ fprintf("\t\ta * eig1 + b * eig2 = (X1 X2)\n")
+ n = size(X,1);
+ for i=1:n
+ fprintf("%6.3f * (%5.3f %5.3f) + %5.3f * (%5.3f %5.3f) = (%.1f %.1f)\n", ...
+     mappedX(i,1), eigVectOrg(:,1),mappedX(i,2), eigVectOrg(:,2), X(i,:));
+ end
  

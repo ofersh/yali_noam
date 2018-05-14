@@ -1,0 +1,251 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>q2</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-05-14"><meta name="DC.source" content="q2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">A: Covariance Matrix</a></li><li><a href="#2">B: Covariance matrix Eigen values and vectors</a></li><li><a href="#3">C: Sorting Eigen Vectors by Eigen Values descending</a></li><li><a href="#4">D: Mapped Data using Covariance Eigen vectors</a></li><li><a href="#5">E: Show the new Data is linear independent</a></li><li><a href="#6">F: Show original Data as linear combination of new Data and Eigen Vectors</a></li><li><a href="#7">G: Map data to one feature data.</a></li></ul></div><h2 id="1">A: Covariance Matrix</h2><pre class="codeinput">X = [7 4 3
+    4 1 8
+    6 3 5
+    8 6 1
+    8 5 7
+    7 2 9
+    5 3 3
+    9 5 8
+    7 4 5
+    8 2 2];
+
+S = covarianceMat(X)
+</pre><pre class="codeoutput">
+S =
+
+    2.3222    1.6111   -0.4333
+    1.6111    2.5000   -1.2778
+   -0.4333   -1.2778    7.8778
+
+</pre><h2 id="2">B: Covariance matrix Eigen values and vectors</h2><pre class="codeinput">[eigVect, eigVals] = eig(S)
+</pre><pre class="codeoutput">
+eigVect =
+
+    0.7017    0.6990   -0.1376
+   -0.7075    0.6609   -0.2505
+   -0.0842    0.2731    0.9583
+
+
+eigVals =
+
+    0.7499         0         0
+         0    3.6761         0
+         0         0    8.2739
+
+</pre><h2 id="3">C: Sorting Eigen Vectors by Eigen Values descending</h2><pre class="codeinput">eigVectOrg = eigVect;
+d = diag(eigVals);
+[~, ind] = sort(d, <span class="string">'descend'</span>);
+eigVect = eigVect(:,ind)
+</pre><pre class="codeoutput">
+eigVect =
+
+   -0.1376    0.6990    0.7017
+   -0.2505    0.6609   -0.7075
+    0.9583    0.2731   -0.0842
+
+</pre><h2 id="4">D: Mapped Data using Covariance Eigen vectors</h2><pre class="codeinput">mappedX = (X * eigVectOrg)
+
+fprintf(<span class="string">"\t\ta * eig1 + b * eig2 + c * eig3 = (mappedX1 mappedX2 mappedX3)\n"</span>)
+n = size(X,1);
+<span class="keyword">for</span> i=1:n
+    fprintf(<span class="string">"%g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) = (%4.1f %4.1f %4.1f)\n"</span>, <span class="keyword">...</span>
+        X(i,1), eigVectOrg(:,1),X(i,2), eigVectOrg(:,2), X(i,3), eigVectOrg(:,3), mappedX(i,:));
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+mappedX =
+
+    1.8298    8.3561    0.9101
+    1.4262    5.6417    6.8657
+    1.6672    7.5423    3.2147
+    1.2849    9.8307   -1.6450
+    1.4874   10.8083    4.3553
+    2.7397    8.6728    7.1608
+    1.1338    6.2971    1.4357
+    2.1050   11.7804    5.1760
+    1.6615    8.9022    2.8267
+    4.0306    7.4602    0.3151
+
+		a * eig1 + b * eig2 + c * eig3 = (mappedX1 mappedX2 mappedX3)
+7 * (0.70 -0.71 -0.08) + 4 * (0.70 0.66 0.27) + 3 * (-0.14 -0.25 0.96) = ( 1.8  8.4  0.9)
+4 * (0.70 -0.71 -0.08) + 1 * (0.70 0.66 0.27) + 8 * (-0.14 -0.25 0.96) = ( 1.4  5.6  6.9)
+6 * (0.70 -0.71 -0.08) + 3 * (0.70 0.66 0.27) + 5 * (-0.14 -0.25 0.96) = ( 1.7  7.5  3.2)
+8 * (0.70 -0.71 -0.08) + 6 * (0.70 0.66 0.27) + 1 * (-0.14 -0.25 0.96) = ( 1.3  9.8 -1.6)
+8 * (0.70 -0.71 -0.08) + 5 * (0.70 0.66 0.27) + 7 * (-0.14 -0.25 0.96) = ( 1.5 10.8  4.4)
+7 * (0.70 -0.71 -0.08) + 2 * (0.70 0.66 0.27) + 9 * (-0.14 -0.25 0.96) = ( 2.7  8.7  7.2)
+5 * (0.70 -0.71 -0.08) + 3 * (0.70 0.66 0.27) + 3 * (-0.14 -0.25 0.96) = ( 1.1  6.3  1.4)
+9 * (0.70 -0.71 -0.08) + 5 * (0.70 0.66 0.27) + 8 * (-0.14 -0.25 0.96) = ( 2.1 11.8  5.2)
+7 * (0.70 -0.71 -0.08) + 4 * (0.70 0.66 0.27) + 5 * (-0.14 -0.25 0.96) = ( 1.7  8.9  2.8)
+8 * (0.70 -0.71 -0.08) + 2 * (0.70 0.66 0.27) + 2 * (-0.14 -0.25 0.96) = ( 4.0  7.5  0.3)
+</pre><h2 id="5">E: Show the new Data is linear independent</h2><p>The covariance matrix is diagonal</p><pre class="codeinput">mappedS = covarianceMat(mappedX)
+</pre><pre class="codeoutput">
+mappedS =
+
+    0.7499   -0.0000    0.0000
+   -0.0000    3.6761   -0.0000
+    0.0000   -0.0000    8.2739
+
+</pre><h2 id="6">F: Show original Data as linear combination of new Data and Eigen Vectors</h2><pre class="codeinput">fprintf(<span class="string">"\t\ta * eig1 + b * eig2 + c * eig3 = (X1 X2 X3)\n"</span>)
+n = size(X,1);
+<span class="keyword">for</span> i=1:n
+    fprintf(<span class="string">"%g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) = (%4.1f %4.1f %4.1f)\n"</span>, <span class="keyword">...</span>
+        X(i,1), eigVectOrg(:,1),X(i,2), eigVectOrg(:,2), X(i,3), eigVectOrg(:,3), mappedX(i,:));
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">		a * eig1 + b * eig2 + c * eig3 = (X1 X2 X3)
+7 * (0.70 -0.71 -0.08) + 4 * (0.70 0.66 0.27) + 3 * (-0.14 -0.25 0.96) = ( 1.8  8.4  0.9)
+4 * (0.70 -0.71 -0.08) + 1 * (0.70 0.66 0.27) + 8 * (-0.14 -0.25 0.96) = ( 1.4  5.6  6.9)
+6 * (0.70 -0.71 -0.08) + 3 * (0.70 0.66 0.27) + 5 * (-0.14 -0.25 0.96) = ( 1.7  7.5  3.2)
+8 * (0.70 -0.71 -0.08) + 6 * (0.70 0.66 0.27) + 1 * (-0.14 -0.25 0.96) = ( 1.3  9.8 -1.6)
+8 * (0.70 -0.71 -0.08) + 5 * (0.70 0.66 0.27) + 7 * (-0.14 -0.25 0.96) = ( 1.5 10.8  4.4)
+7 * (0.70 -0.71 -0.08) + 2 * (0.70 0.66 0.27) + 9 * (-0.14 -0.25 0.96) = ( 2.7  8.7  7.2)
+5 * (0.70 -0.71 -0.08) + 3 * (0.70 0.66 0.27) + 3 * (-0.14 -0.25 0.96) = ( 1.1  6.3  1.4)
+9 * (0.70 -0.71 -0.08) + 5 * (0.70 0.66 0.27) + 8 * (-0.14 -0.25 0.96) = ( 2.1 11.8  5.2)
+7 * (0.70 -0.71 -0.08) + 4 * (0.70 0.66 0.27) + 5 * (-0.14 -0.25 0.96) = ( 1.7  8.9  2.8)
+8 * (0.70 -0.71 -0.08) + 2 * (0.70 0.66 0.27) + 2 * (-0.14 -0.25 0.96) = ( 4.0  7.5  0.3)
+</pre><h2 id="7">G: Map data to one feature data.</h2><pre class="codeinput">singleMappedX = X * eigVect(:,1)
+</pre><pre class="codeoutput">
+singleMappedX =
+
+    0.9101
+    6.8657
+    3.2147
+   -1.6450
+    4.3553
+    7.1608
+    1.4357
+    5.1760
+    2.8267
+    0.3151
+
+</pre><p><b>The Feature Reduction Error is:</b></p><pre class="codeinput">err = min(diag(eigVals))
+</pre><pre class="codeoutput">
+err =
+
+    0.7499
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% A: Covariance Matrix
+X = [7 4 3
+    4 1 8
+    6 3 5
+    8 6 1
+    8 5 7
+    7 2 9
+    5 3 3
+    9 5 8
+    7 4 5
+    8 2 2];
+
+S = covarianceMat(X)
+
+%% B: Covariance matrix Eigen values and vectors
+[eigVect, eigVals] = eig(S)
+
+
+%% C: Sorting Eigen Vectors by Eigen Values descending
+eigVectOrg = eigVect;
+d = diag(eigVals);
+[~, ind] = sort(d, 'descend');
+eigVect = eigVect(:,ind)
+
+%% D: Mapped Data using Covariance Eigen vectors
+mappedX = (X * eigVectOrg)
+
+fprintf("\t\ta * eig1 + b * eig2 + c * eig3 = (mappedX1 mappedX2 mappedX3)\n")
+n = size(X,1);
+for i=1:n
+    fprintf("%g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) = (%4.1f %4.1f %4.1f)\n", ...
+        X(i,1), eigVectOrg(:,1),X(i,2), eigVectOrg(:,2), X(i,3), eigVectOrg(:,3), mappedX(i,:));
+end
+
+%% E: Show the new Data is linear independent
+% The covariance matrix is diagonal
+
+mappedS = covarianceMat(mappedX)
+
+%% F: Show original Data as linear combination of new Data and Eigen Vectors
+
+fprintf("\t\ta * eig1 + b * eig2 + c * eig3 = (X1 X2 X3)\n")
+n = size(X,1);
+for i=1:n
+    fprintf("%g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) + %g * (%4.2f %4.2f %4.2f) = (%4.1f %4.1f %4.1f)\n", ...
+        X(i,1), eigVectOrg(:,1),X(i,2), eigVectOrg(:,2), X(i,3), eigVectOrg(:,3), mappedX(i,:));
+end
+%% G: Map data to one feature data.
+
+singleMappedX = X * eigVect(:,1)
+
+%%
+% *The Feature Reduction Error is:*
+err = min(diag(eigVals))
+
+##### SOURCE END #####
+--></body></html>

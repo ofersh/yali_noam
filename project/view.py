@@ -99,12 +99,12 @@ def calc_color(coef, colors):
 def draw_fuzzy(data, matrix, k=3):
     ls = np.random.RandomState(None)
     color_list = ls.rand(k, 3)
-    #color_mat = np.matmul(matrix, color_list)
-    nlist = []
-    for i in range(np.size(matrix, 1)):
-        nlist.append(calc_color(np.array(matrix[i][:]), color_list))
-    color_mat = np.matmul(matrix, nlist)
-    print(color_mat)
+    color_mat = np.matmul(matrix, color_list)
+    # nlist = []
+    # for i in range(np.size(matrix, 1)):
+    #     nlist.append(calc_color(np.array(matrix[i][:]), color_list))
+    # color_mat = np.matmul(matrix, nlist)
+    # print(color_mat)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 

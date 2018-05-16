@@ -1,3 +1,4 @@
+import view
 from Observation import Observation
 import numpy as np
 
@@ -8,6 +9,7 @@ class FuzzyCMeans(object):
         self._data = None
         self.n = len(data)
         self.data = data
+        self.org_data = data
 
     @property
     def data(self):
@@ -19,13 +21,14 @@ class FuzzyCMeans(object):
                       for features in data]
 
     def find_c_means(self, num_centers, beta=1, epsilon=1e-6):
-        centers = self.choose_random_centers(num_centers) # Need to choose the centers randomly, like we did in k_means
+        centers = self.choose_random_centers(num_centers)  # Need to choose the centers randomly, like we did in k_means
 
         membership_matrix = self.update_matrix(centers, beta)  # Need to update the matrix according to centers
         i = 0
         while True:
             if not i % 10:
                 print("Iteration number: ", i)
+                view.draw_fuzzy(self.org_data, membership_matrix, num_centers)
             old_centers = np.copy(centers)
             centers = self.find_new_centers(membership_matrix)
 
@@ -99,7 +102,7 @@ class FuzzyCMeans(object):
         Returns: np.array
             List of coefficients for an observation
         '''
-        coefficients = np.array([np.exp(-beta * obs.distance_from(c)) for c in centers])
+        coefficients = np.array([np.exp(-beta * obs.distance_from(c) ** 2) for c in centers])
         return coefficients/sum(coefficients)
 
     def calc_center(self, coefficients):

@@ -6,7 +6,7 @@ X = [2.5 2.4
      3.1 3
      2.3 2.7
      2 1.6
-     1 1.6 
+     1 1.1 
      1.5 1.6 
      1.1 0.9];
  
@@ -23,7 +23,7 @@ X = [2.5 2.4
  eigVect = eigVect(:,ind)
  
  %% D: Mapped Data using Covariance Eigen vectors
- mappedX = (X * eigVectOrg)
+ mappedX = (X- mean(X)) * eigVectOrg
  
  %% E: Show the new Data is linear independent
  % The covariance matrix is diagonal

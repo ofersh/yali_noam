@@ -28,7 +28,7 @@ class FuzzyCMeans(object):
         while True:
             if not i % 10:
                 print("Iteration number: ", i)
-                view.draw_fuzzy(self.org_data, membership_matrix, num_centers)
+                ## view.draw_fuzzy(self.org_data, membership_matrix, num_centers)
             old_centers = np.copy(centers)
             centers = self.find_new_centers(membership_matrix)
 

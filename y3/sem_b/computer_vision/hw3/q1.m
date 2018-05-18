@@ -36,7 +36,7 @@ fprintf("\t\ta * eig1 + b * eig2 = (X1 X2)\n")
 n = size(X,1);
 for i=1:n
     fprintf("%6.3f * (%5.3f %5.3f) + %5.3f * (%5.3f %5.3f) = (%.1f %.1f)\n", ...
-        mappedX(i,1), eigVectOrg(:,1),mappedX(i,2), eigVectOrg(:,2), X(i,:));
+        mappedX(i,1), eigVectOrg(1,:),mappedX(i,2), eigVectOrg(2,:), X(i,:));
 end
 
 %% G: Map data to one feature data.

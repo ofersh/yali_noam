@@ -1,3 +1,4 @@
+%% q3
 clc; clear; close all;
 
 addpath(genpath('./materials'))
@@ -16,7 +17,7 @@ OB1Edges = findEdgePoints(OB1Canoby);
 R2Edges = findEdgePoints(R2D2);
 C3Edges = findEdgePoints(C3PO);
 
-radius = @(im) norm(size(im));
+radius = @(im) round(norm(size(im)));
 
 X = OB1;
 XEdges = OB1Edges;

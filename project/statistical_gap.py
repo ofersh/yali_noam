@@ -105,7 +105,7 @@ def gap_statistic(data):
     rng = range(1, k_max)
     frame = utils.find_data_frame(data)
     
-    expected = calc_expected(n, frame, k_max, 25)
+    expected = calc_expected(n, frame, k_max, 15)
 
     num_of_workers = mp.cpu_count()
     sg_logger.debug("using {} cores".format(num_of_workers))

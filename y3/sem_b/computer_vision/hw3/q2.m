@@ -9,7 +9,6 @@ X = [7 4 3
     9 5 8
     7 4 5
     8 2 2];
-
 S = covarianceMat(X)
 
 %% B: Covariance matrix Eigen values and vectors

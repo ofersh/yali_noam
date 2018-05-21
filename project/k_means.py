@@ -1,6 +1,7 @@
-from __future__ import division,print_function
+from __future__ import division, print_function
 import numpy as np
 
+import view
 import utils
 from Observation import Observation
 
@@ -11,7 +12,7 @@ class Kmeans(object):
 
 
     """
-    def __init__(self, k, data, dist_func=utils.euclidean_dist):
+    def __init__(self, k, data, dist_func=utils.euclidean_dist, plot=False):
         """
         Init kmean object
         :param k:
@@ -21,13 +22,23 @@ class Kmeans(object):
         :param dist_func: function
         """
         self._distance = dist_func
+        self._plot = plot
         self._k = None
         self._centers = []
         self._observations = []
         self._finished = False
+        self._org_data = data
         self.k = k
         self.observations = data
         self.n = len(data)
+
+        # For Plotting
+        self._membership_mat = np.matrix([[0]*self.k]*self.n)
+        self._file_name = './plots/kmeans/k_means{iteration}.png'
+        if k < 11:
+            self._colors_indices = np.random.choice(range(10), size=k, replace=False)
+        else:
+            self._colors_indices = np.random.choice(range(10), size=k)
 
     def set_k(self, k):
         if k < 0:
@@ -108,12 +119,29 @@ class Kmeans(object):
         self._centers = new_centers
 
     def scatter(self):
-        for obs in self.observations:
-            obs.find_center(self._centers)
+        for i in range(self.n):
+            self._membership_mat[i] = 0
+            obs = self.observations[i]
+            ind = obs.find_center(self._centers)
+            if ind is None:
+                ind = self._centers.index(obs)
+            self._membership_mat[i, ind] = 1
 
     def clusterize(self):
+        iteration = 0
         while not self._finished:
+            iteration += 1
             self.find_centers()
+            if self._plot:
+                centers = [c.features for c in self._centers]
+
+                tmp = self._membership_mat.sum(axis=1)
+                if tmp.max() > 1:
+                    print('Max tmp = %s' % tmp.max())
+                # Preparing the plots
+                file_name = self._file_name.format(iteration=iteration)
+
+                view.draw_fuzzy_with_centers(self._org_data, self._membership_mat, self.k,
+                                             centers=centers, file_name=file_name,
+                                             color_indices=self._colors_indices)
         return self._centers
-
-

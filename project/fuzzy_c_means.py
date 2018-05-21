@@ -10,6 +10,14 @@ class FuzzyCMeans(object):
         self.n = len(data)
         self.data = data
         self.org_data = data
+        self._file_name = './plots/cmeans/c_means{iteration}.png'
+        self._colors_indices = None
+
+    def set_colors_indices(self, k):
+        if k < 11:
+            self._colors_indices = np.random.choice(range(10), size=k, replace=False)
+        else:
+            self._colors_indices = np.random.choice(range(10), size=k)
 
     @property
     def data(self):
@@ -20,21 +28,21 @@ class FuzzyCMeans(object):
         self._data = [Observation(features)
                       for features in data]
 
-    def find_c_means(self, num_centers, beta=0.7, epsilon=1e-6):
+    def find_c_means(self, num_centers, beta=0.7, epsilon=1e-5):
+        self.set_colors_indices(num_centers)
         centers = self.choose_random_centers(num_centers)  # Need to choose the centers randomly, like we did in k_means
 
         membership_matrix = self.update_matrix(centers, beta)  # Need to update the matrix according to centers
         i = 0
         while True:
-            if not i % 10:
-                print("Iteration number: ", i)
-                for c in centers:
-                    print(c)
-                view.draw_fuzzy_with_centers(self.org_data, membership_matrix, num_centers, centers)
+            # if not i % 5:
+            print("Iteration number: ", i)
+            file_name = self._file_name.format(iteration=i)
+            view.draw_fuzzy_with_centers(self.org_data, membership_matrix, num_centers, centers,
+                                         file_name=file_name, color_indices=self._colors_indices)
 
             old_centers = np.copy(centers)
             centers = self.find_new_centers(membership_matrix)
-
 
             membership_matrix = self.update_matrix(centers, beta)
 
@@ -91,7 +99,8 @@ class FuzzyCMeans(object):
 
     def improved(self, old_centers, centers, epsilon):
         diffs = old_centers - centers
-        if all([np.linalg.norm(d, 2) for d in diffs]) < epsilon:
+        diffs = [np.linalg.norm(d, 2) for d in diffs]
+        if max(diffs) < epsilon:
             return False
         return True
 

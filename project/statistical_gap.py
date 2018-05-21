@@ -77,6 +77,7 @@ def calc_expected(n, frame, k_max, iterations=40):
 
     for i in range(iterations):
         pool.apply_async(monte_carlo_iteration, args=(n, frame, k_max, expected, i))
+        #monte_carlo_iteration(n, frame, k_max, expected, i)
         
     pool.close()
     pool.join()
@@ -102,7 +103,7 @@ def gap_statistic(data):
     k_max = min([12, n])
     weights = mg.list([0.0] * k_max)
     gaps = mg.list([0.0] * k_max)
-    rng = range(1 , k_max)
+    rng = range(1, k_max)
     frame = utils.find_data_frame(data)
     
     expected = calc_expected(n, frame, k_max, 15)
@@ -113,7 +114,7 @@ def gap_statistic(data):
     
     for k in rng:
         pool.apply_async(inner_weights, args=(k, data, weights))
-
+        #inner_weights(k, data, weights)
     pool.close()
     pool.join()
 
@@ -125,7 +126,7 @@ def gap_statistic(data):
         gaps[i] = expected[i] - weights[i]
 
     k = gaps.index(max(gaps))
-    km = k_means.Kmeans(k, data)
+    km = k_means.Kmeans(k, data, plot=True)
     centers = km.clusterize()
     plot_info = (weights, expected, gaps)
     return k, plot_info, centers

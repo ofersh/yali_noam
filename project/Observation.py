@@ -46,6 +46,7 @@ class Observation(object):
                              for cn in centers]
         center_index = dist_from_centers.index(min(dist_from_centers))
         centers[center_index].add_to_cluster(self)
+        return center_index
 
     def nominate_center(self):
         if not self._cluster:

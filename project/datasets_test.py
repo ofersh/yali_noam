@@ -56,7 +56,9 @@ def test_data(data, target=None):
     view.view_result(data, centers, plot_info)
     if target is not None:
         dataset_accuracy(data, target, centers)
-
+    fuzzy_cmeans = FuzzyCMeans(data)
+    centers, matrix = fuzzy_cmeans.find_c_means(k, epsilon=1e-4)
+    view.draw_fuzzy_with_centers(data, matrix, k, centers, file_name='./plots/cmeans/final.png')
 
 
 def five_clusters():

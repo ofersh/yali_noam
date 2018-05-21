@@ -94,7 +94,6 @@ def draw_2d_line(data, title):
     plt.show()
 
 
-
 def draw_fuzzy(data, matrix, k=3):
     color_list = COLOR_PALLET[0:k]
     color_mat = np.matmul(matrix, color_list)
@@ -106,24 +105,26 @@ def draw_fuzzy(data, matrix, k=3):
     plt.show()
 
 
-def draw_fuzzy_with_centers(data, matrix, k, centers):
+def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indices=None):
     centers = np.squeeze(np.asarray(centers))
 
-    color_list = COLOR_PALLET[0:k]
+    if color_indices is None:
+        color_indices = np.random.choice(range(len(COLOR_PALLET)), size=k, replace=False)
+    color_list = COLOR_PALLET[color_indices]
     color_mat = np.matmul(matrix, color_list)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
     x, y, z = zip(*data)
 
-    ax.scatter(x, y, z, c=color_mat, zorder=1, alpha=0.1)
+    ax.scatter(x, y, z, c=color_mat, zorder=1, alpha=0.5)
 
     # x, y, z = zip(*centers)
     # ax.scatter(x, y, z, marker='s', c='k', s=100, zorder=2)
 
     for i in range(len(centers)):
         x, y, z = centers[i]
-        ax.scatter(x, y, z, label=i, c=COLOR_PALLET[i], s=100)
+        ax.scatter(x, y, z, label=i, c=COLOR_PALLET[color_indices[i]], s=100)
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
@@ -131,8 +132,15 @@ def draw_fuzzy_with_centers(data, matrix, k, centers):
 
     ax.legend(loc='upper right', prop={'size': 12})
 
-    plt.show()
+    if file_name:
+        plt.savefig(file_name)
+        close_figures()
+    else:
+        plt.show()
 
+
+def close_figures():
+    plt.close('all')
 
 
 

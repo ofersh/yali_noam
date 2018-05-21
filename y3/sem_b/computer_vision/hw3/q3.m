@@ -1,5 +1,8 @@
-%% q3
-clc; clear; close all;
+%% Q1
+clear
+close all
+clc
+
 addpath(genpath('./materials'))
 
 %% A

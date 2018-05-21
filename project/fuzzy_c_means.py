@@ -20,7 +20,7 @@ class FuzzyCMeans(object):
         self._data = [Observation(features)
                       for features in data]
 
-    def find_c_means(self, num_centers, beta=1, epsilon=1e-6):
+    def find_c_means(self, num_centers, beta=0.7, epsilon=1e-6):
         centers = self.choose_random_centers(num_centers)  # Need to choose the centers randomly, like we did in k_means
 
         membership_matrix = self.update_matrix(centers, beta)  # Need to update the matrix according to centers
@@ -28,9 +28,13 @@ class FuzzyCMeans(object):
         while True:
             if not i % 10:
                 print("Iteration number: ", i)
-                ## view.draw_fuzzy(self.org_data, membership_matrix, num_centers)
+                for c in centers:
+                    print(c)
+                view.draw_fuzzy_with_centers(self.org_data, membership_matrix, num_centers, centers)
+
             old_centers = np.copy(centers)
             centers = self.find_new_centers(membership_matrix)
+
 
             membership_matrix = self.update_matrix(centers, beta)
 

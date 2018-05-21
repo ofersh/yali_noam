@@ -11,8 +11,9 @@ logging.basicConfig(level=logging.INFO)
 
 def main():
     # dst.verified_data_set()
-    #dst.c_clusters(k=3, expected_clusters=3)
-    dst.k_clusters(4)
+    dst.test_wine()
+    #dst.c_clusters(k=10, expected_clusters=3)
+    #dst.k_clusters(4)
 
 if __name__ == '__main__':
     main()

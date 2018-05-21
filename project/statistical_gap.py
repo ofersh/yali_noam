@@ -99,10 +99,10 @@ def gap_statistic(data):
     sg_logger.info("finding the best k")
     mg = mp.Manager()
     n = len(data)
-    k_max = min([17, n])
+    k_max = min([12, n])
     weights = mg.list([0.0] * k_max)
     gaps = mg.list([0.0] * k_max)
-    rng = range(1, k_max)
+    rng = range(1 , k_max)
     frame = utils.find_data_frame(data)
     
     expected = calc_expected(n, frame, k_max, 15)

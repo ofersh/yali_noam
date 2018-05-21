@@ -1,3 +1,8 @@
+%% Q2
+clear
+close all
+clc
+
 %% A: Covariance Matrix
 X = [7 4 3
     4 1 8

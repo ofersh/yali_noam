@@ -1,3 +1,8 @@
+%% Q1
+clear
+close all
+clc
+
 %% A: Covariance Matrix
 X = [2.5 2.4
     0.5 0.7

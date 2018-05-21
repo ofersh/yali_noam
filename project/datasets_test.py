@@ -1,5 +1,5 @@
 from __future__ import division, print_function
-from sklearn import datasets, preprocessing
+from sklearn import datasets, preprocessing, decomposition
 
 from statistical_gap import gap_statistic as gs
 import xlrd
@@ -31,35 +31,32 @@ def verified_data_set():
 def test_iris():
     iris_dat = datasets.load_iris()
     data = iris_dat.data
-    k, plot_info, centers = gs(data)
-    print("the returned k is : {}".format(k))
-    view.view_result(data, centers, plot_info)
     target = iris_dat.target
-    dataset_accuracy(data, target, centers)
+    test_data(data, target)
 
 
 def test_digits():
     digits_dat = datasets.load_digits()
     data = digits_dat.data
-    k, plot_info = gs(data)
-    print("the returned k is : {}".format(k))
-    view.plot_info(plot_info)
-    # target = digits_dat.target
-    # kk = Kmeans(10, data)
-    # clusters = kk.clusterize()
-    # dataset_accuracy(data, target, clusters)
+    target = digits_dat.target
+    test_data(data, target)
 
 
 def test_wine():
     wine_dat = datasets.load_wine()
     data = wine_dat.data
-    k, plot_info, clusters = gs(data)
+    target = wine_dat.target
+    test_data(data, target)
+
+
+def test_data(data, target=None):
+    data = _get_3most_dominant_features(data)
+    k, plot_info, centers = gs(data)
     print("the returned k is : {}".format(k))
-    view.plot_info(plot_info)
-    # target = wine_dat.target
-    # kk = Kmeans(3, data)
-    # clusters = kk.clusterize()
-    # dataset_accuracy(data, target, clusters)
+    view.view_result(data, centers, plot_info)
+    if target is not None:
+        dataset_accuracy(data, target, centers)
+
 
 
 def five_clusters():
@@ -90,7 +87,7 @@ def c_clusters(k=3, expected_clusters=3):
     #data = dg.uniform_square([3,4,5], 1000)
     fuzzyCMeans = FuzzyCMeans(data)
     centers, matrix = fuzzyCMeans.find_c_means(k, epsilon=1e-5)
-    view.draw_fuzzy(data, matrix, k)
+    view.draw_fuzzy_with_centers(data, matrix, k, centers)
     np.savetxt("cmeans.mat.csv", matrix, delimiter=',')
 
 
@@ -111,3 +108,8 @@ def dataset_accuracy(data, target, clusters):
 
     print("{:.2f}% success rate according to real groups.".format((hits / len(data)) * 100))
 
+
+def _get_3most_dominant_features(data):
+    pca = decomposition.PCA(n_components=3)
+    data = preprocessing.StandardScaler().fit_transform(data)
+    return pca.fit_transform(data)

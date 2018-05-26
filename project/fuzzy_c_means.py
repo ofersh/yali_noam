@@ -28,7 +28,7 @@ class FuzzyCMeans(object):
         self._data = [Observation(features)
                       for features in data]
 
-    def find_c_means(self, num_centers, beta=0.7, epsilon=1e-5):
+    def find_c_means(self, num_centers, beta=0.3, epsilon=1e-5):
         self.set_colors_indices(num_centers)
         centers = self.choose_random_centers(num_centers)  # Need to choose the centers randomly, like we did in k_means
 

@@ -4,6 +4,7 @@ from math import log10
 import multiprocessing as mp
 import logging
 
+import view
 import k_means
 import utils
 import data_generator as dg

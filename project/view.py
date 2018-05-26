@@ -13,13 +13,15 @@ COLOR_PALLET = np.array([np.array([166, 206, 227]),
                          np.array([253, 191, 111]),
                          np.array([255, 127, 0]),
                          np.array([202, 178, 214]),
-                         np.array([106, 61, 154])]) * 1 / 255
+                         np.array([255, 255, 153])
+                         ]) * 1 / 255
 
 
 def view_result(data, centers, plt_info):
-    if len(data[0]) == 3:
-#        plot_3d_data(data, False)
-        plot_clusters(centers, False)
+    # Un comment if we want only final result
+    # if len(data[0]) == 3:
+    #     #        plot_3d_data(data, False)
+    #     draw_fuzzy_with_centers(centers, False)
     plot_info(plt_info)
 
 
@@ -43,7 +45,6 @@ def plot_info(plt_info, show=True):
 
 
 def plot_clusters(centers, show=True):
-
     global data_borders
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -63,7 +64,6 @@ def plot_clusters(centers, show=True):
 
 
 def plot_3d_data(data, show=True):
-
     x, y, z = zip(*data)
 
     fig = plt.figure()
@@ -108,8 +108,9 @@ def draw_fuzzy(data, matrix, k=3):
 def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indices=None):
     centers = np.squeeze(np.asarray(centers))
 
-    if color_indices is None:
-        color_indices = np.random.choice(range(len(COLOR_PALLET)), size=k, replace=False)
+    # if color_indices is None:
+    #     color_indices = np.random.choice(range(len(COLOR_PALLET)), size=k, replace=False)
+    color_indices = [j % len(COLOR_PALLET) for j in range(0, k * 2, 2)]
     color_list = COLOR_PALLET[color_indices]
     color_mat = np.matmul(matrix, color_list)
     fig = plt.figure()
@@ -117,14 +118,12 @@ def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indi
 
     x, y, z = zip(*data)
 
-    ax.scatter(x, y, z, c=color_mat, zorder=1, alpha=0.5)
-
-    # x, y, z = zip(*centers)
-    # ax.scatter(x, y, z, marker='s', c='k', s=100, zorder=2)
+    ax.scatter(x, y, z, c=color_mat, zorder=1, alpha=1)
 
     for i in range(len(centers)):
         x, y, z = centers[i]
         ax.scatter(x, y, z, label=i, c=COLOR_PALLET[color_indices[i]], s=100)
+        ax.plot([x], [y], [z], 'x', c='k', zorder=10)
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
@@ -134,14 +133,10 @@ def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indi
 
     if file_name:
         plt.savefig(file_name)
-        close_figures()
+        #close_figures()
     else:
         plt.show()
 
 
 def close_figures():
     plt.close('all')
-
-
-
-

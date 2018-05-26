@@ -67,13 +67,17 @@ class Kmeans(object):
 
     def find_centers(self):
         if not any(self._centers):
-            self.randomize_centers()
+            self.randomize_centers_pp()
         else:
             self.find_new_centers()
         self.mark_centers()
         self.scatter()
 
     def randomize_centers(self):
+        chosen_centers = list(np.random.choice(self.observations, self.k, replace=False))
+        self._centers = chosen_centers
+
+    def randomize_centers_pp(self):
         """
         Randomizing centers with a kmeans++ initialization.
         probabilty = D(x)^2 where D(x) is distance from closest center.
@@ -132,16 +136,16 @@ class Kmeans(object):
         while not self._finished:
             iteration += 1
             self.find_centers()
-            if self._plot:
-                centers = [c.features for c in self._centers]
+        if self._plot:
+            centers = [c.features for c in self._centers]
 
-                tmp = self._membership_mat.sum(axis=1)
-                if tmp.max() > 1:
-                    print('Max tmp = %s' % tmp.max())
-                # Preparing the plots
-                file_name = self._file_name.format(iteration=iteration)
+            tmp = self._membership_mat.sum(axis=1)
+            if tmp.max() > 1:
+                print('Max tmp = %s' % tmp.max())
+            # Preparing the plots
+            file_name = self._file_name.format(iteration=iteration)
 
-                view.draw_fuzzy_with_centers(self._org_data, self._membership_mat, self.k,
-                                             centers=centers, file_name=file_name,
-                                             color_indices=self._colors_indices)
+            view.draw_fuzzy_with_centers(self._org_data, self._membership_mat, self.k,
+                                         centers=centers, file_name=file_name,
+                                         color_indices=self._colors_indices)
         return self._centers

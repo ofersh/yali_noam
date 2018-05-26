@@ -49,7 +49,10 @@ def inner_weights(k, data, weights):
     :param weights: target list.
     :return:    None
     """
-    kmean = k_means.Kmeans(k, data)
+    # if k in [2, 3, 7]:
+    #     kmean = k_means.Kmeans(k, data, plot=True)
+    # else:
+    kmean = k_means.Kmeans(k, data, plot=False)
     centers = kmean.clusterize()
     weight = general_distance(centers)
     weights[k] += weight
@@ -78,7 +81,7 @@ def calc_expected(n, frame, k_max, iterations=40):
 
     for i in range(iterations):
         pool.apply_async(monte_carlo_iteration, args=(n, frame, k_max, expected, i))
-        #monte_carlo_iteration(n, frame, k_max, expected, i)
+        # monte_carlo_iteration(n, frame, k_max, expected, i)
         
     pool.close()
     pool.join()
@@ -100,7 +103,7 @@ def gap_statistic(data):
     """
     sg_logger.info("finding the best k")
     mg = mp.Manager()
-    n = len(data)
+    n = len(data) * 2
     k_max = min([12, n])
     weights = mg.list([0.0] * k_max)
     gaps = mg.list([0.0] * k_max)
@@ -127,7 +130,7 @@ def gap_statistic(data):
         gaps[i] = expected[i] - weights[i]
 
     k = gaps.index(max(gaps))
-    km = k_means.Kmeans(k, data, plot=True)
+    km = k_means.Kmeans(k, data, plot=False)
     centers = km.clusterize()
     plot_info = (weights, expected, gaps)
     return k, plot_info, centers

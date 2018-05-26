@@ -19,13 +19,13 @@ COLOR_PALLET = np.array([np.array([166, 206, 227]),
 
 def view_result(data, centers, plt_info):
     # Un comment if we want only final result
-    # if len(data[0]) == 3:
-    #     #        plot_3d_data(data, False)
-    #     draw_fuzzy_with_centers(centers, False)
-    plot_info(plt_info)
+    if len(data[0]) == 3:
+        #plot_3d_data(data, False)
+        plot_clusters(centers, 'gs_clusters.png')
+    plot_info(plt_info, 'gstats.png')
 
 
-def plot_info(plt_info, show=True):
+def plot_info(plt_info, file_name=None):
     weights = plt_info[0]
     expected = plt_info[1]
     gaps = plt_info[2]
@@ -40,11 +40,12 @@ def plot_info(plt_info, show=True):
 
     plt.subplot(212)
     plt.stem(rng, gaps[1:])
-    if show:
+    if file_name:
         plt.show()
+        # plt.savefig(file_name)
 
 
-def plot_clusters(centers, show=True):
+def plot_clusters(centers, file_name=None):
     global data_borders
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -52,15 +53,17 @@ def plot_clusters(centers, show=True):
         all_features = [obs.features for obs in c.cluster]
         x, y, z = zip(*all_features)
         ax.scatter(x, y, z)
-        ax.scatter(*c.features, marker='*', c='k')
+        x, y, z = c.features
+        ax.plot([x], [y], [z], marker='x', c='k', zorder=10)
     x, y, z = data_borders
     max_axis = max([x[1], y[1], z[1]])
     min_axis = min([x[0], y[0], z[0]])
     plt.xlim(min_axis, max_axis)
     plt.ylim(min_axis, max_axis)
     plt.gca().set_aspect('equal', adjustable='box')
-    if show:
+    if file_name:
         plt.show()
+        # plt.savefig(file_name)
 
 
 def plot_3d_data(data, show=True):
@@ -131,11 +134,10 @@ def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indi
 
     ax.legend(loc='upper right', prop={'size': 12})
 
-    if file_name:
-        plt.savefig(file_name)
-        #close_figures()
-    else:
-        plt.show()
+    # if file_name:
+    #     plt.savefig(file_name)
+    #     #close_figures()
+    plt.show()
 
 
 def close_figures():

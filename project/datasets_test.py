@@ -2,6 +2,7 @@ from __future__ import division, print_function
 from sklearn import datasets, preprocessing, decomposition
 
 from statistical_gap import gap_statistic as gs
+from k_means import Kmeans
 import xlrd
 import view
 import data_generator as dg
@@ -32,32 +33,34 @@ def test_iris():
     iris_dat = datasets.load_iris()
     data = iris_dat.data
     target = iris_dat.target
-    test_data(data, target)
+    test_data(data, expected_k=3, target=target)
 
 
 def test_digits():
     digits_dat = datasets.load_digits()
     data = digits_dat.data
     target = digits_dat.target
-    test_data(data, target)
+    test_data(data, expected_k=10, target=target)
 
 
 def test_wine():
     wine_dat = datasets.load_wine()
     data = wine_dat.data
     target = wine_dat.target
-    test_data(data, target)
+    test_data(data, expected_k=3, target=target)
 
 
-def test_data(data, target=None):
+def test_data(data, expected_k, target=None):
     data = _get_3most_dominant_features(data)
+    # kmeans_alg = Kmeans(expected_k, data, plot=True)
+    # centers = kmeans_alg.clusterize()
     k, plot_info, centers = gs(data)
     print("the returned k is : {}".format(k))
     view.view_result(data, centers, plot_info)
     if target is not None:
         dataset_accuracy(data, target, centers)
     fuzzy_cmeans = FuzzyCMeans(data)
-    centers, matrix = fuzzy_cmeans.find_c_means(k, epsilon=1e-4)
+    centers, matrix = fuzzy_cmeans.find_c_means(k, epsilon=1e-3)
     view.draw_fuzzy_with_centers(data, matrix, k, centers, file_name='./plots/cmeans/final.png')
 
 

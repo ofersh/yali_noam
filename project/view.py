@@ -13,17 +13,19 @@ COLOR_PALLET = np.array([np.array([166, 206, 227]),
                          np.array([253, 191, 111]),
                          np.array([255, 127, 0]),
                          np.array([202, 178, 214]),
-                         np.array([106, 61, 154])]) * 1 / 255
+                         np.array([255, 255, 153])
+                         ]) * 1 / 255
 
 
 def view_result(data, centers, plt_info):
+    # Un comment if we want only final result
     if len(data[0]) == 3:
-#        plot_3d_data(data, False)
-        plot_clusters(centers, False)
-    plot_info(plt_info)
+        #plot_3d_data(data, False)
+        plot_clusters(centers, 'gs_clusters.png')
+    plot_info(plt_info, 'gstats.png')
 
 
-def plot_info(plt_info, show=True):
+def plot_info(plt_info, file_name=None):
     weights = plt_info[0]
     expected = plt_info[1]
     gaps = plt_info[2]
@@ -38,12 +40,12 @@ def plot_info(plt_info, show=True):
 
     plt.subplot(212)
     plt.stem(rng, gaps[1:])
-    if show:
+    if file_name:
         plt.show()
+        # plt.savefig(file_name)
 
 
-def plot_clusters(centers, show=True):
-
+def plot_clusters(centers, file_name=None):
     global data_borders
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -51,19 +53,20 @@ def plot_clusters(centers, show=True):
         all_features = [obs.features for obs in c.cluster]
         x, y, z = zip(*all_features)
         ax.scatter(x, y, z)
-        ax.scatter(*c.features, marker='*', c='k')
+        x, y, z = c.features
+        ax.plot([x], [y], [z], marker='x', c='k', zorder=10)
     x, y, z = data_borders
     max_axis = max([x[1], y[1], z[1]])
     min_axis = min([x[0], y[0], z[0]])
     plt.xlim(min_axis, max_axis)
     plt.ylim(min_axis, max_axis)
     plt.gca().set_aspect('equal', adjustable='box')
-    if show:
+    if file_name:
         plt.show()
+        # plt.savefig(file_name)
 
 
 def plot_3d_data(data, show=True):
-
     x, y, z = zip(*data)
 
     fig = plt.figure()
@@ -108,8 +111,9 @@ def draw_fuzzy(data, matrix, k=3):
 def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indices=None):
     centers = np.squeeze(np.asarray(centers))
 
-    if color_indices is None:
-        color_indices = np.random.choice(range(len(COLOR_PALLET)), size=k, replace=False)
+    # if color_indices is None:
+    #     color_indices = np.random.choice(range(len(COLOR_PALLET)), size=k, replace=False)
+    color_indices = [j % len(COLOR_PALLET) for j in range(0, k * 2, 2)]
     color_list = COLOR_PALLET[color_indices]
     color_mat = np.matmul(matrix, color_list)
     fig = plt.figure()
@@ -117,14 +121,12 @@ def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indi
 
     x, y, z = zip(*data)
 
-    ax.scatter(x, y, z, c=color_mat, zorder=1, alpha=0.5)
-
-    # x, y, z = zip(*centers)
-    # ax.scatter(x, y, z, marker='s', c='k', s=100, zorder=2)
+    ax.scatter(x, y, z, c=color_mat, zorder=1, alpha=1)
 
     for i in range(len(centers)):
         x, y, z = centers[i]
         ax.scatter(x, y, z, label=i, c=COLOR_PALLET[color_indices[i]], s=100)
+        ax.plot([x], [y], [z], 'x', c='k', zorder=10)
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
@@ -132,16 +134,11 @@ def draw_fuzzy_with_centers(data, matrix, k, centers, file_name=None, color_indi
 
     ax.legend(loc='upper right', prop={'size': 12})
 
-    if file_name:
-        plt.savefig(file_name)
-        close_figures()
-    else:
-        plt.show()
+    # if file_name:
+    #     plt.savefig(file_name)
+    #     #close_figures()
+    plt.show()
 
 
 def close_figures():
     plt.close('all')
-
-
-
-

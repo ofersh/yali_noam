@@ -62,6 +62,8 @@ def test_data(data, expected_k, target=None):
     fuzzy_cmeans = FuzzyCMeans(data)
     centers, matrix = fuzzy_cmeans.find_c_means(k, epsilon=1e-3)
     view.draw_fuzzy_with_centers(data, matrix, k, centers, file_name='./plots/cmeans/final.png')
+    show_mat = np.matrix([])
+    np.savetxt("cmeans.mat.csv", matrix, delimiter=',')
 
 
 def five_clusters():

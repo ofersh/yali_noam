@@ -27,6 +27,10 @@ class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++,
         }
     }
 
+    fun setRecieved(){
+        status = RECEIVED
+    }
+
     fun isEditable() : Boolean{
         return status == SENT
     }

@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
+import android.support.multidex.MultiDex
+import android.support.multidex.MultiDexApplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +20,7 @@ const val BLUEISH :String = "#03a9f4"
 const val GREENISH :String = "#8bc34a"
 
 
-class MainActivity : Activity() {
+class MainActivity : Activity(), OnDestinationReachedListener {
 
 
     private lateinit var listView: ListView
@@ -26,10 +29,17 @@ class MainActivity : Activity() {
     private var noteInProgress: Note? = null
     private var noteInProgressInd = 0
     private var adapter: BaseAdapter? = null
+    private lateinit var locationHelper : LocationHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val destination = Location("")
+        destination.longitude = 35.577488
+        destination.latitude = 33.236360
+
+        locationHelper = LocationHelper(this, destination, this)
 
         dbHandler = NoteDBHelper(this, null, 1)
         notes = dbHandler.getAllNotes()
@@ -90,6 +100,28 @@ class MainActivity : Activity() {
             adapter!!.notifyDataSetChanged()
         }
     }
+
+    override fun onDestinationReached() {
+        for (note in notes){
+            note.setRecieved()
+            adapter!!.notifyDataSetChanged()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        locationHelper.startLocationUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        locationHelper.stopLocationUpdates()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        locationHelper.stopLocationUpdates()
+    }
 }
 
 class NotesAdapter(private var activity: Activity, private var notes: ArrayList<Note>) : BaseAdapter() {
@@ -130,5 +162,7 @@ class NotesAdapter(private var activity: Activity, private var notes: ArrayList<
     override fun getCount(): Int {
         return notes.size
     }
+
+
 
 }

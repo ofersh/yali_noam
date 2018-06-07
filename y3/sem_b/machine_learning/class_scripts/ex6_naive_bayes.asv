@@ -3,8 +3,8 @@ addpath('materials')
 
 % Initiazling the train and test matrices
 
-[spmatrix, train_tokenlist, trainCategory] = readMatrix( 'MATRIX.TRAIN' );
-[spmatrix, test_tokenlist, TestCategory] = readMatrix( 'MATRIX.TEST' );
+[spmatrix, tokenlist, trainCategory] = readMatrix( 'MATRIX.TRAIN' );
+[spmatrix, tokenlist, TestCategory] = readMatrix( 'MATRIX.TEST' );
 
 trainMatrix = full(spmatrix);
 numTrainDocs = size(trainMatrix, 1); % number of training ducuments
@@ -13,20 +13,13 @@ testMatrix = full(spmatrix);
 numTestDocs = size(testMatrix, 1); % number of training ducuments
 numTokens = size(testMatrix, 2); % number of training tokens
 
-token_words = string(split(train_tokenlist)); % Creating the list of all the words
-
+token_words = string(split(tokenlist)); % Creating the list of all the words
 trainCategory = full(trainCategory);
 sub_mat = trainMatrix(1:5,1:10);
 non_zero_trainMat = sum(trainMatrix~=0);
 n_cells = size(trainMatrix, 1) * size(trainMatrix, 2);
 news_index = find(token_words=='news');
 spam_index = find(token_words=='spam');
-spam_indices = trainCategory==1;
-num_spams = sum(spam_indices);
-not_spam_indices = trainCategory==0;
-not_spams = sum(not_spam_indices);
-p1 = sum(trainCategory==1)/length(trainCategory);
-p0 = 1 - p1;
 
 %% Part 1 - Learning the data
 fprintf('Amount of words the list contains: %g\n', numTokens)
@@ -65,18 +58,28 @@ fprintf('most common word. ind: %g | #appearances: %g\n', common_word_ind, commo
 fprintf('#appearances of word 700: %g\n', num_words_occurences(700));
 fprintf('The word that appears most in a document:\nword: %s | ind: %g | doc: %g | val: %g \n'...
     , common_word_in_doc_word, common_word_in_doc_ind, common_word_in_doc_doc, common_word_in_doc_val)
-
-%% Part 2 - Probabilities Calculation (practice)
 fprintf('#Spam Emails: %g\n', sum(trainCategory==1))
+spam_indices = trainCategory==1;
+num_spams = sum(spam_indices);
+not_spam_indices = trainCategory==0;
+not_spams = sum(not_spam_indices);
+p1 = sum(trainCategory==1)/length(trainCategory);
+p0 = 1 - p1;
+
 fprintf('p1 = %g\n' , p1)
 fprintf('p0 = %g\n' , p0)
 fprintf('P(j=2|i=1) = %g\n', sum(trainMatrixbin(spam_indices, 2)) / num_spams)
 fprintf('P(j=2|i=0) = %g\n', sum(trainMatrixbin(not_spam_indices, 2)) / not_spams)
 fprintf('1 - P(j|i=1)\n')
 
-%% Part 3 - Probabilities Calculation (prediction)
-P_word_when_spam = sum(trainMatrixbin(spam_indices, :)) / num_spams;
-P_word_when_not_spam = sum(trainMatrixbin(not_spam_indices, 2)) / not_spams;
+P_word_when_spam = [];
+P_word_when_not_spam = [];
+for i=1:numTokens
+   pi1 = sum(trainMatrixbin(spam_indices, i)) / num_spams;
+   pi0 = sum(trainMatrixbin(not_spam_indices, 2)) / not_spams;
+   P_word_when_spam = [P_word_when_spam pi1];
+   P_word_when_not_spam = [P_word_when_not_spam pi1];
+end
 
 fprintf('P(x|y=1) = %g\n', prod(P_word_when_spam))
 

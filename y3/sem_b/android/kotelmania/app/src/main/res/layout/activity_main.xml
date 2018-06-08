@@ -7,13 +7,67 @@
     android:layoutDirection="rtl"
     android:padding="7dp">
 
-    <ListView
-        android:id="@+id/listView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textDirection="rtl">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:textDirection="rtl"
+            android:layout_gravity="top">
 
-    </ListView>
+        </ListView>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:rowCount="2"
+            android:columnCount="2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:textDirection="firstStrong"
+                android:text="מיקום (long, lat): "
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:hint="0"
+                android:id="@+id/location"
+                android:textSize="18sp"
+                android:textIsSelectable="true"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:text=" מרחק (מטרים):"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:hint="0"
+                android:textSize="18sp"
+                android:id="@+id/distance"
+                android:textIsSelectable="true"
+                android:gravity="center_vertical"
+                />
+        </GridLayout>
+
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/newNote"

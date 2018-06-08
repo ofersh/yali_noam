@@ -6,8 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
-import android.support.multidex.MultiDex
-import android.support.multidex.MultiDexApplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,7 @@ const val BLUEISH :String = "#03a9f4"
 const val GREENISH :String = "#8bc34a"
 
 
-class MainActivity : Activity(), OnDestinationReachedListener {
+class MainActivity : Activity(), OnDestinationInteractionListener {
 
 
     private lateinit var listView: ListView
@@ -106,6 +104,12 @@ class MainActivity : Activity(), OnDestinationReachedListener {
             note.setRecieved()
             adapter!!.notifyDataSetChanged()
         }
+    }
+
+    override fun onLocationUpdate(loc: Location, dst: Float) {
+
+        location.text = "(${loc.longitude}, ${loc.latitude})"
+        distance.text = dst.toString()
     }
 
     override fun onResume() {

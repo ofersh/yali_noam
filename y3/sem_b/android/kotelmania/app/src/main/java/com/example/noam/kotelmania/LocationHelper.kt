@@ -16,7 +16,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 
 class LocationHelper (val context: Context, val destination : Location,
-                      val onDestinationReachedListener: OnDestinationReachedListener)
+                      val onDestinationInteractionListener: OnDestinationInteractionListener)
     : LocationCallback(), ActivityCompat.OnRequestPermissionsResultCallback {
 
 
@@ -104,15 +104,14 @@ class LocationHelper (val context: Context, val destination : Location,
         locationResult ?: return
         for (location in locationResult.locations){
             val dst = location.distanceTo(destination)
+            onDestinationInteractionListener.onLocationUpdate(location, dst)
             if (dst < 100)
-                onDestinationReachedListener.onDestinationReached()
-            else
-                Toast.makeText(context, "Current distance is: ${dst}m",
-                        Toast.LENGTH_SHORT).show()
+                onDestinationInteractionListener.onDestinationReached()
         }
     }
 }
 
-interface OnDestinationReachedListener{
+interface OnDestinationInteractionListener{
     fun onDestinationReached()
+    fun onLocationUpdate(loc : Location, dst : Float)
 }

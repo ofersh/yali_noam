@@ -18,7 +18,7 @@ X2 = 0.6:0.01:2;
 uni2 = unifpdf(X2,A2,B2);
 
 f = figure(1);
-ax_plot = axes('Position',[.3 .1 .6 .8]); 
+ax_plot = axes('Position',[.3 .1 .6 .8]);
 stairs(ax_plot, X1, uni1, 'b', 'linewidth', 2), title('1.a: C1 and C2 Distribution:'), hold on;
 stairs(X2, uni2, 'r-.', 'linewidth', 2), xlim([-0.2 2]), ylim([0 1.3]);
 
@@ -33,9 +33,9 @@ descr = {'1.b:';
     'It is possible that';
     'C2 object will be';
     'falsley classified';
-    'between:'; 
+    'between:';
     '0.8 < y < 1'};
-text(.025,0.6,descr)
+text(.025, 0.6, descr, 'FontSize', 15)
 % Answers:
 
 %% Q 2
@@ -89,7 +89,7 @@ descr = {'2.b:';
     'Decision by probabilty:';
     '1 if Area <6';
     '0 if Area {\geq}6'};
-text(.025,0.6,descr)
+text(.025,0.6,descr, 'FontSize', 15)
 
 
 %% Q 3
@@ -111,6 +111,12 @@ fprintf('They will not be valid, corupted text can have totaly different number 
 
 % Answers:
 
+
+%% Q 4
+figure(4)
+answer = imread('q4.jpg');
+image(answer)
+
 %% Q 5
 
 % Code:
@@ -127,19 +133,19 @@ cell2 = 0;
 
 % B: Most Likelihood
 for c = C
-   cell1_prob = group_prob(c, mu1, sigma1);
-   cell2_prob = group_prob(c, mu2, sigma2);   
-   
-   if cell1_prob > cell2_prob
-       cell1 = cell1 + 1;
-   else
-       cell2 = cell2 + 1;
-   end
-   
+    cell1_prob = group_prob(c, mu1, sigma1);
+    cell2_prob = group_prob(c, mu2, sigma2);
+    
+    if cell1_prob > cell2_prob
+        cell1 = cell1 + 1;
+    else
+        cell2 = cell2 + 1;
+    end
+    
 end
 
 fprintf('5.b:\nAccording to %s: we have %g cell1 and %g cell2\n', 'most likelihood', cell1, cell2);
-    
+
 cell1 = 0;
 cell2 = 0;
 
@@ -147,19 +153,127 @@ for c = C
     cell1_dist = (c - mu1) ^ 2;
     cell2_dist = (c - mu2) ^ 2;
     
-   if cell1_dist < cell2_dist
-       cell1 = cell1 + 1;
-   else
-       cell2 = cell2 + 1;
-   end
-
+    if cell1_dist < cell2_dist
+        cell1 = cell1 + 1;
+    else
+        cell2 = cell2 + 1;
+    end
+    
 end
 
 fprintf('According to %s: we have %g cell1 and %g cell2\n', 'Smallest distance', cell1, cell2);
 
 % Answers:
 
-
+%% Used Functions:
+%
+%   function [ mu, sigma ] = group_density( file_name )
+%  
+%       C = objects_features(file_name);
+%       n = length(C);
+%       mu = sum(C) / n;
+%       sigma = sum((C-mu).^2) / n;
+%  
+%   end
+%   
+%   function [ C ] = objects_features( file_name )
+%   %OBJECTS_FEATURES Summary of this function goes here
+%   %   Detailed explanation goes here
+%   img = imread(file_name);
+%   
+%   [seg_im, vals] = segmentation(img);
+%   C = [];
+%   for val=vals(1 : end-1)
+%       c = circularity(seg_im, val);
+%       C = [C c];
+%   end
+%   
+%   end
+%   
+%   function [ c ] = circularity( image, val )
+%   % circularity Calculates circularity for segmented shape.
+%   % c = circularity calculation.
+%   % image = segmented image.
+%   % val = segmented shape value.
+%   
+%   area = length(find(image == val));
+%   perim = myPerim(image, val);
+%   c = (4*pi*area)/perim^2;
+%   end
+%   
+%   function [ perim ] = laplace_perim( image, val )
+%  
+%   image(image ~= val) = 255;
+%   dseg = double(image);
+%   del_seg = del2(dseg);
+%   perim = length(find(del_seg<0));
+%   end
+%   
+%   function [ perim ] = myPerim( image, val )
+%   perim = 0;
+%   [nrows, ncols] = size(image);
+%   for x = 1:ncols
+%       for y = 1:nrows
+%           if image(y, x) == val
+%               k = 0;
+%               for i = -1:1
+%                   for j = -1:1
+%                       if x+i < 1 || y+j < 1
+%                           continue
+%                       end
+%                       if image(y+j, x+i) == 255
+%                           k = k + 1;
+%                           break;
+%                       end
+%                   end
+%                   if k ~= 0
+%                       break
+%                   end
+%               end
+%               if k ~= 0
+%                   perim = perim + 1;
+%                   k = 0;
+%               end
+%           end
+%       end
+%   end
+%   end
+%  
+%   function [ seg_pic, vals ] = segmentation( image )
+%   
+%   gray_pic = rgb2gray(image);
+%   seg_pic = gray_pic;
+%   [nrows, ncols] = size(gray_pic(:,:,1));
+%   vals(1) = 1;
+%   ind = 1;
+%   for x = 2:ncols-1
+%       for y = 2:nrows-1
+%           if seg_pic(x,y) == 0
+%               seg_pic = region_grow(seg_pic, vals(ind), x, y);
+%               ind = ind + 1;
+%               vals(ind) = vals(ind-1) + 10;
+%           end
+%       end
+%   end
+%    
+%   function [gray_pic] = region_grow(gray_pic, val, x, y)
+%       gray_pic(x,y) = val;
+%       [nrows, ncols] = size(gray_pic);
+%       for i = -1:1
+%          for j= -1:1
+%               if x+i < 1 || y+j < 1
+%                   continue
+%               end
+%               if x+i > nrows || y+j > ncols
+%                   break
+%               end
+%               if gray_pic(x+i, y+j)==0
+%               gray_pic = region_grow(gray_pic, val, x+i, y+j);
+%               end
+%           end
+%       end
+%   end
+%   end
 
 
 

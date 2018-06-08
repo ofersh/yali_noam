@@ -26,7 +26,5 @@ function [ perim ] = myPerim( image, val )
             end
         end
     end
-
-
 end
 

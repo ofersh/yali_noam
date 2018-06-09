@@ -1,7 +1,34 @@
-clc; clear; close all;
-addpath([genpath('./materials') genpath('/home/noam/git/yali_noam/y3/sem_b/machine_learning/HW/hw3/libsvm/libsvm-3.22/matlab')])
+%% SVM and Perceptron HW:
 
-%% q4
+%% q3 - svm_test and svm_train:
+%   
+%   function [accuaracy] = svm_test( theta, X_test, y_test)
+%   
+%       predicted_y = theta' * X_test;
+%       comparison_y = sign(predicted_y) - y_test;
+%       accuaracy = sum(comparison_y ~= 0) / length(y_test);
+%       
+%   end
+%   
+%   function [theta] = svm_train( X, y )
+%   
+%   d = size(X,2);
+%   H = eye(d);
+%   f = zeros(d,1);
+%   Dy = diag(y);
+%   A = Dy*X;
+%   b = ones(size(y));
+%   
+%   theta = quadprog(H, f, -A, -b);
+%   
+%   
+%   end
+
+%% q4-5 - Visualization of HyperPlane and Margin:
+% For both Perceptron and SVM.
+
+clc; clear; close all;
+addpath(genpath('./materials'))
 
 load data1.mat
 [normX, sDev, means] = data_normalization(X);
@@ -10,10 +37,14 @@ load data1.mat
 svm_theta = svm_train(normX, y);
 
 figure('Name', 'Data1')
-
-scatter(normX(:,1), normX(:,2)); hold on
-d1_svm_geomLines = decision_boundry_line_with_borders(svm_theta, normX, 'g');
-d1_perc_geomLines = decision_boundry_line_with_borders(perc_theta, normX, 'r');
+set(gcf, 'Position', [300, 300, 1300, 650]);
+subplot(1,2,1)
+title('Data1'); hold on;
+plot_data_svm_percep(normX, svm_theta, perc_theta);
+subplot(1,2,2)
+plot_data_svm_percep(normX, svm_theta, perc_theta);
+legend('off');
+xlim([-1 1]); ylim([-1 1]);
 
 load data2.mat
 [normX, sDev, means] = data_normalization(X);
@@ -22,21 +53,14 @@ load data2.mat
 svm_theta = svm_train(normX, y);
 
 figure('Name', 'Data2')
-
-scatter(normX(:,1), normX(:,2)); hold on
-d2_svm_geomLines = decision_boundry_line_with_borders(svm_theta, normX, 'g');
-d2_perc_geomLines = decision_boundry_line_with_borders(perc_theta, normX, 'r');
-
-
-%% q5
-
-load handWrittenDigits.mat
-[normX, sDev, means] = data_normalization(X);
-model = svmtrain(y, normX);
-load test_data.mat
-[normX, sDev, means] = data_normalization(X);
-[predicted_label, accuracy, decision_values] = svmpredict(y, normX, model);
-
+set(gcf, 'Position', [300, 300, 1300, 650]);
+subplot(1,2,1)
+title('Data2'); hold on;
+plot_data_svm_percep(normX, svm_theta, perc_theta);
+subplot(1,2,2)
+plot_data_svm_percep(normX, svm_theta, perc_theta);
+legend('off');
+xlim([-0.5 0.5]); ylim([-0.5 0.5]);
 
 
 

@@ -1,4 +1,4 @@
-function [ margin ] = decision_boundry_line_with_borders( theta, X, color)
+function [ margin ] = decision_boundry_line_with_borders( theta, X, color, modelName)
 
     theta = theta(:);
 
@@ -8,10 +8,9 @@ function [ margin ] = decision_boundry_line_with_borders( theta, X, color)
     
     closest_point = min(abs(X * theta));
     margin = closest_point/norm(theta);
-    
-    line([minX maxX], [x2(minX) x2(maxX)], 'color', color)
-    line([minX maxX], [x2(minX) x2(maxX)] + margin, 'color', color, 'LineStyle','--')
-    line([minX maxX], [x2(minX) x2(maxX)] - margin, 'color', color, 'LineStyle','--')
+    line([minX maxX], [x2(minX) x2(maxX)], 'color', color, 'DisplayName', sprintf('%s: Hyperplane',modelName))
+    line([minX maxX], [x2(minX) x2(maxX)] + margin, 'color', color, 'LineStyle','--', 'DisplayName', sprintf('%s: Margin',modelName))
+    line([minX maxX], [x2(minX) x2(maxX)] - margin, 'color', color, 'LineStyle','--', 'DisplayName', '')
 
 end
 

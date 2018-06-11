@@ -65,15 +65,6 @@ class LocationHelper (val context: Context, val destination : Location,
     }
     /** Permissions **/
 
-    @SuppressLint("MissingPermission")
-    private fun lastLocation() {
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            if (location != null){
-                Toast.makeText(context,"Current Location is ${location.longitude},${location.latitude}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest().apply {
             interval = 10000
@@ -88,7 +79,6 @@ class LocationHelper (val context: Context, val destination : Location,
         val locationRequest = createLocationRequest()
         if (checkPermissions())
         {
-            lastLocation()
             fusedLocationClient.requestLocationUpdates(locationRequest, this, null /* Looper */)
         }
     }
@@ -105,13 +95,16 @@ class LocationHelper (val context: Context, val destination : Location,
         for (location in locationResult.locations){
             val dst = location.distanceTo(destination)
             onDestinationInteractionListener.onLocationUpdate(location, dst)
-            if (dst < 100)
+            if (dst < 9000)
                 onDestinationInteractionListener.onDestinationReached()
+            else
+                onDestinationInteractionListener.onDestinationLeft()
         }
     }
 }
 
 interface OnDestinationInteractionListener{
     fun onDestinationReached()
+    fun onDestinationLeft()
     fun onLocationUpdate(loc : Location, dst : Float)
 }

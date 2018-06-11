@@ -28,6 +28,8 @@ class MainActivity : Activity(), OnDestinationInteractionListener {
     private var noteInProgressInd = 0
     private var adapter: BaseAdapter? = null
     private lateinit var locationHelper : LocationHelper
+    private lateinit var soundHelper : SoundHelper
+    private var notPlayed = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class MainActivity : Activity(), OnDestinationInteractionListener {
         destination.latitude = 33.236360
 
         locationHelper = LocationHelper(this, destination, this)
+        soundHelper = SoundHelper(this)
 
         dbHandler = NoteDBHelper(this, null, 1)
         notes = dbHandler.getAllNotes()
@@ -100,14 +103,21 @@ class MainActivity : Activity(), OnDestinationInteractionListener {
     }
 
     override fun onDestinationReached() {
+        if (notPlayed){
+            soundHelper.playSound()
+            notPlayed = false
+        }
         for (note in notes){
-            note.setRecieved()
+            note.status = SENT
             adapter!!.notifyDataSetChanged()
         }
     }
 
-    override fun onLocationUpdate(loc: Location, dst: Float) {
+    override fun onDestinationLeft() {
+        notPlayed = true
+    }
 
+    override fun onLocationUpdate(loc: Location, dst: Float) {
         location.text = "(${loc.longitude}, ${loc.latitude})"
         distance.text = dst.toString()
     }
@@ -146,12 +156,18 @@ class NotesAdapter(private var activity: Activity, private var notes: ArrayList<
         status.text = note.status
 
         // Update color base on status
-        if (note.isEditable()){
-            status.setBackgroundColor(Color.parseColor(BLUEISH))
-        }else{
-            status.setBackgroundColor(Color.parseColor(GREENISH))
-        }
 
+        when (note.status){
+            SENT -> {
+                status.setBackgroundColor(Color.parseColor(BLUEISH))
+            }
+            RECEIVED -> {
+                status.setBackgroundColor(Color.parseColor(GREENISH))
+            }
+            WAITING -> {
+                status.setBackgroundColor(Color.GRAY)
+            }
+        }
         return listItem
     }
 

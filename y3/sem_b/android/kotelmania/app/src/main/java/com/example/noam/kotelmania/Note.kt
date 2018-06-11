@@ -5,12 +5,13 @@ import java.util.*
 
 const val SENT = " נשלח"
 const val RECEIVED = " התקבל"
+const val WAITING = "ממתין "
 
 
 class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++, dateInMillis: Long? = null)
 {
     private val date: Calendar = Calendar.getInstance()
-    var status: String = SENT
+    var status: String = WAITING
 
     init {
         if (dateInMillis != null) {
@@ -25,10 +26,6 @@ class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++,
         if(date.before(dayBeforeYesterday)){
             status = RECEIVED
         }
-    }
-
-    fun setRecieved(){
-        status = RECEIVED
     }
 
     fun isEditable() : Boolean{

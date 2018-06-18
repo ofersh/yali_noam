@@ -1,0 +1,69 @@
+//
+//  main_104.cpp
+//  competition
+//
+//  Created by Noam Stolero on 18/06/2018.
+//  Copyright © 2018 Noam Stolero. All rights reserved.
+//
+
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <sstream>
+
+using namespace std;
+
+
+void read_lines(vector<string> &lines){
+    string line;
+    while (true){
+        getline(cin, line);
+        if (line == "quit")
+            return;
+        lines.push_back(line);
+    }
+}
+
+int main(){
+    vector<string> lines;
+    read_lines(lines);
+    
+    for (string line: lines){
+        vector<int> numbers;
+        int n, k;
+        stringstream ss(line);
+        ss>>n>>k;
+        for (int i=1; i<=n; i++ ){
+            numbers.push_back(i);
+        }
+        
+//        if (k==0){
+//            cout<<1<<endl;
+//            continue;
+//        }
+        int count_err=0;
+        do {
+            int err=0;
+            for (int i=0; i< numbers.size() && err<=k; i++){
+                if (numbers[i] > i+1 ){
+                    err++;
+                }
+            }
+            if (k == err)
+                count_err++;
+        } while (next_permutation(numbers.begin(),numbers.end()) );
+        int err=0;
+        for (int i=0; i< numbers.size() && err<=k; i++){
+            if (numbers[i] > i ){
+                err++;
+            }
+        }
+        if (k == err)
+            count_err++;
+        cout<<count_err<<endl;
+        
+    }
+}

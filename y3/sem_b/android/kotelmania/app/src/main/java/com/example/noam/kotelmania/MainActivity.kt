@@ -104,8 +104,8 @@ class MainActivity : Activity(), OnDestinationInteractionListener {
 
     override fun onDestinationReached() {
         if (notPlayed){
-            soundHelper.playSound()
-            notPlayed = false
+            if (soundHelper.playSound())
+                notPlayed = false
         }
         for (note in notes){
             note.status = SENT
@@ -154,6 +154,8 @@ class NotesAdapter(private var activity: Activity, private var notes: ArrayList<
         title.text = note.title
         content.text = note.content
         status.text = note.status
+        if (note.status == WAITING)
+            status.setTextColor(Color.WHITE)
 
         // Update color base on status
 
@@ -182,7 +184,4 @@ class NotesAdapter(private var activity: Activity, private var notes: ArrayList<
     override fun getCount(): Int {
         return notes.size
     }
-
-
-
 }

@@ -9,7 +9,6 @@ import android.location.Location
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -95,7 +94,7 @@ class LocationHelper (val context: Context, val destination : Location,
         for (location in locationResult.locations){
             val dst = location.distanceTo(destination)
             onDestinationInteractionListener.onLocationUpdate(location, dst)
-            if (dst < 9000)
+            if (dst < 100)
                 onDestinationInteractionListener.onDestinationReached()
             else
                 onDestinationInteractionListener.onDestinationLeft()

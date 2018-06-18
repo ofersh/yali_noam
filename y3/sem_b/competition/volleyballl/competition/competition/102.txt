@@ -1,0 +1,42 @@
+//
+//  main.cpp
+//  competition
+//
+//  Created by Noam Stolero on 18/06/2018.
+//  Copyright © 2018 Noam Stolero. All rights reserved.
+//
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+
+void read_lines(vector<string> &lines){
+    string line;
+    while (true){
+        getline(cin, line);
+        if (line == "quit")
+            return;
+        lines.push_back(line);
+    }
+}
+
+int main(){
+    
+    vector<string> lines;
+    read_lines(lines);
+    
+    for(string line : lines){
+        set<string> perm({line});
+        do {
+            perm.insert(line);
+        } while ( next_permutation(line.begin(),line.end()) );
+        perm.insert(line);
+        cout << perm.size() << endl;
+    }
+    
+}
+

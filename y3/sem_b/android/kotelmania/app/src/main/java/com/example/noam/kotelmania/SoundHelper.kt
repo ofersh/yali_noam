@@ -6,13 +6,13 @@ import android.media.SoundPool
 import android.os.Build
 import android.widget.Toast
 
-class SoundHelper (val context: Context ){
+class SoundHelper (){
 
     lateinit var soundPool: SoundPool
     var quagSoundID : Int = 0
     var ready: Boolean = false
 
-    init {
+    constructor(context: Context ) : this(){
         soundPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             SoundPool.Builder().setMaxStreams(1).build()
         }else
@@ -24,10 +24,11 @@ class SoundHelper (val context: Context ){
         }
     }
 
-    fun playSound(){
+    fun playSound() : Boolean{
         if (ready){
             soundPool.play(quagSoundID, 1F, 1F,0,0, 1F)
+            return true
         }
-
+        return false
     }
 }

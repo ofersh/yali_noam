@@ -1,0 +1,48 @@
+//
+//  101.cpp
+//  competition
+//
+//  Created by Noam Stolero on 18/06/2018.
+//  Copyright © 2018 Noam Stolero. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main(){
+    
+    string line;
+    vector<vector<char>> tree;
+    tree.push_back(vector<char>({'A'}));
+    tree.push_back(vector<char>({'B','C','D','E' }));
+    tree.push_back(vector<char>({'F', 'G', 'H', 'I', 'J', 'K'}));
+    tree.push_back(vector<char>({'L', 'M', 'N', 'O', 'P'}));
+    tree.push_back(vector<char>({'Q', 'R', 'S'}));
+    
+    while (true){
+        getline(cin, line);
+        if (line == "quit")
+            break;
+        
+        char letter = line[0];
+        
+        for(int i=0; i<tree.size(); i++){
+            for(int j=0; j<tree[i].size(); j++){
+                if(tree[i][j] == letter){
+                    if(j+1 == tree[i].size()){
+                        cout << "null" << endl;
+                    }
+                    else{
+                        cout << tree[i][j+1] << endl;
+                    }
+                }
+            }
+        }
+    }
+
+    
+    
+}

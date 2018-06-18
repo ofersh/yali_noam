@@ -1,0 +1,108 @@
+//
+//  main.cpp
+//  competition
+//
+//  Created by Noam Stolero on 18/06/2018.
+//  Copyright © 2018 Noam Stolero. All rights reserved.
+//
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <ctype.h>
+#include <iterator>
+
+using namespace std;
+
+
+void read_lines(vector<string> &lines){
+    string line;
+    while (true){
+        getline(cin, line);
+        if (line == "quit")
+            return;
+        lines.push_back(line);
+    }
+}
+
+
+bool get_val(vector<pair<string,int>> dic, string var, int* val){
+    
+    for(int i=0; i< dic.size(); i++){
+        if(dic[i].first == var){
+            *val = dic[i].second;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool is_number(string line){
+    for(char c : line){
+        if(!isdigit(c))
+            return false;
+    }
+    return true;
+}
+
+int main(){
+    vector<string> lines;
+    vector<string> variables;
+    vector<pair<string,int>> dic;
+    
+    char eq = '=';
+    char plus = '+';
+    
+    read_lines(lines);
+    
+    for(string line : lines){
+        string var;
+        string l_op;
+        string r_op;
+        int val = 0;
+        
+        size_t eq_ind = line.find(eq);
+        var = line.substr(0, eq_ind);
+        size_t plus_ind = line.find(plus);
+        if(plus_ind == string::npos){
+            l_op = line.substr(eq_ind+1);
+            if(is_number(l_op))
+                val = stoi(l_op);
+            else
+                get_val(dic, l_op, &val);
+        }
+        else{
+            l_op = line.substr(eq_ind+1, plus_ind-(eq_ind+1));
+            r_op = line.substr(plus_ind+1);
+            int l_val;
+            int r_val;
+            if(is_number(l_op)){
+                r_val = stoi(l_op);
+            }else{
+                get_val(dic, l_op, &l_val);
+            }
+            get_val(dic, l_op, &l_val);
+            if(is_number(r_op)){
+                r_val = stoi(r_op);
+            }else{
+                get_val(dic, r_op, &r_val);
+            }
+            val = l_val + r_val;
+        }
+               
+        dic.push_back(pair<string,int>(var, val));
+        variables.push_back(var);
+        }
+
+    sort(variables.begin(),variables.end());
+    for(int i=0; i<variables.size(); i++){
+        int val;
+        get_val(dic, variables[i], &val);
+        cout << variables[i] << "=" << val << endl;
+    }
+    
+}
+

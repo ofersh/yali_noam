@@ -23,13 +23,13 @@ class Note (var title: String, var content: String, val ID: Int? = ID_COUNTER++,
     private fun updateStatus(){
         val dayBeforeYesterday = Calendar.getInstance()
         dayBeforeYesterday.add(Calendar.DAY_OF_MONTH, -2)
-        if(date.before(dayBeforeYesterday)){
+        if(date.before(dayBeforeYesterday) && status == SENT){
             status = RECEIVED
         }
     }
 
     fun isEditable() : Boolean{
-        return status == SENT
+        return status != RECEIVED
     }
 
     fun serializeCalendar() : Long

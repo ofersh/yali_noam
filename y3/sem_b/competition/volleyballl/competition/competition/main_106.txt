@@ -1,0 +1,60 @@
+//
+//  main1.cpp
+//  competition
+//
+//  Created by Noam Stolero on 18/06/2018.
+//  Copyright © 2018 Noam Stolero. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <math.h>
+
+using namespace std;
+
+void read_lines(vector<string> &lines){
+    string line;
+    while (true){
+        getline(cin, line);
+        if (line == "quit")
+            return;
+        lines.push_back(line);
+    }
+}
+
+
+bool check_latin(string &s){
+    int sq = sqrt(s.size());
+    
+    for (int k = 0; k<sq; k++ ){
+        for (int i =k*sq; i<(k+1)*sq; i++) {
+            for (int j=i+1; j<(k+1)*sq; j++){
+                if (s[i] == s[j])
+                    return false;
+            }
+            for (int j=i+1; j<sq; j++)
+            {
+                char s1=s[i];
+                char s2=s[i+j*sq];
+                if (s1 == s2)
+                    return false;
+            }
+        }
+    }
+    return true;
+}
+
+int main(){
+    vector<string> lines;
+    read_lines(lines);
+    
+    for (string s: lines){
+        if (check_latin(s))
+            cout<<"yes"<<endl;
+        else
+            cout<<"no"<<endl;
+    }
+
+}

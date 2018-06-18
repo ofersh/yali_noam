@@ -36,3 +36,7 @@ void read_till_EOF(vector<int> &v){
 
 
 
+ 12
+Give me all your money!.
+please
+quit

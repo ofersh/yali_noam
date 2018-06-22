@@ -1,0 +1,280 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>q7</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-06-19"><meta name="DC.source" content="q7.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Q 7</a></li><li><a href="#2">Training stage</a></li><li><a href="#3">Classifying stage</a></li><li><a href="#4">Used functions</a></li></ul></div><h2 id="1">Q 7</h2><pre class="codeinput"><span class="comment">% Code:</span>
+clear <span class="string">all</span>, close <span class="string">all</span>, clc;
+addpath([genpath(<span class="string">'./materials'</span>) genpath(<span class="string">'./functions'</span>)])
+</pre><h2 id="2">Training stage</h2><pre class="codeinput">cell12_circ = objects_features(<span class="string">'cell12.bmp'</span>);
+cell12_circ = cell12_circ(:);
+[IDX, C] = kmeans(cell12_circ, 2);
+
+C1_indices = find(IDX==1);
+C2_indices = find(IDX==2);
+
+fprintf(<span class="string">'Cluster 1:\n'</span>)
+fprintf(<span class="string">'Center Circularity: %g | Size: %g\n'</span>, C(1), length(C1_indices))
+fprintf(<span class="string">'Cluster 2:\n'</span>)
+fprintf(<span class="string">'Center Circularity: %g | Size: %g\n'</span>, C(2), length(C2_indices))
+</pre><pre class="codeoutput">Cluster 1:
+Center Circularity: 0.348888 | Size: 15
+Cluster 2:
+Center Circularity: 0.673643 | Size: 13
+</pre><h2 id="3">Classifying stage</h2><pre class="codeinput">test_circ = objects_features(<span class="string">'test.bmp'</span>);
+test_circ = test_circ(:);
+test_dist = [(test_circ-C(1)).^2 (test_circ-C(2)).^2];
+[~, TAG] = min(test_dist, [], 2);
+
+fprintf(<span class="string">'\nClassify by min distance:\nclusters size is:\nC1 = %g | C2 = %g\n'</span>, sum(TAG==1), sum(TAG==2))
+
+mu1 = C(1);
+sigma1 = std(cell12_circ(C1_indices));
+
+mu2 = C(2);
+sigma2 = std(cell12_circ(C2_indices));
+
+test_prob = [normpdf(test_circ, mu1, sigma1) normpdf(test_circ, mu2, sigma2)];
+[~, TAG] = max(test_prob, [], 2);
+
+fprintf(<span class="string">'\nClassify by max probabilty:\nclusters size is:\nC1 = %g | C2 = %g\n'</span>, sum(TAG==1), sum(TAG==2))
+</pre><pre class="codeoutput">
+Classify by min distance:
+clusters size is:
+C1 = 8 | C2 = 7
+
+Classify by max probabilty:
+clusters size is:
+C1 = 8 | C2 = 7
+</pre><h2 id="4">Used functions</h2><pre class="language-matlab"><span class="keyword">function</span> [ C ] = objects_features( file_name )
+<span class="comment">%OBJECTS_FEATURES Summary of this function goes here</span>
+<span class="comment">%   Detailed explanation goes here</span>
+    img = imread(file_name);
+</pre><pre>     [seg_im, vals] = segmentation(img);
+     C = [];
+     for val=vals(1 : end-1)
+         c = circularity(seg_im, val);
+         C = [C c];
+     end</pre><pre class="language-matlab"><span class="keyword">end</span>
+</pre><pre class="language-matlab"><span class="keyword">function</span> [ seg_pic, vals ] = segmentation( image )
+</pre><pre class="language-matlab"><span class="keyword">if</span> size(image,3) == 3
+    gray_pic = rgb2gray(image);
+<span class="keyword">else</span>
+    gray_pic = double(image);
+<span class="keyword">end</span>
+gray_pic(gray_pic==255) = 1;
+seg_pic = gray_pic;
+[nrows, ncols] = size(gray_pic);
+vals(1) = 1;
+ind = 1;
+<span class="keyword">for</span> x = 2:ncols-1
+    <span class="keyword">for</span> y = 2:nrows-1
+        <span class="keyword">if</span> seg_pic(y, x) == 0
+            seg_pic = region_grow(seg_pic, vals(ind), x, y);
+            ind = ind + 1;
+            vals(ind) = vals(ind-1) + 10;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre>     function [gray_pic] = region_grow(gray_pic, val, x, y)
+         gray_pic(y, x) = val;
+         [nrows, ncols] = size(gray_pic);
+         for i = -1:1
+             for j= -1:1
+                 if y+i &lt; 1 || x+j &lt; 1
+                     continue
+                 end
+                 if y+i &gt; nrows || x+j &gt; ncols
+                     break
+                 end
+                 if gray_pic(y+i, x+j)==0
+                     gray_pic = region_grow(gray_pic, val, x+j, y+i);
+                 end
+             end
+         end
+     end
+ end</pre><pre class="language-matlab"><span class="keyword">function</span> [ c ] = circularity( image, val )
+<span class="comment">% circularity Calculates circularity for segmented shape.</span>
+<span class="comment">% c = circularity calculation.</span>
+<span class="comment">% image = segmented image.</span>
+<span class="comment">% val = segmented shape value.</span>
+</pre><pre>     area = length(find(image == val));
+     perim = myPerim(image, val);
+     c = (4*pi*area)/perim^2;
+ end</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Q 7
+
+% Code:
+clear all, close all, clc;
+addpath([genpath('./materials') genpath('./functions')])
+
+%% Training stage
+cell12_circ = objects_features('cell12.bmp');
+cell12_circ = cell12_circ(:);
+[IDX, C] = kmeans(cell12_circ, 2);
+
+C1_indices = find(IDX==1);
+C2_indices = find(IDX==2);
+
+fprintf('Cluster 1:\n')
+fprintf('Center Circularity: %g | Size: %g\n', C(1), length(C1_indices))
+fprintf('Cluster 2:\n')
+fprintf('Center Circularity: %g | Size: %g\n', C(2), length(C2_indices))
+
+
+%% Classifying stage
+test_circ = objects_features('test.bmp');
+test_circ = test_circ(:);
+test_dist = [(test_circ-C(1)).^2 (test_circ-C(2)).^2];
+[~, TAG] = min(test_dist, [], 2);
+
+fprintf('\nClassify by min distance:\nclusters size is:\nC1 = %g | C2 = %g\n', sum(TAG==1), sum(TAG==2))
+
+mu1 = C(1);
+sigma1 = std(cell12_circ(C1_indices));
+
+mu2 = C(2);
+sigma2 = std(cell12_circ(C2_indices));
+
+test_prob = [normpdf(test_circ, mu1, sigma1) normpdf(test_circ, mu2, sigma2)];
+[~, TAG] = max(test_prob, [], 2);
+
+fprintf('\nClassify by max probabilty:\nclusters size is:\nC1 = %g | C2 = %g\n', sum(TAG==1), sum(TAG==2))
+
+
+%% Used functions
+%   
+%   function [ C ] = objects_features( file_name )
+%   %OBJECTS_FEATURES Summary of this function goes here
+%   %   Detailed explanation goes here
+%       img = imread(file_name);
+%   
+%       [seg_im, vals] = segmentation(img);
+%       C = [];
+%       for val=vals(1 : end-1)
+%           c = circularity(seg_im, val);
+%           C = [C c];
+%       end
+%   
+%   end
+%   
+%   function [ seg_pic, vals ] = segmentation( image )
+%   
+%   if size(image,3) == 3
+%       gray_pic = rgb2gray(image);
+%   else
+%       gray_pic = double(image);
+%   end
+%   gray_pic(gray_pic==255) = 1;
+%   seg_pic = gray_pic;
+%   [nrows, ncols] = size(gray_pic);
+%   vals(1) = 1;
+%   ind = 1;
+%   for x = 2:ncols-1
+%       for y = 2:nrows-1
+%           if seg_pic(y, x) == 0
+%               seg_pic = region_grow(seg_pic, vals(ind), x, y);
+%               ind = ind + 1;
+%               vals(ind) = vals(ind-1) + 10;
+%           end
+%       end
+%   end
+%   
+%       function [gray_pic] = region_grow(gray_pic, val, x, y)
+%           gray_pic(y, x) = val;
+%           [nrows, ncols] = size(gray_pic);
+%           for i = -1:1
+%               for j= -1:1
+%                   if y+i < 1 || x+j < 1
+%                       continue
+%                   end
+%                   if y+i > nrows || x+j > ncols
+%                       break
+%                   end
+%                   if gray_pic(y+i, x+j)==0
+%                       gray_pic = region_grow(gray_pic, val, x+j, y+i);
+%                   end
+%               end
+%           end
+%       end
+%   end
+%   
+%   function [ c ] = circularity( image, val )
+%   % circularity Calculates circularity for segmented shape.
+%   % c = circularity calculation.
+%   % image = segmented image.
+%   % val = segmented shape value.
+%   
+%       area = length(find(image == val));
+%       perim = myPerim(image, val);
+%       c = (4*pi*area)/perim^2;
+%   end
+%   
+
+
+##### SOURCE END #####
+--></body></html>

@@ -35,6 +35,13 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content" />
 
+        <Button
+            android:onClick="switchEditor"
+            android:layout_weight="0"
+            android:text="Mark"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 

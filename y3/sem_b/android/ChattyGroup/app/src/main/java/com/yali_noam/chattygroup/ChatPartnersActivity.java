@@ -25,6 +25,7 @@ public class ChatPartnersActivity extends AppCompatActivity {
 
     ListView listView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,4 +90,5 @@ public class ChatPartnersActivity extends AppCompatActivity {
         public String uid;
         public String email;
     }
+
 }

@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "827576573949",
-    "firebase_url": "https://test-d84ae.firebaseio.com",
-    "project_id": "test-d84ae",
-    "storage_bucket": "test-d84ae.appspot.com"
+    "project_number": "69165831051",
+    "firebase_url": "https://first-attempt-project-661e8.firebaseio.com",
+    "project_id": "first-attempt-project-661e8",
+    "storage_bucket": "first-attempt-project-661e8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:827576573949:android:85911f04d066c16a",
+        "mobilesdk_app_id": "1:69165831051:android:456c8f26b3b482a4",
         "android_client_info": {
-          "package_name": "com.android.noam.chatty_betty"
+          "package_name": "Noam.Yali.chat_hw"
         }
       },
       "oauth_client": [
         {
-          "client_id": "827576573949-oud3russ7ugdhlmvehv83h55eb82g860.apps.googleusercontent.com",
+          "client_id": "69165831051-70kldak2uuk3r000ujkq7a277ibudhbr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.android.noam.chatty_betty",
-            "certificate_hash": "a3c1b0d7fa7fd7974da212d55e9087f1e9612246"
+            "package_name": "Noam.Yali.chat_hw",
+            "certificate_hash": "8cd61f7dfa2fe7d0d4c85de1442879407ff5a138"
           }
         },
         {
-          "client_id": "827576573949-1tt5ugir83324j8rvkb9qi91vq3ukn9j.apps.googleusercontent.com",
+          "client_id": "69165831051-9p2l6mfgltq26sn8or93rm8un5ord75b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7u1n5JJA6JYOf0ZbQVIW4ck5N2ODMQRE"
+          "current_key": "AIzaSyADW_1Y-CKu9r2LS08wSlpYpjl_RxaP1Jc"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "827576573949-1tt5ugir83324j8rvkb9qi91vq3ukn9j.apps.googleusercontent.com",
+              "client_id": "69165831051-9p2l6mfgltq26sn8or93rm8un5ord75b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -52,59 +52,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:827576573949:android:8bc6605e666e8bfe",
+        "mobilesdk_app_id": "1:69165831051:android:a1dee977db510907",
         "android_client_info": {
-          "package_name": "com.android.noam.firebasetest"
+          "package_name": "com.example.yali.first_attempt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "827576573949-1tt5ugir83324j8rvkb9qi91vq3ukn9j.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA7u1n5JJA6JYOf0ZbQVIW4ck5N2ODMQRE"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:827576573949:android:d73c227a5e527079",
-        "android_client_info": {
-          "package_name": "com.yali_noam.chattygroup"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "827576573949-v2u5cl1u7n0f9jg43k2i3svqisjigt2m.apps.googleusercontent.com",
+          "client_id": "69165831051-8hqpbogkvnkbkpt8s0cpao15mtr5pvdf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.yali_noam.chattygroup",
-            "certificate_hash": "fee4943e124549e59340668d921cb9eb1e4116b6"
+            "package_name": "com.example.yali.first_attempt",
+            "certificate_hash": "8cd61f7dfa2fe7d0d4c85de1442879407ff5a138"
           }
         },
         {
-          "client_id": "827576573949-1tt5ugir83324j8rvkb9qi91vq3ukn9j.apps.googleusercontent.com",
+          "client_id": "69165831051-9p2l6mfgltq26sn8or93rm8un5ord75b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7u1n5JJA6JYOf0ZbQVIW4ck5N2ODMQRE"
+          "current_key": "AIzaSyADW_1Y-CKu9r2LS08wSlpYpjl_RxaP1Jc"
         }
       ],
       "services": {
@@ -115,7 +84,51 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "827576573949-1tt5ugir83324j8rvkb9qi91vq3ukn9j.apps.googleusercontent.com",
+              "client_id": "69165831051-9p2l6mfgltq26sn8or93rm8un5ord75b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69165831051:android:d73c227a5e527079",
+        "android_client_info": {
+          "package_name": "com.yali_noam.chattygroup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69165831051-d9age47fuhvg7sr8tip8ecsov5unmnje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yali_noam.chattygroup",
+            "certificate_hash": "8cd61f7dfa2fe7d0d4c85de1442879407ff5a138"
+          }
+        },
+        {
+          "client_id": "69165831051-9p2l6mfgltq26sn8or93rm8un5ord75b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADW_1Y-CKu9r2LS08wSlpYpjl_RxaP1Jc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69165831051-9p2l6mfgltq26sn8or93rm8un5ord75b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

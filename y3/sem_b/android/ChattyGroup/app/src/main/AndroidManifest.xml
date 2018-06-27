@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ChatActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
@@ -27,7 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatPartnersActivity"></activity>
+        <activity android:name=".ChatPartnersActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

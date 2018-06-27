@@ -1,9 +1,14 @@
 package com.yali_noam.chattygroup;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ChatActivity extends AppCompatActivity {
@@ -32,11 +38,44 @@ public class ChatActivity extends AppCompatActivity {
     EditText messageBox;
     MessagesListAdapter adapter;
 
+    ArrayList<String> markWords;
+    ArrayList<String> filterWords;
+    Boolean markCompliments = false;
+
+
+
+    ArrayList<String> curses = new ArrayList<>(
+            Arrays.asList(new String[]{
+                    "ugly",
+                    "bitch",
+                    "זין",
+                    "fucker",
+                    "fuck",
+                    "pussy",
+                    "cunt",
+                    "dick"
+                    }
+            ));
+    ArrayList<String> compliments = new ArrayList<>(
+            Arrays.asList(new String[]{
+                            "pretty",
+                            "dude",
+                            "חמוד",
+                            "love",
+                            "lovely",
+                            "cute",
+                            "beautiful",
+                            "smart",
+                            "dick"
+                    }
+            ));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        boldComplimentsfilterCurses();
         setupHeader();
         setupBody();
         setupConversationReference();
@@ -51,7 +90,7 @@ public class ChatActivity extends AppCompatActivity {
     private void setupBody() {
         messages = new ArrayList<>();
         listView = findViewById(R.id.listView);
-        adapter = new MessagesListAdapter(this, messages);
+        adapter = new MessagesListAdapter(this, messages, this);
         listView.setAdapter(adapter);
         messageBox = findViewById(R.id.messageBox);
     }
@@ -115,6 +154,7 @@ public class ChatActivity extends AppCompatActivity {
     public static class MessagesListAdapter extends ArrayAdapter<Message>{
 
         private ArrayList<Message> messages;
+        private ChatActivity messageEditor;
 
         private static class ViewHolder {
             TextView messageTV;
@@ -122,9 +162,10 @@ public class ChatActivity extends AppCompatActivity {
             TextView senderTV;
         }
 
-        public MessagesListAdapter(Context context, ArrayList<Message> messages) {
+        public MessagesListAdapter(Context context, ArrayList<Message> messages, ChatActivity messageEditor) {
             super(context, R.layout.messages_list_item, messages);
             this.messages = messages;
+            this.messageEditor = messageEditor;
         }
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -145,11 +186,63 @@ public class ChatActivity extends AppCompatActivity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            viewHolder.messageTV.setText(message.message);
+            SpannableString editedMessage = messageEditor.editMessage(message.message);
+            viewHolder.messageTV.setText(editedMessage);
             viewHolder.dateTV.setText(dateFormatter.format(message.date));
             viewHolder.senderTV.setText(message.sender + " says:");
 
             return convertView;
         }
+
     }
+
+    public SpannableString editMessage(String message){
+
+        // Initialize variables that will be used to edit the text
+        SpannableString newMessage = new SpannableString(message);
+
+        // Mark the words according to the configuration
+        for(String word: markWords){
+            StyleSpan boldStyle = new StyleSpan(Typeface.BOLD);
+            int wordStartIndex = message.indexOf(word);
+            int wordEndIndex = wordStartIndex + word.length();
+            if(wordStartIndex >= 0){
+                newMessage.setSpan(boldStyle, wordStartIndex, wordEndIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+        }
+
+        // Filter the words according to the configuration
+        for(String word: filterWords){
+            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+            int wordStartIndex = message.indexOf(word);
+            int wordEndIndex = wordStartIndex + word.length();
+            if(wordStartIndex >= 0){
+                newMessage.setSpan(strikethroughSpan, wordStartIndex, wordEndIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+        }
+        return newMessage;
+    }
+
+
+    private void boldComplimentsfilterCurses(){
+        markWords = compliments;
+        filterWords = curses;
+        markCompliments = true;
+    }
+
+    private void boldCursesfilterCompliments(){
+        markWords = curses;
+        filterWords = compliments;
+        markCompliments = false;
+    }
+
+    public void switchEditor(View view) {
+        if(markCompliments)
+            boldCursesfilterCompliments();
+        else
+            boldComplimentsfilterCurses();
+        adapter.notifyDataSetChanged();
+    }
+
+
 }

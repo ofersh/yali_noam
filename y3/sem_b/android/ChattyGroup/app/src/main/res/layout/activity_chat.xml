@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yali_noam.chattygroup.ChatActivity">
+
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/topLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:text=""
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
+
+        <LinearLayout
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_below="@+id/topLayout"
+        android:layout_above="@+id/messageBoxLayout"
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/messageBoxLayout"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <EditText
+           android:layout_weight="5"
+            android:id="@+id/messageBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+        </EditText>
+
+        <Button
+            android:onClick="sendMessage"
+            android:layout_weight="0"
+            android:text="SEND"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
